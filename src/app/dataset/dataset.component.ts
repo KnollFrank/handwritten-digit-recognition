@@ -20,6 +20,10 @@ export class DatasetComponent implements OnInit {
     this.kernelWidthAndHeight = 1;
   }
 
+  toNumber(){
+    this.kernelWidthAndHeight = +this.kernelWidthAndHeight;
+  }
+
   onReceiveDatasetDescriptionInner(datasetDescription) {
     console.log('datasetDescription:', datasetDescription);
     if (datasetDescription.isDigitDataset()) {

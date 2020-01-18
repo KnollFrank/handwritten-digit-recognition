@@ -7,6 +7,7 @@
         </div>
         <div id="kernelWidthAndHeight-inputFields">
             <label for="kernelWidthAndHeight">Ziffernbreite und -höhe verkleinern um den Faktor:</label>
+            <!-- see https://stackblitz.com/edit/angular-7kzu8w?file=app%2Fapp.component.ts -->
             <select type="number" name="kernelWidthAndHeight" [(ngModel)]="kernelWidthAndHeight" (ngModelChange)="toNumber()" id="kernelWidthAndHeight">
               <option [ngValue]="1" selected>1</option>
               <option [ngValue]="2">2</option>
