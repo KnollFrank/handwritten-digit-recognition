@@ -14,7 +14,11 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.cache.get('someKey', () => Math.floor(Math.random()*100)));
-    console.log(this.cache.get('someKey', () => Math.floor(Math.random()*100)));
+    console.log(this.cache.get('someKey', () => Math.floor(Math.random() * 100)));
+    console.log(this.cache.get('someKey', () => Math.floor(Math.random() * 100)));
+  }
+
+  onReceiveDatasetDescription(datasetDescription) {
+    console.log('app: datasetDescription:', datasetDescription);
   }
 }

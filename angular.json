@@ -34,7 +34,8 @@
                             "src/js/jquery.dataTables.js",
                             "src/js/papaparse.min.js",
                             "src/js/vis-4.21.0/dist/vis.js",
-                            "src/js/jsHelper.js"
+                            "src/js/jsHelper.js",
+                            "src/js/decisionTree/datasetHelper.js"
                         ]
                     },
                     "configurations": {

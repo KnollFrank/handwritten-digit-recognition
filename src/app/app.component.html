@@ -2,7 +2,7 @@
     <h1></h1>
     <section>
         <h2>1. Datensatz</h2>
-        <app-dataset></app-dataset>
+        <app-dataset (onReceiveDatasetDescription)="onReceiveDatasetDescription($event)"></app-dataset>
         <section id="section-traindata">
             <h3>1.1 Trainingsdaten</h3>
             <p>Die ersten <span class="maxDigits2Display"></span> von <span class="totalNumberOfDigits"></span> Trainingsdaten sind:</p>
