@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
     console.log(this.cache.get('someKey', () => Math.floor(Math.random()*100)));
   }
 
-  onReceiveCsvFileContents(csvFileContents) {
-    console.log('csvFileContents:', csvFileContents);
+  onReceiveDatasetDescription(datasetDescription) {
+    console.log('datasetDescription:', datasetDescription);
   }
 }
