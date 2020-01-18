@@ -13,6 +13,7 @@ export class DatasetComponent implements OnInit {
   @Output() onReceiveDatasetDescription = new EventEmitter();
 
   kernelWidthAndHeight: number;
+  datasetDescription: any;
 
   constructor() { }
 
@@ -20,17 +21,23 @@ export class DatasetComponent implements OnInit {
     this.kernelWidthAndHeight = 1;
   }
 
-  toNumber(){
+  toNumber() {
     this.kernelWidthAndHeight = +this.kernelWidthAndHeight;
   }
 
   onReceiveDatasetDescriptionInner(datasetDescription) {
-    console.log('datasetDescription:', datasetDescription);
-    if (datasetDescription.isDigitDataset()) {
-      datasetDescription = this.transform(datasetDescription, this.kernelWidthAndHeight);
-    }
+    this.datasetDescription = datasetDescription;
+    console.log('datasetDescription:', this.datasetDescription);
+  }
 
-    this.onReceiveDatasetDescription.emit(datasetDescription);
+  onSubmit() {
+    this.onReceiveDatasetDescription.emit(this.getTransformedDatasetDescription());
+  }
+
+  private getTransformedDatasetDescription() {
+    return this.datasetDescription.isDigitDataset() ?
+      this.transform(this.datasetDescription, this.kernelWidthAndHeight) :
+      this.datasetDescription;
   }
 
   private transform(datasetDescription, kernelWidthAndHeight) {
