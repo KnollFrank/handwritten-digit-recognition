@@ -6,6 +6,7 @@
             <div class="dataInputFields">
                 <div>
                     <label for="csv-file">CSV-Datei:</label>
+                    <app-file-picker (childEvent)="filesReceived($event)"></app-file-picker>
                     <input type="file" id="csv-file" name="files" />
                 </div>
                 <div id="kernelWidthAndHeight-inputFields">

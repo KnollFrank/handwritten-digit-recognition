@@ -17,4 +17,8 @@ export class AppComponent implements OnInit {
     console.log(this.cache.get('someKey', () => Math.floor(Math.random()*100)));
     console.log(this.cache.get('someKey', () => Math.floor(Math.random()*100)));
   }
+
+  filesReceived(files) {
+    console.log('files selected bla:', files);
+  }
 }

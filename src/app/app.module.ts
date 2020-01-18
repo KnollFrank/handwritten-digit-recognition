@@ -3,10 +3,12 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { FilePickerComponent } from './file-picker/file-picker.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    FilePickerComponent
   ],
   imports: [
     BrowserModule,
