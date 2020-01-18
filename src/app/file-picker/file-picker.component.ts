@@ -9,7 +9,7 @@ declare var Papa: any;
 })
 export class FilePickerComponent implements OnInit {
 
-  @Output() childEvent = new EventEmitter();
+  @Output() onReceiveCsvFileContents = new EventEmitter();
 
   constructor() { }
 
@@ -18,14 +18,14 @@ export class FilePickerComponent implements OnInit {
 
   fileChangeListener($event: any): void {
     let dataFile = $event.srcElement.files[0];
-    this.onSubmitDatasetForm(dataFile);
+    this.readAndSubmitCSVFile(dataFile);
   }
 
-  private onSubmitDatasetForm(dataFile) {
+  private readAndSubmitCSVFile(dataFile) {
     Papa.parse(dataFile, {
       download: true,
       header: false,
-      complete: results => this.childEvent.emit(results.data)
+      complete: results => this.onReceiveCsvFileContents.emit(results.data)
     });
   }
 }
