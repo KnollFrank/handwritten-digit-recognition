@@ -17,8 +17,4 @@ export class AppComponent implements OnInit {
     console.log(this.cache.get('someKey', () => Math.floor(Math.random()*100)));
     console.log(this.cache.get('someKey', () => Math.floor(Math.random()*100)));
   }
-
-  onReceiveDatasetDescription(datasetDescription) {
-    console.log('datasetDescription:', datasetDescription);
-  }
 }

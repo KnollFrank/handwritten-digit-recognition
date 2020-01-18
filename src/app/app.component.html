@@ -2,25 +2,7 @@
     <h1></h1>
     <section>
         <h2>1. Datensatz</h2>
-        <form id="datasetForm">
-            <div class="dataInputFields">
-                <div>
-                    <label for="csv-file">CSV-Datei:</label>
-                    <app-file-picker (onReceiveDatasetDescription)="onReceiveDatasetDescription($event)"></app-file-picker>
-                    <input type="file" id="csv-file" name="files" />
-                </div>
-                <div id="kernelWidthAndHeight-inputFields">
-                    <label for="kernelWidthAndHeight">Ziffernbreite und -höhe verkleinern um den Faktor:</label>
-                    <select id="kernelWidthAndHeight">
-                      <option value="1" selected>1</option>
-                      <option value="2">2</option>
-                      <option value="4">4</option>
-                      <option value="7">7</option>
-                  </select>
-                </div>
-            </div>
-            <input type="submit" value="laden">
-        </form>
+        <app-dataset></app-dataset>
         <section id="section-traindata">
             <h3>1.1 Trainingsdaten</h3>
             <p>Die ersten <span class="maxDigits2Display"></span> von <span class="totalNumberOfDigits"></span> Trainingsdaten sind:</p>
