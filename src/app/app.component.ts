@@ -10,6 +10,7 @@ export class AppComponent implements OnInit {
   title = 'angular';
   datasetDescription: any;
   maxDigits2Display: number = 500;
+  knnClassifier: any;
 
   constructor(private cache: CacheService) {
   }
@@ -22,6 +23,11 @@ export class AppComponent implements OnInit {
   onReceiveDatasetDescription(datasetDescription) {
     console.log('app: datasetDescription:', datasetDescription);
     this.datasetDescription = datasetDescription;
+  }
+
+  onReceiveKnnClassifier(knnClassifier) {
+    console.log('onReceiveKnnClassifier:', knnClassifier);
+    this.knnClassifier = knnClassifier;
   }
 
   get totalNumberOfDigits() {
