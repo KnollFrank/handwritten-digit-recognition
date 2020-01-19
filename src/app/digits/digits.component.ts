@@ -9,8 +9,8 @@ declare var getClassValFromRow: any;
 })
 export class DigitsComponent implements OnInit {
 
-  @Input('datasetDescription') datasetDescription;
-  @Input('maxDigits2Display') maxDigits2Display;
+  @Input() datasetDescription;
+  @Input() maxDigits2Display;
 
   digitDataset;
 
