@@ -10,57 +10,9 @@
         </section>
     </section>
     <div id="dataInputAndDecisionTree">
-        <section id="section-decision-tree">
-            <h2>2. Entscheidungsbaum</h2>
-            <form id="decisionTreeForm">
-                <div class="dataInputFields">
-                    <div>
-                        <label for="max_depth">Maximale Tiefe:</label>
-                        <input id="max_depth" type="text" value="5">
-                    </div>
-                    <div>
-                        <label for="min_size">Minimale Größe eines Datensatzes fürs Splitten:</label>
-                        <input id="min_size" type="text" value="10">
-                    </div>
-                </div>
-                <input type="submit" value="berechnen">
-                <input id="save_tree" type="button" value="speichern">
-                <input id="load_tree" type="button" value="laden">
-            </form>
-            <div id="progress">
-                <h3>2.1 Fortschritt</h3>
-                <p>Größe des aktuellen Datensatzes: <meter id="numberOfEntriesInDataset" value="0" min="0"></meter>
-                    <span id="numberOfEntriesInDatasetText"></span>
-                </p>
-                <div class="table">
-                    <div class="table-header">
-                        <div class="table-cell">Worker</div>
-                        <div class="table-cell">Anfang</div>
-                        <div class="table-cell">Fortschritt</div>
-                        <div class="table-cell">Ende</div>
-                    </div>
-                </div>
-            </div>
-            <section id="subsection-decision-tree">
-                <h3>2.2 Entscheidungsbaum</h3>
-                <label id="decisionTreeNetwork-enhanced-switcher" class="switch">
-                  <input type="checkbox">
-                  <span class="slider round"></span>
-              </label> erweiterte Ansicht
-                <div id="decisionTreeNetwork"></div>
-            </section>
-        </section>
         <section id="section-KNN">
             <h2>2. k nächste Nachbarn</h2>
-            <form id="knnForm">
-                <div class="dataInputFields">
-                    <div>
-                        <label for="knn-k">k:</label>
-                        <input id="knn-k" type="text" value="3">
-                    </div>
-                </div>
-                <input type="submit" value="berechnen">
-            </form>
+            <app-knn-builder></app-knn-builder>
         </section>
         <section id="section-data-input">
             <h2>3. Vorhersage</h2>

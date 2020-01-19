@@ -8,6 +8,7 @@ import { FilePickerComponent } from './file-picker/file-picker.component';
 import { DatasetComponent } from './dataset/dataset.component';
 import { DigitsComponent } from './digits/digits.component';
 import { DigitComponent } from './digit/digit.component';
+import { KnnBuilderComponent } from './knn-builder/knn-builder.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { DigitComponent } from './digit/digit.component';
     FilePickerComponent,
     DatasetComponent,
     DigitsComponent,
-    DigitComponent
+    DigitComponent,
+    KnnBuilderComponent
   ],
   imports: [
     BrowserModule,

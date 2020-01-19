@@ -1,0 +1,9 @@
+<form id="knnForm" (ngSubmit)="onSubmit()">
+    <div class="dataInputFields">
+        <div>
+            <label for="knn-k">k:</label>
+            <input name="knn-k" id="knn-k" type="text" [(ngModel)]="k">
+        </div>
+    </div>
+    <input type="submit" value="berechnen">
+</form>
