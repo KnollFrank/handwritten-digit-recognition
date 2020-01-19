@@ -1,0 +1,18 @@
+.digit {
+    padding: 10px;
+}
+
+.digit canvas {
+    border: 1px solid #d3d3d3;
+}
+
+.digit figcaption {
+    text-align: center;
+}
+
+.digit figcaption.wrongPrediction {
+    color: red;
+    font-weight: bold;
+    /* FK-TODO: kein !important verweenden, andere Lösung suchen */
+    background-color: inherit !important;
+}

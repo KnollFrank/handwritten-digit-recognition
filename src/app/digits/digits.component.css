@@ -1,0 +1,4 @@
+#container-digits-train {
+    display: flex;
+    flex-wrap: wrap;
+}

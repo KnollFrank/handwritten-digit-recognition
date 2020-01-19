@@ -6,12 +6,16 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FilePickerComponent } from './file-picker/file-picker.component';
 import { DatasetComponent } from './dataset/dataset.component';
+import { DigitsComponent } from './digits/digits.component';
+import { DigitComponent } from './digit/digit.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FilePickerComponent,
-    DatasetComponent
+    DatasetComponent,
+    DigitsComponent,
+    DigitComponent
   ],
   imports: [
     BrowserModule,

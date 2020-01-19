@@ -3,10 +3,10 @@
     <section>
         <h2>1. Datensatz</h2>
         <app-dataset (onReceiveDatasetDescription)="onReceiveDatasetDescription($event)"></app-dataset>
-        <section id="section-traindata">
+        <section *ngIf="datasetDescription" id="section-traindata">
             <h3>1.1 Trainingsdaten</h3>
             <p>Die ersten <span class="maxDigits2Display"></span> von <span class="totalNumberOfDigits"></span> Trainingsdaten sind:</p>
-            <div id="container-digits-train"></div>
+            <app-digits [maxDigits2Display]="10" [datasetDescription]="datasetDescription"></app-digits>
             <div id="container-trainingDataSet"></div>
         </section>
     </section>

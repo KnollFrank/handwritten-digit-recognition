@@ -8,9 +8,9 @@ import { CacheService } from './cache.service';
 })
 export class AppComponent implements OnInit {
   title = 'angular';
+  datasetDescription: any;
 
   constructor(private cache: CacheService) {
-
   }
 
   ngOnInit(): void {
@@ -20,5 +20,6 @@ export class AppComponent implements OnInit {
 
   onReceiveDatasetDescription(datasetDescription) {
     console.log('app: datasetDescription:', datasetDescription);
+    this.datasetDescription = datasetDescription;
   }
 }
