@@ -9,6 +9,9 @@ import { CacheService } from './cache.service';
 export class AppComponent implements OnInit {
   title = 'angular';
   datasetDescription: any;
+  maxDigits2Display: number = 500;
+  totalNumberOfDigits: number;
+  firstNDigits2Display: number;
 
   constructor(private cache: CacheService) {
   }
@@ -21,5 +24,7 @@ export class AppComponent implements OnInit {
   onReceiveDatasetDescription(datasetDescription) {
     console.log('app: datasetDescription:', datasetDescription);
     this.datasetDescription = datasetDescription;
+    this.totalNumberOfDigits = this.datasetDescription.splittedDataset.train.length;
+    this.firstNDigits2Display = Math.min(this.maxDigits2Display, this.totalNumberOfDigits);
   }
 }
