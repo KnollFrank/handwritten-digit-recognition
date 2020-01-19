@@ -9,6 +9,7 @@ import { DatasetComponent } from './dataset/dataset.component';
 import { DigitsComponent } from './digits/digits.component';
 import { DigitComponent } from './digit/digit.component';
 import { KnnBuilderComponent } from './knn-builder/knn-builder.component';
+import { PredictionComponent } from './prediction/prediction.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { KnnBuilderComponent } from './knn-builder/knn-builder.component';
     DatasetComponent,
     DigitsComponent,
     DigitComponent,
-    KnnBuilderComponent
+    KnnBuilderComponent,
+    PredictionComponent
   ],
   imports: [
     BrowserModule,

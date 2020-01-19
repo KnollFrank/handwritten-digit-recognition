@@ -16,35 +16,7 @@
         </section>
         <section id="section-data-input">
             <h2>3. Vorhersage</h2>
-            <div id="canvas-data-input">
-                <div class="column-1">
-                    <p>Zeichne in diesen Bereich eine Ziffer zwischen 0 und 9:</p>
-                    <canvas id="digit-canvas-big" width="200" height="200"></canvas>
-                    <canvas id="digit-canvas-small" width="28" height="28"></canvas>
-                </div>
-                <section id="k-nearest-neighbors-section" class="column-2">
-                    <p class='prediction-results'>
-                        Deine Ziffer sieht diesen Ziffern aus den Trainingsdaten am ähnlichsten:
-                    </p>
-                    <div id="container-k-nearest-digits"></div>
-                </section>
-                <div id="prediction-container" class="column-3">
-                    <p>Die Mehrheit dieser Ziffern ist eine:</p>
-                    <canvas id="digit-canvas-big-result-of-prediction" width="200" height="200"></canvas>
-                </div>
-            </div>
-            <p>
-                <input id="new-prediction" type="button" value="neue Ziffer">
-            </p>
-            <div id="text-data-input">
-                <form id="dataInputForm">
-                    <div class="dataInputFields"></div>
-                    <input type="submit" value="vorhersagen">
-                </form>
-                <p>
-                    Vorhersage: <span class="prediction"></span>
-                </p>
-            </div>
+            <app-prediction *ngIf="knnClassifier" [knnClassifier]="knnClassifier"></app-prediction>
         </section>
     </div>
     <section id="section-testdata">
