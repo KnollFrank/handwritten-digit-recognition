@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ItemsIntoChunksSplitterService } from '../items-into-chunks-splitter.service';
-import { KnnBuilderService } from '../knn-builder.service';
 
 declare var getClassValFromRow: any;
 declare var getIndependentValsFromRow: any;
@@ -21,8 +20,7 @@ export class KnnBuilderComponent implements OnInit {
   @Output() onReceiveKnnClassifier = new EventEmitter();
 
   constructor(
-    private itemsIntoChunksSplitterService: ItemsIntoChunksSplitterService,
-    private knnBuilderService: KnnBuilderService) { }
+    private itemsIntoChunksSplitterService: ItemsIntoChunksSplitterService) { }
 
   ngOnInit() {
   }
