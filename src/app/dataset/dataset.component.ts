@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ImageService } from '../image.service';
 
+// FK-TODO: diese Funktionen in einem Service zur Verfügung stellen
 declare var getClassValFromRow: any;
 declare var getIndependentValsFromRow: any;
 

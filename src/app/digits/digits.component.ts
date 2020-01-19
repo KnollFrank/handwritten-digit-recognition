@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
+declare var getClassValFromRow: any;
+
 @Component({
   selector: 'app-digits',
   templateUrl: './digits.component.html',
@@ -15,11 +17,15 @@ export class DigitsComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.digitDataset = this.datasetDescription.splittedDataset.train.slice(0, this.maxDigits2Display).map(
-      image => ({
-        width: this.datasetDescription.imageWidth,
-        height: this.datasetDescription.imageHeight,
-        image: image
-      }));
+    this.digitDataset =
+      this.datasetDescription.splittedDataset.train
+        .slice(0, this.maxDigits2Display)
+        .map(
+          image => ({
+            width: this.datasetDescription.imageWidth,
+            height: this.datasetDescription.imageHeight,
+            figcaption: getClassValFromRow(image),
+            image: image
+          }));
   }
 }
