@@ -2,7 +2,7 @@
     <div class="dataInputFields">
         <div>
             <label for="csv-file">CSV-Datei:</label>
-            <app-file-picker (onReceiveDatasetDescription)="onReceiveDatasetDescriptionInner($event)"></app-file-picker>
+            <app-file-picker (onReceiveDatasetDescription)="setDatasetDescription($event)"></app-file-picker>
             <input type="file" id="csv-file" name="files" />
         </div>
         <div id="kernelWidthAndHeight-inputFields">

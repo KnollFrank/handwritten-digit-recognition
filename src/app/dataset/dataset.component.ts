@@ -26,7 +26,7 @@ export class DatasetComponent implements OnInit {
     this.kernelWidthAndHeight = +this.kernelWidthAndHeight;
   }
 
-  onReceiveDatasetDescriptionInner(datasetDescription) {
+  setDatasetDescription(datasetDescription) {
     this.datasetDescription = datasetDescription;
     console.log('datasetDescription:', this.datasetDescription);
   }
