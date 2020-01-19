@@ -19,8 +19,7 @@ export class KnnBuilderComponent implements OnInit {
 
   @Output() onReceiveKnnClassifier = new EventEmitter();
 
-  constructor(
-    private itemsIntoChunksSplitterService: ItemsIntoChunksSplitterService) { }
+  constructor(private itemsIntoChunksSplitterService: ItemsIntoChunksSplitterService) { }
 
   ngOnInit() {
   }
@@ -140,6 +139,7 @@ export class KnnBuilderComponent implements OnInit {
       prediction: getPredictionFromKNearestNeighbors(kNearestNeighbors)
     };
   }
+
   private combineChunksOfPredictions(chunksOfPredictions) {
     const predictions = {};
     for (const chunkOfPredictions of chunksOfPredictions) {
