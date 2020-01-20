@@ -1,7 +1,7 @@
 <div id="canvas-data-input">
     <div class="column-1">
         <p>Zeichne in diesen Bereich eine Ziffer zwischen 0 und 9:</p>
-        <canvas id="digit-canvas-big" width="200" height="200"></canvas>
+        <canvas id="digit-canvas-big" #digitCanvasBig width="200" height="200" (mousedown)="mousedown($event)" (mousemove)="mousemove($event)" (mouseup)="mouseup($event)"></canvas>
         <canvas id="digit-canvas-small" width="28" height="28"></canvas>
     </div>
     <section id="k-nearest-neighbors-section" class="column-2">
