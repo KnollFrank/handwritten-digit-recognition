@@ -37,6 +37,53 @@ export class PredictionComponent implements OnInit, AfterViewInit {
     // this.drawImageIntoCanvas();
   }
 
+  private onDigitDrawn() {
+    const rowsClassifier = this.getRowsClassifier(this.knnClassifier);
+    this.predictDrawnDigit(rowsClassifier, imageWidth, imageHeight);
+  }
+
+  private getRowsClassifier(classifier) {
+    // https://stackoverflow.com/questions/38482357/using-multiple-instances-of-the-same-service
+    const cache = new Cache();
+
+    return (rows, receivePredictionsForRows) => {
+      const nonCachedRows = rows.filter(row => !cache.containsKey(row));
+      classifier(
+        nonCachedRows,
+        nonCachedPredictions => {
+          cache.cacheValuesForKeys({
+            keys: nonCachedRows,
+            values: nonCachedPredictions
+          });
+          const predictions = cache.getValuesForKeys({
+            keys: rows
+          });
+          receivePredictionsForRows(predictions);
+        });
+    };
+  }
+
+  private predictDrawnDigit(rowsClassifier, classifierType, imageWidth, imageHeight) {
+    const pixels = getPixels(canvasBig, canvasSmall);
+    if (classifierType == ClassifierType.DECISION_TREE) {
+      const prediction = predict(tree, pixels);
+      highlightPredictionInNetwork(prediction, network);
+      setPrediction(prediction.value);
+    } else {
+      rowsClassifier(
+        [pixels],
+        ([kNearestNeighborsWithPrediction]) => {
+          setPrediction(kNearestNeighborsWithPrediction.prediction);
+          displayDigitDataset(
+            // FK-TODO: DRY: dieses Hinzufügen des y-Wertes wird an mehreren Stellen vorgenommen
+            kNearestNeighborsWithPrediction.kNearestNeighbors.map(({ x, y }) => x.concat(y)),
+            imageWidth,
+            imageHeight,
+            'container-k-nearest-digits');
+        });
+    }
+  }
+
   prepareNewPrediction() {
     this.clearCanvases(this.canvasBig.nativeElement, this.canvasSmall.nativeElement);
     // document.querySelector('#container-k-nearest-digits').innerHTML = '';
@@ -77,7 +124,7 @@ export class PredictionComponent implements OnInit, AfterViewInit {
 
   mouseup(e) {
     this.isMousedown = false;
-    // onDigitDrawn(canvasBig, canvasSmall);
+    this.onDigitDrawn();
   }
 
   // taken from https://stackoverflow.com/questions/17130395/real-mouse-position-in-canvas
