@@ -25,7 +25,7 @@ export class DigitsComponent implements OnInit {
             width: this.datasetDescription.imageWidth,
             height: this.datasetDescription.imageHeight,
             figcaption: getClassValFromRow(image),
-            image: image
+            image
           }));
   }
 }
