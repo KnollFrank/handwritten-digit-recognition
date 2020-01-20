@@ -63,7 +63,7 @@ export class KnnBuilderComponent implements OnInit {
         numItems: rows.length,
         maxNumChunks: knnWorkers.length
       });
-      if (chunks.length == 0) {
+      if (chunks.length === 0) {
         receivePredictionsForRows([]);
       } else {
         // createKnnProgressElements('knnProgress', knnWorkers.length);
@@ -109,27 +109,23 @@ export class KnnBuilderComponent implements OnInit {
     knnWorker.onmessage = event => {
       const { type, value } = event.data;
       switch (type) {
-        case 'result':
-          {
-            const kNearestNeighborss = value;
-            const kNearestNeighborssWithPredictions = kNearestNeighborss.map(this.addPrediction);
-            receivePredictions(kNearestNeighborssWithPredictions);
-            break;
-          }
-        case 'progress':
-          {
-            const { actualIndexZeroBased, endIndexZeroBasedExclusive } = value;
-            // displayKnnProgress(knnWorkerIndex, actualIndexZeroBased, endIndexZeroBasedExclusive);
-            break;
-          }
+        case 'result': {
+          const kNearestNeighborss = value;
+          const kNearestNeighborssWithPredictions = kNearestNeighborss.map(this.addPrediction);
+          receivePredictions(kNearestNeighborssWithPredictions);
+          break;
+        }
+        case 'progress': {
+          const { actualIndexZeroBased, endIndexZeroBasedExclusive } = value;
+          // displayKnnProgress(knnWorkerIndex, actualIndexZeroBased, endIndexZeroBasedExclusive);
+          break;
+        }
       }
     };
 
     knnWorker.postMessage({
       type: 'getKNearestNeighbors',
-      params: {
-        X: X
-      }
+      params: { X }
     });
   }
 
