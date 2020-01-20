@@ -17,7 +17,7 @@ export class FilePickerComponent implements OnInit {
   }
 
   fileChangeListener($event: any): void {
-    let dataFile = $event.srcElement.files[0];
+    const dataFile = $event.srcElement.files[0];
     this.readAndSubmitCSVFile(dataFile);
   }
 
@@ -33,19 +33,19 @@ export class FilePickerComponent implements OnInit {
   }
 
   private getDatasetDescription(fileName, dataset) {
-    let attributeNames = dataset[0];
+    const attributeNames = dataset[0];
     // remove header (= column names) of dataset
     dataset.splice(0, 1);
     const isFileDigitDataset = fileName => fileName.toLowerCase().startsWith('mnist');
     const datasetDescription = {
-      fileName: fileName,
+      fileName,
       attributeNames: {
         X: attributeNames.slice(0, -1),
         y: attributeNames[attributeNames.length - 1],
         all: attributeNames
       },
       splittedDataset: this.train_test_split(dataset, 0.8),
-      isDigitDataset: function () {
+      isDigitDataset() {
         return isFileDigitDataset(this.fileName);
       },
       imageWidth: undefined,
