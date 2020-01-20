@@ -15,7 +15,7 @@ export class KnnBuilderComponent implements OnInit {
 
   @Input() datasetDescription;
 
-  k: number = 3;
+  k = 3;
 
   @Output() onReceiveKnnClassifier = new EventEmitter();
 
@@ -75,7 +75,7 @@ export class KnnBuilderComponent implements OnInit {
             this.getSlice(rows, chunk),
             kNearestNeighborssWithPredictions => {
               chunksOfPredictions.push({ chunk, kNearestNeighborssWithPredictions });
-              if (chunksOfPredictions.length == chunks.length) {
+              if (chunksOfPredictions.length === chunks.length) {
                 receivePredictionsForRows(this.combineChunksOfPredictions(chunksOfPredictions));
               }
             });
@@ -135,7 +135,7 @@ export class KnnBuilderComponent implements OnInit {
 
   private addPrediction(kNearestNeighbors) {
     return {
-      kNearestNeighbors: kNearestNeighbors,
+      kNearestNeighbors,
       prediction: getPredictionFromKNearestNeighbors(kNearestNeighbors)
     };
   }
