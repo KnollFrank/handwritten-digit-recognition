@@ -43,8 +43,8 @@ function* iterateOverImageData(imageData) {
     for (let x = 0; x < imageData.width; x++) {
       const i = getArrayIndexOfPoint({ x, y }, imageData.width);
       yield {
-        x: x,
-        y: y,
+        x,
+        y,
         pixelIndex: i,
         color_index: {
           red: i * 4 + 0,
