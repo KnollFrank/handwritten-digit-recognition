@@ -10,6 +10,7 @@ import { DigitsComponent } from './digits/digits.component';
 import { DigitComponent } from './digit/digit.component';
 import { KnnBuilderComponent } from './knn-builder/knn-builder.component';
 import { PredictionComponent } from './prediction/prediction.component';
+import { FreeHandDrawingToolComponent } from './free-hand-drawing-tool/free-hand-drawing-tool.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { PredictionComponent } from './prediction/prediction.component';
     DigitsComponent,
     DigitComponent,
     KnnBuilderComponent,
-    PredictionComponent
+    PredictionComponent,
+    FreeHandDrawingToolComponent
   ],
   imports: [
     BrowserModule,

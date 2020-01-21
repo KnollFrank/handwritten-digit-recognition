@@ -16,19 +16,10 @@
     flex-basis: 30%;
 }
 
-#digit-canvas-big,
 #digit-canvas-big-result-of-prediction {
     border: 15px solid rgba(204, 204, 204, 0.5);
     border-radius: 15px;
     transition: border-color .2s ease-in;
-}
-
-#digit-canvas-big {
-    cursor: crosshair;
-}
-
-#digit-canvas-big:hover {
-    border-color: rgba(204, 204, 204, 1);
 }
 
 #digit-canvas-small {

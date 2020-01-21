@@ -15,25 +15,19 @@ export class PredictionComponent implements OnInit, AfterViewInit {
 
   @Input() datasetDescription;
 
-  @ViewChild('digitCanvasBig', { static: false }) public canvasBigRef: ElementRef<HTMLCanvasElement>;
-  canvasBig: HTMLCanvasElement;
-
   @ViewChild('digitCanvasSmall', { static: false }) public canvasSmallRef: ElementRef<HTMLCanvasElement>;
   canvasSmall: HTMLCanvasElement;
+
+  @ViewChild('freeHandDrawingTool', { static: false }) public freeHandDrawingTool;
 
   @ViewChild('digitCanvasBigResultOfPrediction', { static: false })
   public digitCanvasBigResultOfPredictionRef: ElementRef<HTMLCanvasElement>;
   digitCanvasBigResultOfPrediction: HTMLCanvasElement;
 
-  private ctxBig: CanvasRenderingContext2D;
-
   // FK-TODO: imageWidth und imageHeight aus datasetDescription.imageWidth und datasetDescription.imageHeight beziehen
   imageWidth = 28;
   imageHeight = 28;
 
-  lastMouse = { x: 0, y: 0 };
-  mouse = { x: 0, y: 0 };
-  isMousedown = false;
   digitDataset: any;
 
   constructor(private imageAlgos: ImageAlgosService) { }
@@ -43,13 +37,10 @@ export class PredictionComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.canvasBig = this.canvasBigRef.nativeElement;
     this.canvasSmall = this.canvasSmallRef.nativeElement;
     this.digitCanvasBigResultOfPrediction = this.digitCanvasBigResultOfPredictionRef.nativeElement;
-    this.ctxBig = this.canvasBig.getContext('2d');
     this.canvasSmall.width = this.imageWidth;
     this.canvasSmall.height = this.imageHeight;
-    this.initializeDrawTool();
   }
 
   private getDigitClassifier(classifier) {
@@ -59,9 +50,9 @@ export class PredictionComponent implements OnInit, AfterViewInit {
         kNearestNeighborsWithPredictions => receivePredictionsForDigit(kNearestNeighborsWithPredictions[0]));
   }
 
-  private predictDrawnDigit() {
+  private predictDrawnDigit(digitImageData) {
     this.digitClassifier(
-      this.getPixels(),
+      this.getPixels(digitImageData),
       kNearestNeighborsWithPrediction => {
         this.setPrediction(kNearestNeighborsWithPrediction.prediction);
         this.digitDataset =
@@ -96,78 +87,33 @@ export class PredictionComponent implements OnInit, AfterViewInit {
   }
 
   private clearCanvases() {
-    this.clearCanvas(this.canvasBig);
+    this.freeHandDrawingTool.clearCanvas();
     this.clearCanvas(this.canvasSmall);
   }
 
   private clearCanvas(canvas) {
     canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
   }
-  private initializeDrawTool() {
-    this.ctxBig.globalAlpha = 1;
-    this.ctxBig.globalCompositeOperation = 'source-over';
-    this.ctxBig.strokeStyle = 'black';
-    this.ctxBig.lineWidth = 20;
-    this.ctxBig.lineJoin = this.ctxBig.lineCap = 'round';
-  }
 
-  mousedown(e) {
-    this.lastMouse = this.mouse = this.getMousePos(this.canvasBig, e);
-    this.isMousedown = true;
-  }
-
-  mousemove(e) {
-    this.mouse = this.getMousePos(this.canvasBig, e);
-    if (this.isMousedown) {
-      this.ctxBig.beginPath();
-      this.ctxBig.moveTo(this.lastMouse.x, this.lastMouse.y);
-      this.ctxBig.lineTo(this.mouse.x, this.mouse.y);
-      this.ctxBig.stroke();
-    }
-    this.lastMouse = this.mouse;
-  }
-
-  mouseup(e) {
-    this.isMousedown = false;
-    this.predictDrawnDigit();
-  }
-
-  // taken from https://stackoverflow.com/questions/17130395/real-mouse-position-in-canvas
-  private getMousePos(canvas, evt) {
-    const rect = canvas.getBoundingClientRect(); // abs. size of element
-    const scaleX = canvas.width / rect.width; // relationship bitmap vs. element for X
-    const scaleY = canvas.height / rect.height; // relationship bitmap vs. element for Y
-
-    return {
-      x: (evt.clientX - rect.left) * scaleX, // scale mouse coordinates after they have
-      y: (evt.clientY - rect.top) * scaleY // been adjusted to be relative to element
-    };
-  }
-
-  private getPixels() {
-    this.fitSrc2Dst({ srcCanvas: this.canvasBig, dstCanvas: this.canvasSmall });
+  private getPixels(digitImageData) {
+    this.fitSrc2Dst({ srcImageData: digitImageData, dstCanvas: this.canvasSmall });
     const ctxSmall = this.canvasSmall.getContext('2d');
     const imageData = ctxSmall.getImageData(0, 0, this.canvasSmall.width, this.canvasSmall.height);
     return imageData2Pixels(imageData);
   }
 
-  private fitSrc2Dst({ srcCanvas, dstCanvas }) {
-    const imageData =
-      srcCanvas
-        .getContext('2d')
-        .getImageData(0, 0, srcCanvas.width, srcCanvas.height);
-
+  private fitSrc2Dst({ srcImageData, dstCanvas }) {
     const center = this.getCenterOfMassOfImageOrDefault({
-      imageData,
-      default: { x: srcCanvas.width / 2, y: srcCanvas.height / 2 }
+      imageData: srcImageData,
+      default: { x: srcImageData.width / 2, y: srcImageData.height / 2 }
     });
 
     const newCanvas = $('<canvas>')
-      .attr('width', imageData.width)
-      .attr('height', imageData.height)[0];
+      .attr('width', srcImageData.width)
+      .attr('height', srcImageData.height)[0];
 
     newCanvas.getContext('2d').putImageData(
-      imageData, -(center.x - srcCanvas.width / 2), -(center.y - srcCanvas.height / 2));
+      srcImageData, -(center.x - srcImageData.width / 2), -(center.y - srcImageData.height / 2));
 
     // FK-TODO: refactor
     const originalImageWidthAndHeight = 28;
