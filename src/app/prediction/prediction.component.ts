@@ -83,7 +83,6 @@ export class PredictionComponent implements OnInit, AfterViewInit {
       [pixels],
       ([kNearestNeighborsWithPrediction]) => {
         this.setPrediction(kNearestNeighborsWithPrediction.prediction);
-        console.log('prediction:', kNearestNeighborsWithPrediction.prediction);
         this.digitDataset =
           kNearestNeighborsWithPrediction.kNearestNeighbors.map(({ x, y }) =>
             ({
