@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { CacheService } from '../cache.service';
 import { ImageAlgosService } from '../image-algos.service';
 
 declare var $: any;
@@ -35,7 +34,7 @@ export class PredictionComponent implements OnInit, AfterViewInit {
   isMousedown = false;
   digitDataset: any;
 
-  constructor(private cache: CacheService, private imageAlgos: ImageAlgosService) { }
+  constructor(private imageAlgos: ImageAlgosService) { }
 
   ngOnInit() {
     console.log('knnClassifier:', this.knnClassifier);
@@ -59,17 +58,9 @@ export class PredictionComponent implements OnInit, AfterViewInit {
 
   private getRowsClassifier(classifier) {
     return (rows, receivePredictionsForRows) => {
-      const nonCachedRows = rows.filter(row => !this.cache.containsKey(row));
       classifier(
-        nonCachedRows,
-        nonCachedPredictions => {
-          this.cache.cacheValuesForKeys({
-            keys: nonCachedRows,
-            values: nonCachedPredictions
-          });
-          const predictions = this.cache.getValuesForKeys({
-            keys: rows
-          });
+        rows,
+        predictions => {
           receivePredictionsForRows(predictions);
         });
     };
@@ -79,7 +70,8 @@ export class PredictionComponent implements OnInit, AfterViewInit {
     const pixels = this.getPixels();
     rowsClassifier(
       [pixels],
-      ([kNearestNeighborsWithPrediction]) => {
+      kNearestNeighborsWithPredictions => {
+        const kNearestNeighborsWithPrediction = kNearestNeighborsWithPredictions[0];
         this.setPrediction(kNearestNeighborsWithPrediction.prediction);
         this.digitDataset =
           kNearestNeighborsWithPrediction.kNearestNeighbors.map(({ x, y }) =>
