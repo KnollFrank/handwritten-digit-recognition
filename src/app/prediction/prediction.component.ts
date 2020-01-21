@@ -33,6 +33,7 @@ export class PredictionComponent implements OnInit, AfterViewInit {
   lastMouse = { x: 0, y: 0 };
   mouse = { x: 0, y: 0 };
   isMousedown = false;
+  digitDataset: any;
 
   constructor(private cache: CacheService, private imageAlgos: ImageAlgosService) { }
 
@@ -83,12 +84,14 @@ export class PredictionComponent implements OnInit, AfterViewInit {
       ([kNearestNeighborsWithPrediction]) => {
         this.setPrediction(kNearestNeighborsWithPrediction.prediction);
         console.log('prediction:', kNearestNeighborsWithPrediction.prediction);
-        /*displayDigitDataset(
-          // FK-TODO: DRY: dieses Hinzufügen des y-Wertes wird an mehreren Stellen vorgenommen
-          kNearestNeighborsWithPrediction.kNearestNeighbors.map(({ x, y }) => x.concat(y)),
-          imageWidth,
-          imageHeight,
-          'container-k-nearest-digits');*/
+        this.digitDataset =
+          kNearestNeighborsWithPrediction.kNearestNeighbors.map(({ x, y }) =>
+            ({
+              width: imageWidth,
+              height: imageHeight,
+              figcaption: y,
+              image: x.concat(y)
+            }));
       });
   }
 

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CacheService } from './cache.service';
 
+declare var getClassValFromRow: any;
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -11,6 +13,7 @@ export class AppComponent implements OnInit {
   datasetDescription: any;
   maxDigits2Display = 500;
   knnClassifier: any;
+  digitDataset: any;
 
   constructor(private cache: CacheService) {
   }
@@ -23,6 +26,16 @@ export class AppComponent implements OnInit {
   onReceiveDatasetDescription(datasetDescription) {
     console.log('app: datasetDescription:', datasetDescription);
     this.datasetDescription = datasetDescription;
+    this.digitDataset =
+      this.datasetDescription.splittedDataset.train
+        .slice(0, this.maxDigits2Display)
+        .map(
+          image => ({
+            width: this.datasetDescription.imageWidth,
+            height: this.datasetDescription.imageHeight,
+            figcaption: getClassValFromRow(image),
+            image
+          }));
   }
 
   onReceiveKnnClassifier(knnClassifier) {

@@ -6,7 +6,7 @@
         <section *ngIf="datasetDescription" id="section-traindata">
             <h3>1.1 Trainingsdaten</h3>
             <p>Die ersten <span class="maxDigits2Display">{{firstNDigits2Display}}</span> von <span class="totalNumberOfDigits">{{totalNumberOfDigits}}</span> Trainingsdaten sind:</p>
-            <app-digits [maxDigits2Display]="maxDigits2Display" [datasetDescription]="datasetDescription"></app-digits>
+            <app-digits [digitDataset]="digitDataset"></app-digits>
         </section>
     </section>
     <div id="dataInputAndDecisionTree">
