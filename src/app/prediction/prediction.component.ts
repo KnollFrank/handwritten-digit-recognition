@@ -63,9 +63,8 @@ export class PredictionComponent implements OnInit, AfterViewInit {
   }
 
   private predictDrawnDigit(digitClassifier, imageWidth, imageHeight) {
-    const pixels = this.getPixels();
     digitClassifier(
-      pixels,
+      this.getPixels(),
       kNearestNeighborsWithPrediction => {
         this.setPrediction(kNearestNeighborsWithPrediction.prediction);
         this.digitDataset =
