@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
+import { CanvasImageService } from './canvas-image.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ImageService {
 
-  constructor() { }
+  constructor(private canvasImageService: CanvasImageService) { }
 
   public getScaledImage({ image, kernelWidthAndHeight }) {
     const scaledImage_width = image.width / kernelWidthAndHeight;
@@ -50,11 +51,11 @@ export class ImageService {
     return Math.round(sum / (kernelWidthAndHeight ** 2));;
   }
 
-  private getPixel({ image: { pixels, width }, point: { x, y } }) {
-    return pixels[y * width + x];
+  private getPixel({ image: { pixels, width }, point }) {
+    return pixels[this.canvasImageService.getArrayIndexOfPoint(point, width)];
   }
 
-  private putPixel({ image: { pixels, width }, point: { x, y }, pixel }) {
-    pixels[y * width + x] = pixel;
+  private putPixel({ image: { pixels, width }, point, pixel }) {
+    pixels[this.canvasImageService.getArrayIndexOfPoint(point, width)] = pixel;
   }
 }
