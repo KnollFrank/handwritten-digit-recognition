@@ -11,6 +11,8 @@ declare var $: any;
 export class PredictionComponent implements OnInit, AfterViewInit {
 
   @Input() knnClassifier;
+  digitClassifier: (digit: any, receivePredictionsForDigit: any) => any;
+
   @Input() datasetDescription;
 
   @ViewChild('digitCanvasBig', { static: false }) public canvasBigRef: ElementRef<HTMLCanvasElement>;
@@ -37,7 +39,7 @@ export class PredictionComponent implements OnInit, AfterViewInit {
   constructor(private imageAlgos: ImageAlgosService) { }
 
   ngOnInit() {
-    console.log('knnClassifier:', this.knnClassifier);
+    this.digitClassifier = this.getDigitClassifier(this.knnClassifier);
   }
 
   ngAfterViewInit(): void {
@@ -47,12 +49,7 @@ export class PredictionComponent implements OnInit, AfterViewInit {
     this.ctxBig = this.canvasBig.getContext('2d');
     this.canvasSmall.width = this.imageWidth;
     this.canvasSmall.height = this.imageHeight;
-
     this.initializeDrawTool();
-  }
-
-  private onDigitDrawn() {
-    this.predictDrawnDigit(this.getDigitClassifier(this.knnClassifier), this.imageWidth, this.imageHeight);
   }
 
   private getDigitClassifier(classifier) {
@@ -62,16 +59,16 @@ export class PredictionComponent implements OnInit, AfterViewInit {
         kNearestNeighborsWithPredictions => receivePredictionsForDigit(kNearestNeighborsWithPredictions[0]));
   }
 
-  private predictDrawnDigit(digitClassifier, imageWidth, imageHeight) {
-    digitClassifier(
+  private predictDrawnDigit() {
+    this.digitClassifier(
       this.getPixels(),
       kNearestNeighborsWithPrediction => {
         this.setPrediction(kNearestNeighborsWithPrediction.prediction);
         this.digitDataset =
           kNearestNeighborsWithPrediction.kNearestNeighbors.map(({ x, y }) =>
             ({
-              width: imageWidth,
-              height: imageHeight,
+              width: this.imageWidth,
+              height: this.imageHeight,
               figcaption: y,
               image: x.concat(y)
             }));
@@ -132,7 +129,7 @@ export class PredictionComponent implements OnInit, AfterViewInit {
 
   mouseup(e) {
     this.isMousedown = false;
-    this.onDigitDrawn();
+    this.predictDrawnDigit();
   }
 
   // taken from https://stackoverflow.com/questions/17130395/real-mouse-position-in-canvas
