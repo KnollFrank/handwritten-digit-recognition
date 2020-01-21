@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, Output, EventEmitter } from '@angular/core';
+import { CanvasImageService } from '../canvas-image.service';
 
 @Component({
   selector: 'app-free-hand-drawing-tool',
@@ -18,7 +19,7 @@ export class FreeHandDrawingToolComponent implements OnInit, AfterViewInit {
   private mouse = { x: 0, y: 0 };
   private isMousedown = false;
 
-  constructor() { }
+  constructor(private canvasImageService: CanvasImageService) { }
 
   ngOnInit() {
   }
@@ -72,6 +73,6 @@ export class FreeHandDrawingToolComponent implements OnInit, AfterViewInit {
   }
 
   public clearCanvas() {
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.canvasImageService.clearCanvas(this.canvas);
   }
 }

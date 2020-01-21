@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { ImageAlgosService } from '../image-algos.service';
+import { CanvasImageService } from '../canvas-image.service';
 
 declare var $: any;
 
@@ -30,7 +31,11 @@ export class PredictionComponent implements OnInit, AfterViewInit {
 
   digitDataset: any;
 
-  constructor(private imageAlgos: ImageAlgosService) { }
+  constructor(
+    private imageAlgosService: ImageAlgosService,
+    private canvasImageService: CanvasImageService) {
+
+  }
 
   ngOnInit() {
     this.digitClassifier = this.getDigitClassifier(this.knnClassifier);
@@ -67,7 +72,7 @@ export class PredictionComponent implements OnInit, AfterViewInit {
   }
 
   private setPrediction(predictedValue) {
-    this.clearCanvas(this.digitCanvasBigResultOfPrediction);
+    this.canvasImageService.clearCanvas(this.digitCanvasBigResultOfPrediction);
     this.printCenteredTextIntoCanvas(this.digitCanvasBigResultOfPrediction, predictedValue);
   }
 
@@ -88,11 +93,7 @@ export class PredictionComponent implements OnInit, AfterViewInit {
 
   private clearCanvases() {
     this.freeHandDrawingTool.clearCanvas();
-    this.clearCanvas(this.canvasSmall);
-  }
-
-  private clearCanvas(canvas) {
-    canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+    this.canvasImageService.clearCanvas(this.canvasSmall);
   }
 
   private getPixels(digitImageData) {
@@ -128,7 +129,7 @@ export class PredictionComponent implements OnInit, AfterViewInit {
   }
 
   private getCenterOfMassOfImageOrDefault({ imageData, default: defaultValue }) {
-    const centerOfMass = this.imageAlgos.getCenterOfMass({
+    const centerOfMass = this.imageAlgosService.getCenterOfMass({
       pixels: imageData2Pixels(imageData),
       width: imageData.width,
       height: imageData.height
@@ -137,7 +138,7 @@ export class PredictionComponent implements OnInit, AfterViewInit {
   }
 
   private drawScaledAndCenteredImageOntoCanvas({ canvas, image, newImageWidthAndHeight }) {
-    this.clearCanvas(canvas);
+    this.canvasImageService.clearCanvas(canvas);
     canvas.getContext('2d').drawImage(
       image,
       (canvas.width - newImageWidthAndHeight) / 2,
