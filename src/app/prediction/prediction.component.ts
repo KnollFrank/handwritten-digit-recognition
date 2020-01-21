@@ -100,7 +100,7 @@ export class PredictionComponent implements OnInit, AfterViewInit {
     this.fitSrc2Dst({ srcImageData: digitImageData, dstCanvas: this.canvasSmall });
     const ctxSmall = this.canvasSmall.getContext('2d');
     const imageData = ctxSmall.getImageData(0, 0, this.canvasSmall.width, this.canvasSmall.height);
-    return imageData2Pixels(imageData);
+    return this.canvasImageService.imageData2Pixels(imageData);
   }
 
   private fitSrc2Dst({ srcImageData, dstCanvas }) {
@@ -130,7 +130,7 @@ export class PredictionComponent implements OnInit, AfterViewInit {
 
   private getCenterOfMassOfImageOrDefault({ imageData, default: defaultValue }) {
     const centerOfMass = this.imageAlgosService.getCenterOfMass({
-      pixels: imageData2Pixels(imageData),
+      pixels: this.canvasImageService.imageData2Pixels(imageData),
       width: imageData.width,
       height: imageData.height
     });
@@ -146,35 +146,4 @@ export class PredictionComponent implements OnInit, AfterViewInit {
       newImageWidthAndHeight,
       newImageWidthAndHeight);
   }
-}
-
-function imageData2Pixels(imageData) {
-  const pixels = [];
-  for (const it of iterateOverImageData(imageData)) {
-    pixels.push(imageData.data[it.color_index.alpha]);
-  }
-  return pixels;
-}
-
-function* iterateOverImageData(imageData) {
-  for (let y = 0; y < imageData.height; y++) {
-    for (let x = 0; x < imageData.width; x++) {
-      const i = getArrayIndexOfPoint({ x, y }, imageData.width);
-      yield {
-        x,
-        y,
-        pixelIndex: i,
-        color_index: {
-          red: i * 4 + 0,
-          green: i * 4 + 1,
-          blue: i * 4 + 2,
-          alpha: i * 4 + 3
-        }
-      };
-    }
-  }
-}
-
-function getArrayIndexOfPoint(point, width) {
-  return point.y * width + point.x;
 }
