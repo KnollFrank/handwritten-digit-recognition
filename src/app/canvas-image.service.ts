@@ -19,6 +19,18 @@ export class CanvasImageService {
     return pixels;
   }
 
+  public drawImageIntoCanvas({ image, width, height }, canvas) {
+    const ctx = canvas.getContext('2d');
+    const imageData = ctx.createImageData(width, height);
+    for (const it of this.iterateOverImageData(imageData)) {
+      imageData.data[it.color_index.red] = 0;
+      imageData.data[it.color_index.green] = 0;
+      imageData.data[it.color_index.blue] = 0;
+      imageData.data[it.color_index.alpha] = image[it.pixelIndex];
+    }
+    ctx.putImageData(imageData, 0, 0);
+  }
+
   public *iterateOverImageData(imageData) {
     for (let y = 0; y < imageData.height; y++) {
       for (let x = 0; x < imageData.width; x++) {
