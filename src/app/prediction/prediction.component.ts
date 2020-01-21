@@ -12,6 +12,7 @@ declare var $: any;
 export class PredictionComponent implements OnInit, AfterViewInit {
 
   @Input() knnClassifier;
+  @Input() datasetDescription;
 
   @ViewChild('digitCanvasBig', { static: false }) public canvasBigRef: ElementRef<HTMLCanvasElement>;
   canvasBig: HTMLCanvasElement;
