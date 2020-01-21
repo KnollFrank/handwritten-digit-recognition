@@ -9,7 +9,7 @@ import { CacheService } from './cache.service';
 export class AppComponent implements OnInit {
   title = 'angular';
   datasetDescription: any;
-  maxDigits2Display: number = 500;
+  maxDigits2Display = 500;
   knnClassifier: any;
 
   constructor(private cache: CacheService) {
