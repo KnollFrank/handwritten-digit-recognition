@@ -1,20 +1,20 @@
 import { Injectable } from '@angular/core';
 import { CanvasImageService } from './canvas-image.service';
+import { ImageService } from './image.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ImageAlgosService {
 
-  constructor(private canvasImageService: CanvasImageService) { }
+  constructor(private canvasImageService: CanvasImageService, private imageService: ImageService) { }
 
   public getCenterOfMass(image) {
     let totalMass = 0;
     let centerOfMass = { x: 0, y: 0 };
     const origin = { x: -1, y: -1 };
 
-    for (const { point, color: mass }
-      of this.iterateOverImage(image)) {
+    for (const { point, color: mass } of this.iterateOverImage(image)) {
       totalMass += mass;
       centerOfMass = this.addPoints(centerOfMass, this.mulPoint(mass, this.subPoints(point, origin)));
     }
@@ -30,9 +30,10 @@ export class ImageAlgosService {
   private *iterateOverImage(image) {
     for (let y = 0; y < image.height; y++) {
       for (let x = 0; x < image.width; x++) {
+        const point = { x, y }
         yield {
-          point: { x, y },
-          color: image.pixels[this.canvasImageService.getArrayIndexOfPoint({ x, y }, image.width)]
+          point,
+          color: this.imageService.getPixel({ image, point })
         };
       }
     }

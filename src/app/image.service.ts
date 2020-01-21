@@ -51,7 +51,7 @@ export class ImageService {
     return Math.round(sum / (kernelWidthAndHeight ** 2));;
   }
 
-  private getPixel({ image: { pixels, width }, point }) {
+  public getPixel({ image: { pixels, width }, point }) {
     return pixels[this.canvasImageService.getArrayIndexOfPoint(point, width)];
   }
 
