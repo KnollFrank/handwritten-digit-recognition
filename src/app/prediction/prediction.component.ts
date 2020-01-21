@@ -52,20 +52,19 @@ export class PredictionComponent implements OnInit, AfterViewInit {
   }
 
   private onDigitDrawn() {
-    const rowsClassifier = this.getRowsClassifier(this.knnClassifier);
-    this.predictDrawnDigit(rowsClassifier, this.imageWidth, this.imageHeight);
+    this.predictDrawnDigit(this.getDigitClassifier(this.knnClassifier), this.imageWidth, this.imageHeight);
   }
 
-  private getRowsClassifier(classifier) {
-    return (row, receivePredictionsForRows) =>
+  private getDigitClassifier(classifier) {
+    return (digit, receivePredictionsForDigit) =>
       classifier(
-        [row],
-        kNearestNeighborsWithPredictions => receivePredictionsForRows(kNearestNeighborsWithPredictions[0]));
+        [digit],
+        kNearestNeighborsWithPredictions => receivePredictionsForDigit(kNearestNeighborsWithPredictions[0]));
   }
 
-  private predictDrawnDigit(rowsClassifier, imageWidth, imageHeight) {
+  private predictDrawnDigit(digitClassifier, imageWidth, imageHeight) {
     const pixels = this.getPixels();
-    rowsClassifier(
+    digitClassifier(
       pixels,
       kNearestNeighborsWithPrediction => {
         this.setPrediction(kNearestNeighborsWithPrediction.prediction);
