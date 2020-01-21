@@ -7,7 +7,7 @@ import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, Output, EventE
 })
 export class FreeHandDrawingToolComponent implements OnInit, AfterViewInit {
 
-  @Output() imageData = new EventEmitter();
+  @Output() freeHandDrawnImageData = new EventEmitter();
 
   @ViewChild('canvas', { static: false }) public canvasRef: ElementRef<HTMLCanvasElement>;
   private canvas: HTMLCanvasElement;
@@ -56,7 +56,7 @@ export class FreeHandDrawingToolComponent implements OnInit, AfterViewInit {
   mouseup(e) {
     this.isMousedown = false;
     const imageData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
-    this.imageData.emit(imageData);
+    this.freeHandDrawnImageData.emit(imageData);
   }
 
   // taken from https://stackoverflow.com/questions/17130395/real-mouse-position-in-canvas

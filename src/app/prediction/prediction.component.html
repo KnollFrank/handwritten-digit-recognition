@@ -1,7 +1,7 @@
 <div id="canvas-data-input">
     <div class="column-1">
         <p>Zeichne in diesen Bereich eine Ziffer zwischen 0 und 9:</p>
-        <app-free-hand-drawing-tool #freeHandDrawingTool (imageData)="predictDrawnDigit($event)"></app-free-hand-drawing-tool>
+        <app-free-hand-drawing-tool #freeHandDrawingTool (freeHandDrawnImageData)="predictDrawnDigit($event)"></app-free-hand-drawing-tool>
         <canvas id="digit-canvas-small" #digitCanvasSmall width="28" height="28"></canvas>
     </div>
     <section id="k-nearest-neighbors-section" class="column-2">
