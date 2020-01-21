@@ -57,19 +57,13 @@ export class PredictionComponent implements OnInit, AfterViewInit {
   }
 
   private getRowsClassifier(classifier) {
-    return (rows, receivePredictionsForRows) => {
-      classifier(
-        rows,
-        predictions => {
-          receivePredictionsForRows(predictions);
-        });
-    };
+    return (row, receivePredictionsForRows) => classifier([row], receivePredictionsForRows);
   }
 
   private predictDrawnDigit(rowsClassifier, imageWidth, imageHeight) {
     const pixels = this.getPixels();
     rowsClassifier(
-      [pixels],
+      pixels,
       kNearestNeighborsWithPredictions => {
         const kNearestNeighborsWithPrediction = kNearestNeighborsWithPredictions[0];
         this.setPrediction(kNearestNeighborsWithPrediction.prediction);
