@@ -50,8 +50,6 @@ export class PredictionComponent implements OnInit, AfterViewInit {
     this.canvasSmall.height = this.imageHeight;
 
     this.initializeDrawTool();
-    // (canvasBig, canvasSmall) => predictDrawnDigit(canvasBig, canvasSmall, tree, network, rowsClassifier, classifierType, imageWidth, imageHeight));
-    // this.drawImageIntoCanvas();
   }
 
   private onDigitDrawn() {
@@ -110,8 +108,8 @@ export class PredictionComponent implements OnInit, AfterViewInit {
 
   private prepareNewPrediction() {
     this.clearCanvases();
-    // document.querySelector('#container-k-nearest-digits').innerHTML = '';
-    // setPrediction('');
+    this.digitDataset = [];
+    this.setPrediction('');
   }
 
   private clearCanvases() {
