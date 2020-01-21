@@ -1,4 +1,8 @@
 import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { CacheService } from '../cache.service';
+import { ImageAlgosService } from '../image-algos.service';
+
+declare var $: any;
 
 @Component({
   selector: 'app-prediction',
@@ -9,28 +13,34 @@ export class PredictionComponent implements OnInit, AfterViewInit {
 
   @Input() knnClassifier;
 
-  @ViewChild('digitCanvasBig', { static: false }) public canvasBig: ElementRef<HTMLCanvasElement>;
-  @ViewChild('digitCanvasSmall', { static: false }) public canvasSmall: ElementRef<HTMLCanvasElement>;
+  @ViewChild('digitCanvasBig', { static: false }) public canvasBigRef: ElementRef<HTMLCanvasElement>;
+  canvasBig: HTMLCanvasElement;
+
+  @ViewChild('digitCanvasSmall', { static: false }) public canvasSmallRef: ElementRef<HTMLCanvasElement>;
+  canvasSmall: HTMLCanvasElement;
 
   private ctxBig: CanvasRenderingContext2D;
+
+  // FK-TODO: imageWidth und imageHeight aus datasetDescription.imageWidth und datasetDescription.imageHeight beziehen
+  imageWidth = 28;
+  imageHeight = 28;
 
   lastMouse = { x: 0, y: 0 };
   mouse = { x: 0, y: 0 };
   isMousedown = false;
 
-  constructor() { }
+  constructor(private cache: CacheService, private imageAlgos: ImageAlgosService) { }
 
   ngOnInit() {
     console.log('knnClassifier:', this.knnClassifier);
   }
 
   ngAfterViewInit(): void {
-    // FK-TODO: imageWidth und imageHeight aus datasetDescription.imageWidth und datasetDescription.imageHeight beziehen
-    const imageWidth = 28;
-    const imageHeight = 28;
-    this.ctxBig = this.canvasBig.nativeElement.getContext('2d');
-    this.canvasSmall.nativeElement.width = imageWidth;
-    this.canvasSmall.nativeElement.height = imageHeight;
+    this.canvasBig = this.canvasBigRef.nativeElement;
+    this.canvasSmall = this.canvasSmallRef.nativeElement;
+    this.ctxBig = this.canvasBig.getContext('2d');
+    this.canvasSmall.width = this.imageWidth;
+    this.canvasSmall.height = this.imageHeight;
 
     this.initializeDrawTool();
     // (canvasBig, canvasSmall) => predictDrawnDigit(canvasBig, canvasSmall, tree, network, rowsClassifier, classifierType, imageWidth, imageHeight));
@@ -39,23 +49,20 @@ export class PredictionComponent implements OnInit, AfterViewInit {
 
   private onDigitDrawn() {
     const rowsClassifier = this.getRowsClassifier(this.knnClassifier);
-    this.predictDrawnDigit(rowsClassifier, imageWidth, imageHeight);
+    this.predictDrawnDigit(rowsClassifier, this.imageWidth, this.imageHeight);
   }
 
   private getRowsClassifier(classifier) {
-    // https://stackoverflow.com/questions/38482357/using-multiple-instances-of-the-same-service
-    const cache = new Cache();
-
     return (rows, receivePredictionsForRows) => {
-      const nonCachedRows = rows.filter(row => !cache.containsKey(row));
+      const nonCachedRows = rows.filter(row => !this.cache.containsKey(row));
       classifier(
         nonCachedRows,
         nonCachedPredictions => {
-          cache.cacheValuesForKeys({
+          this.cache.cacheValuesForKeys({
             keys: nonCachedRows,
             values: nonCachedPredictions
           });
-          const predictions = cache.getValuesForKeys({
+          const predictions = this.cache.getValuesForKeys({
             keys: rows
           });
           receivePredictionsForRows(predictions);
@@ -63,36 +70,31 @@ export class PredictionComponent implements OnInit, AfterViewInit {
     };
   }
 
-  private predictDrawnDigit(rowsClassifier, classifierType, imageWidth, imageHeight) {
-    const pixels = getPixels(canvasBig, canvasSmall);
-    if (classifierType == ClassifierType.DECISION_TREE) {
-      const prediction = predict(tree, pixels);
-      highlightPredictionInNetwork(prediction, network);
-      setPrediction(prediction.value);
-    } else {
-      rowsClassifier(
-        [pixels],
-        ([kNearestNeighborsWithPrediction]) => {
-          setPrediction(kNearestNeighborsWithPrediction.prediction);
-          displayDigitDataset(
-            // FK-TODO: DRY: dieses Hinzufügen des y-Wertes wird an mehreren Stellen vorgenommen
-            kNearestNeighborsWithPrediction.kNearestNeighbors.map(({ x, y }) => x.concat(y)),
-            imageWidth,
-            imageHeight,
-            'container-k-nearest-digits');
-        });
-    }
+  private predictDrawnDigit(rowsClassifier, imageWidth, imageHeight) {
+    const pixels = this.getPixels();
+    rowsClassifier(
+      [pixels],
+      ([kNearestNeighborsWithPrediction]) => {
+        //setPrediction(kNearestNeighborsWithPrediction.prediction);
+        console.log('prediction:', kNearestNeighborsWithPrediction.prediction);
+        /*displayDigitDataset(
+          // FK-TODO: DRY: dieses Hinzufügen des y-Wertes wird an mehreren Stellen vorgenommen
+          kNearestNeighborsWithPrediction.kNearestNeighbors.map(({ x, y }) => x.concat(y)),
+          imageWidth,
+          imageHeight,
+          'container-k-nearest-digits');*/
+      });
   }
 
   prepareNewPrediction() {
-    this.clearCanvases(this.canvasBig.nativeElement, this.canvasSmall.nativeElement);
+    this.clearCanvases();
     // document.querySelector('#container-k-nearest-digits').innerHTML = '';
     // setPrediction('');
   }
 
-  private clearCanvases(canvasBig, canvasSmall) {
-    this.clearCanvas(canvasBig);
-    this.clearCanvas(canvasSmall);
+  private clearCanvases() {
+    this.clearCanvas(this.canvasBig);
+    this.clearCanvas(this.canvasSmall);
   }
 
   private clearCanvas(canvas) {
@@ -107,12 +109,12 @@ export class PredictionComponent implements OnInit, AfterViewInit {
   }
 
   mousedown(e) {
-    this.lastMouse = this.mouse = this.getMousePos(this.canvasBig.nativeElement, e);
+    this.lastMouse = this.mouse = this.getMousePos(this.canvasBig, e);
     this.isMousedown = true;
   }
 
   mousemove(e) {
-    this.mouse = this.getMousePos(this.canvasBig.nativeElement, e);
+    this.mouse = this.getMousePos(this.canvasBig, e);
     if (this.isMousedown) {
       this.ctxBig.beginPath();
       this.ctxBig.moveTo(this.lastMouse.x, this.lastMouse.y);
@@ -138,4 +140,91 @@ export class PredictionComponent implements OnInit, AfterViewInit {
       y: (evt.clientY - rect.top) * scaleY // been adjusted to be relative to element
     };
   }
+
+  private getPixels() {
+    this.fitSrc2Dst({ srcCanvas: this.canvasBig, dstCanvas: this.canvasSmall });
+    const ctxSmall = this.canvasSmall.getContext('2d');
+    const imageData = ctxSmall.getImageData(0, 0, this.canvasSmall.width, this.canvasSmall.height);
+    return imageData2Pixels(imageData);
+  }
+
+  private fitSrc2Dst({ srcCanvas, dstCanvas }) {
+    const imageData =
+      srcCanvas
+        .getContext('2d')
+        .getImageData(0, 0, srcCanvas.width, srcCanvas.height);
+
+    const center = this.getCenterOfMassOfImageOrDefault({
+      imageData,
+      default: { x: srcCanvas.width / 2, y: srcCanvas.height / 2 }
+    });
+
+    const newCanvas = $('<canvas>')
+      .attr('width', imageData.width)
+      .attr('height', imageData.height)[0];
+
+    newCanvas.getContext('2d').putImageData(
+      imageData, -(center.x - srcCanvas.width / 2), -(center.y - srcCanvas.height / 2));
+
+    // FK-TODO: refactor
+    const originalImageWidthAndHeight = 28;
+    const originalBoundingBoxWidthAndHeight = 20;
+    const kernelWidthAndHeight = originalImageWidthAndHeight / dstCanvas.width;
+    const boundingBoxWidthAndHeight = originalBoundingBoxWidthAndHeight / kernelWidthAndHeight;
+    this.drawScaledAndCenteredImageOntoCanvas({
+      canvas: dstCanvas,
+      image: newCanvas,
+      newImageWidthAndHeight: boundingBoxWidthAndHeight
+    });
+  }
+
+  private getCenterOfMassOfImageOrDefault({ imageData, default: defaultValue }) {
+    const centerOfMass = this.imageAlgos.getCenterOfMass({
+      pixels: imageData2Pixels(imageData),
+      width: imageData.width,
+      height: imageData.height
+    });
+    return centerOfMass || defaultValue;
+  }
+
+  private drawScaledAndCenteredImageOntoCanvas({ canvas, image, newImageWidthAndHeight }) {
+    this.clearCanvas(canvas);
+    canvas.getContext('2d').drawImage(
+      image,
+      (canvas.width - newImageWidthAndHeight) / 2,
+      (canvas.height - newImageWidthAndHeight) / 2,
+      newImageWidthAndHeight,
+      newImageWidthAndHeight);
+  }
+}
+
+function imageData2Pixels(imageData) {
+  const pixels = [];
+  for (const it of iterateOverImageData(imageData)) {
+    pixels.push(imageData.data[it.color_index.alpha]);
+  }
+  return pixels;
+}
+
+function* iterateOverImageData(imageData) {
+  for (let y = 0; y < imageData.height; y++) {
+    for (let x = 0; x < imageData.width; x++) {
+      const i = getArrayIndexOfPoint({ x, y }, imageData.width);
+      yield {
+        x,
+        y,
+        pixelIndex: i,
+        color_index: {
+          red: i * 4 + 0,
+          green: i * 4 + 1,
+          blue: i * 4 + 2,
+          alpha: i * 4 + 3
+        }
+      };
+    }
+  }
+}
+
+function getArrayIndexOfPoint(point, width) {
+  return point.y * width + point.x;
 }
