@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
+import { CanvasImageService } from './canvas-image.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ImageAlgosService {
 
-  constructor() { }
+  constructor(private canvasImageService: CanvasImageService) { }
 
   public getCenterOfMass(image) {
     let totalMass = 0;
@@ -31,7 +32,7 @@ export class ImageAlgosService {
       for (let x = 0; x < image.width; x++) {
         yield {
           point: { x, y },
-          color: image.pixels[getArrayIndexOfPoint({ x, y }, image.width)]
+          color: image.pixels[this.canvasImageService.getArrayIndexOfPoint({ x, y }, image.width)]
         };
       }
     }
@@ -49,9 +50,4 @@ export class ImageAlgosService {
   private subPoints(point1, point2) {
     return { x: point1.x - point2.x, y: point1.y - point2.y };
   }
-}
-
-// FK-TODO: DRY with digit.component.ts, import into this service
-function getArrayIndexOfPoint(point, width) {
-  return point.y * width + point.x;
 }
