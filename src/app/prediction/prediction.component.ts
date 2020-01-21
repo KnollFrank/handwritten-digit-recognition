@@ -19,6 +19,10 @@ export class PredictionComponent implements OnInit, AfterViewInit {
   @ViewChild('digitCanvasSmall', { static: false }) public canvasSmallRef: ElementRef<HTMLCanvasElement>;
   canvasSmall: HTMLCanvasElement;
 
+  @ViewChild('digitCanvasBigResultOfPrediction', { static: false })
+  public digitCanvasBigResultOfPredictionRef: ElementRef<HTMLCanvasElement>;
+  digitCanvasBigResultOfPrediction: HTMLCanvasElement;
+
   private ctxBig: CanvasRenderingContext2D;
 
   // FK-TODO: imageWidth und imageHeight aus datasetDescription.imageWidth und datasetDescription.imageHeight beziehen
@@ -38,6 +42,7 @@ export class PredictionComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.canvasBig = this.canvasBigRef.nativeElement;
     this.canvasSmall = this.canvasSmallRef.nativeElement;
+    this.digitCanvasBigResultOfPrediction = this.digitCanvasBigResultOfPredictionRef.nativeElement;
     this.ctxBig = this.canvasBig.getContext('2d');
     this.canvasSmall.width = this.imageWidth;
     this.canvasSmall.height = this.imageHeight;
@@ -75,7 +80,7 @@ export class PredictionComponent implements OnInit, AfterViewInit {
     rowsClassifier(
       [pixels],
       ([kNearestNeighborsWithPrediction]) => {
-        //setPrediction(kNearestNeighborsWithPrediction.prediction);
+        this.setPrediction(kNearestNeighborsWithPrediction.prediction);
         console.log('prediction:', kNearestNeighborsWithPrediction.prediction);
         /*displayDigitDataset(
           // FK-TODO: DRY: dieses Hinzufügen des y-Wertes wird an mehreren Stellen vorgenommen
@@ -86,7 +91,21 @@ export class PredictionComponent implements OnInit, AfterViewInit {
       });
   }
 
-  prepareNewPrediction() {
+  private setPrediction(predictedValue) {
+    this.clearCanvas(this.digitCanvasBigResultOfPrediction);
+    this.printCenteredTextIntoCanvas(this.digitCanvasBigResultOfPrediction, predictedValue);
+  }
+
+  private printCenteredTextIntoCanvas(canvas, text) {
+    const ctx = canvas.getContext('2d');
+    const fontSize = Math.min(canvas.width, canvas.height);
+    ctx.font = `${fontSize}px Verdana`;
+    ctx.textBaseline = 'middle';
+    ctx.textAlign = 'center';
+    ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+  }
+
+  private prepareNewPrediction() {
     this.clearCanvases();
     // document.querySelector('#container-k-nearest-digits').innerHTML = '';
     // setPrediction('');
