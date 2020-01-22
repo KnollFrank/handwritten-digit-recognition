@@ -9,19 +9,19 @@ export class ImageService {
   constructor(private canvasImageService: CanvasImageService) { }
 
   public getScaledImage({ image, kernelWidthAndHeight }) {
-    const scaledImage_width = image.width / kernelWidthAndHeight;
-    const scaledImage_height = image.height / kernelWidthAndHeight;
+    const scaledImageWidth = image.width / kernelWidthAndHeight;
+    const scaledImageHeight = image.height / kernelWidthAndHeight;
     const scaledImage = {
-      pixels: Array(scaledImage_width * scaledImage_height).fill(0),
-      width: scaledImage_width,
-      height: scaledImage_height
+      pixels: Array(scaledImageWidth * scaledImageHeight).fill(0),
+      width: scaledImageWidth,
+      height: scaledImageHeight
     };
 
     for (let y = 0; y + kernelWidthAndHeight <= image.height; y += kernelWidthAndHeight) {
       for (let x = 0; x + kernelWidthAndHeight <= image.width; x += kernelWidthAndHeight) {
         const getPixelWithinKernel =
           (kernelX, kernelY) => this.getPixel({
-            image: image,
+            image,
             point: {
               x: x + kernelX,
               y: y + kernelY
