@@ -39,7 +39,7 @@ export class ImageAlgosService {
     }
   }
 
-  // FK-TODO: verwende die eingebaute Point-Klasse von JavaScript oder erzeuge eine eigene Point-Klasse mit Methoden für *, -, +
+  // FK-TODO: erzeuge eine eigene Point-Klasse mit Methoden für *, -, +
   private addPoints(point1, point2) {
     return { x: point1.x + point2.x, y: point1.y + point2.y };
   }
