@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CacheService } from './cache.service';
+import { AccuracyCalculatorService } from './accuracy-calculator.service';
 
 declare var getClassValFromRow: any;
 
@@ -15,7 +16,7 @@ export class AppComponent implements OnInit {
   knnClassifier: any;
   digitDataset: any;
 
-  constructor(private cache: CacheService) {
+  constructor(private cache: CacheService, private accuracyCalculatorService: AccuracyCalculatorService) {
   }
 
   ngOnInit(): void {
@@ -49,5 +50,33 @@ export class AppComponent implements OnInit {
 
   get firstNDigits2Display() {
     return Math.min(this.maxDigits2Display, this.totalNumberOfDigits);
+  }
+
+  computeAccuracy() {
+    this.accuracyCalculatorService.computeAccuracy(
+      this.getRowsClassifier(this.knnClassifier),
+      this.datasetDescription,
+      this.datasetDescription.splittedDataset.test,
+      accuracy => {
+        console.log(`Accuracy: ${Math.floor(accuracy)}%`);
+      });
+  }
+
+  private getRowsClassifier(classifier) {
+    return (rows, receivePredictionsForRows) => {
+      const nonCachedRows = rows.filter(row => !this.cache.containsKey(row));
+      classifier(
+        nonCachedRows,
+        nonCachedPredictions => {
+          this.cache.cacheValuesForKeys({
+            keys: nonCachedRows,
+            values: nonCachedPredictions
+          });
+          const predictions = this.cache.getValuesForKeys({
+            keys: rows
+          });
+          receivePredictionsForRows(predictions);
+        });
+    }
   }
 }
