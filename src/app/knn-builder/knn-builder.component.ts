@@ -17,7 +17,7 @@ export class KnnBuilderComponent implements OnInit {
 
   k = 3;
 
-  @Output() onReceiveKnnClassifier = new EventEmitter();
+  @Output() knnClassifier = new EventEmitter();
 
   constructor(private itemsIntoChunksSplitterService: ItemsIntoChunksSplitterService) { }
 
@@ -37,8 +37,7 @@ export class KnnBuilderComponent implements OnInit {
         y: this.datasetDescription.splittedDataset.train.map(getClassValFromRow),
         k: this.k
       });
-    const knnClassifier = this.createKnnClassifier(fittedKnnWorkers);
-    this.onReceiveKnnClassifier.emit(knnClassifier);
+    this.knnClassifier.emit(this.createKnnClassifier(fittedKnnWorkers));
   }
 
   private fitKnnWorkers(knnWorkers, fitParams) {
