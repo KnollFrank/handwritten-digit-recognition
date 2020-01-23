@@ -15,6 +15,7 @@ export class AppComponent implements OnInit {
   maxDigits2Display = 500;
   knnClassifier: any;
   digitDataset: any;
+  accuracy: number;
 
   constructor(private cache: CacheService, private accuracyCalculatorService: AccuracyCalculatorService) {
   }
@@ -58,6 +59,7 @@ export class AppComponent implements OnInit {
       this.datasetDescription,
       this.datasetDescription.splittedDataset.test,
       accuracy => {
+        this.accuracy = accuracy;
         console.log(`Accuracy: ${Math.floor(accuracy)}%`);
       });
   }

@@ -31,10 +31,10 @@
                 </div>
             </div>
         </div>
-        <div id="accuracy-panel">
+        <div *ngIf="accuracy" id="accuracy-panel">
             <p>
                 <!-- FK-TODO: Accuracy sichtbarer anzeigen -->
-                Accuracy: <span id="accuracy"></span>
+                Accuracy: {{accuracy}}%
             </p>
         </div>
         <div id="testdata-panel">
