@@ -14,7 +14,8 @@ export class AppComponent implements OnInit {
   datasetDescription: any;
   maxDigits2Display = 500;
   knnClassifier: any;
-  digitDataset: any;
+  digitTrainDataset: any;
+  digitTestDataset: any;
   accuracy: number;
 
   constructor(private cache: CacheService, private accuracyCalculatorService: AccuracyCalculatorService) {
@@ -28,7 +29,7 @@ export class AppComponent implements OnInit {
   onReceiveDatasetDescription(datasetDescription) {
     console.log('app: datasetDescription:', datasetDescription);
     this.datasetDescription = datasetDescription;
-    this.digitDataset =
+    this.digitTrainDataset =
       this.datasetDescription.splittedDataset.train
         .slice(0, this.maxDigits2Display)
         .map(
@@ -61,6 +62,16 @@ export class AppComponent implements OnInit {
       accuracy => {
         this.accuracy = accuracy;
         console.log(`Accuracy: ${Math.floor(accuracy)}%`);
+        this.digitTestDataset =
+          this.datasetDescription.splittedDataset.test
+            .slice(0, this.maxDigits2Display)
+            .map(
+              image => ({
+                width: this.datasetDescription.imageWidth,
+                height: this.datasetDescription.imageHeight,
+                figcaption: getClassValFromRow(image),
+                image
+              }));
       });
   }
 
