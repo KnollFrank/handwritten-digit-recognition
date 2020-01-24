@@ -84,11 +84,6 @@ div.digit canvas {
     border: 1px solid #d3d3d3;
 }
 
-#section-testdata div.digit:hover {
-    padding: 10px;
-    background: rgba(152, 195, 252, 0.5);
-}
-
 div.digit figcaption {
     text-align: center;
 }
