@@ -1,4 +1,7 @@
 @charset "UTF-8";
+
+/* FK-TODO: css-Dateien aufräumen: globale styles.css entleeren bis auf "* {box-sizing: ...}" */
+
 * {
     box-sizing: border-box;
     /* padding & border nach innen darstellen */
