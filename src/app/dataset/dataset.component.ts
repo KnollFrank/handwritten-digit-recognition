@@ -29,7 +29,6 @@ export class DatasetComponent implements OnInit {
 
   setDatasetDescription(datasetDescription) {
     this.datasetDescription = datasetDescription;
-    console.log('datasetDescription:', this.datasetDescription);
   }
 
   onSubmit() {

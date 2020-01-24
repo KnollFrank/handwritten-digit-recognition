@@ -27,7 +27,6 @@ export class AppComponent implements OnInit {
   }
 
   onReceiveDatasetDescription(datasetDescription) {
-    console.log('app: datasetDescription:', datasetDescription);
     this.datasetDescription = datasetDescription;
     this.digitTrainDataset =
       this.datasetDescription.splittedDataset.train
@@ -46,7 +45,6 @@ export class AppComponent implements OnInit {
   }
 
   onReceiveKnnClassifier(knnClassifier) {
-    console.log('onReceiveKnnClassifier:', knnClassifier);
     this.knnClassifier = knnClassifier;
   }
 
@@ -117,6 +115,7 @@ export class AppComponent implements OnInit {
   private getRowsClassifier(classifier) {
     return (rows, receivePredictionsForRows) => {
       const nonCachedRows = rows.filter(row => !this.cache.containsKey(row));
+      console.log(`classifying nonCachedRows/rows: ${nonCachedRows.length}/${rows.length}`);
       classifier(
         nonCachedRows,
         nonCachedPredictions => {

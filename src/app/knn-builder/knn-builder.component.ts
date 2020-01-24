@@ -25,7 +25,6 @@ export class KnnBuilderComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log('knn, k:', this.k);
     this.buildKnnClassifier(knnWorkers);
   }
 
