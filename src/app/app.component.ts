@@ -95,8 +95,16 @@ export class AppComponent implements OnInit {
       height: this.datasetDescription.imageHeight,
       figcaption: getClassValFromRow(image),
       image,
-      classList: prediction == getClassValFromRow(image) ? [] : ['wrongPrediction']
+      classList: this.getClassListOfFigcaption(
+        {
+          predictedClassVal: prediction,
+          actualClassVal: getClassValFromRow(image)
+        })
     });
+  }
+
+  private getClassListOfFigcaption({ predictedClassVal, actualClassVal }) {
+    return predictedClassVal == actualClassVal ? [] : ['wrongPrediction'];
   }
 
   private getPredictions(kNearestNeighborssWithPredictions) {
