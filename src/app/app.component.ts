@@ -75,11 +75,14 @@ export class AppComponent implements OnInit {
       accuracy => {
         this.accuracy = accuracy;
         console.log(`Accuracy: ${Math.floor(accuracy)}%`);
-        this.displayTestDataset(rowsClassifier, this.datasetDescription.splittedDataset.test.slice(0, this.maxDigits2Display));
+        this.displayTestDataset({
+          rowsClassifier,
+          testDataset: this.datasetDescription.splittedDataset.test.slice(0, this.maxDigits2Display)
+        });
       });
   }
 
-  private displayTestDataset(rowsClassifier, testDataset) {
+  private displayTestDataset({ rowsClassifier, testDataset }) {
     rowsClassifier(
       testDataset.map(row => getIndependentValsFromRow(row, this.datasetDescription)),
       kNearestNeighborssWithPredictions =>
