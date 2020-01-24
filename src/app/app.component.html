@@ -19,7 +19,7 @@
             <app-prediction *ngIf="knnClassifier" [knnClassifier]="knnClassifier" [datasetDescription]="datasetDescription"></app-prediction>
         </section>
     </div>
-    <section id="section-testdata">
+    <section *ngIf="datasetDescription" id="section-testdata">
         <h2>4. Testdaten</h2>
         <p><button class="evaluate-testdata-button" (click)="computeAccuracy()">Testdaten auswerten</button></p>
         <div id="knnProgress">

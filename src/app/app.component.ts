@@ -24,8 +24,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.cache.get('someKey', () => Math.floor(Math.random() * 100)));
-    console.log(this.cache.get('someKey', () => Math.floor(Math.random() * 100)));
   }
 
   onReceiveDatasetDescription(datasetDescription) {
@@ -78,23 +76,27 @@ export class AppComponent implements OnInit {
       });
   }
 
-  private displayTestDataset(rowsClassifier, dataset) {
+  private displayTestDataset(rowsClassifier, testDataset) {
     rowsClassifier(
-      dataset.map(row => getIndependentValsFromRow(row, this.datasetDescription)),
+      testDataset.map(row => getIndependentValsFromRow(row, this.datasetDescription)),
       kNearestNeighborssWithPredictions =>
-        this.digitTestDataset = this.getDigitTestDataset(dataset, this.getPredictions(kNearestNeighborssWithPredictions))
+        this.digitTestDataset = this.getDigitTestDataset(testDataset, this.getPredictions(kNearestNeighborssWithPredictions))
     );
   }
 
-  private getDigitTestDataset(dataset: any, predictions: any) {
-    return dataset
-      .map((image, i) => ({
-        width: this.datasetDescription.imageWidth,
-        height: this.datasetDescription.imageHeight,
-        figcaption: getClassValFromRow(image),
-        image,
-        classList: predictions[i] == getClassValFromRow(image) ? [] : ['wrongPrediction']
-      }));
+  private getDigitTestDataset(testDataset, predictions) {
+    return zip(testDataset, predictions)
+      .map(([image, prediction]) => this.getImageDescription(image, prediction));
+  }
+
+  private getImageDescription(image, prediction) {
+    return ({
+      width: this.datasetDescription.imageWidth,
+      height: this.datasetDescription.imageHeight,
+      figcaption: getClassValFromRow(image),
+      image,
+      classList: prediction == getClassValFromRow(image) ? [] : ['wrongPrediction']
+    });
   }
 
   private getPredictions(kNearestNeighborssWithPredictions) {
