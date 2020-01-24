@@ -9,17 +9,15 @@
             <app-digits [digitDataset]="digitTrainDataset"></app-digits>
         </section>
     </section>
-    <div id="dataInputAndDecisionTree">
-        <section id="section-KNN">
-            <h2>2. k nächste Nachbarn</h2>
-            <app-knn-builder [datasetDescription]="datasetDescription" (knnClassifier)="onReceiveKnnClassifier($event)"></app-knn-builder>
-        </section>
-        <section id="section-data-input">
-            <h2>3. Vorhersage</h2>
-            <app-prediction *ngIf="knnClassifier" [knnClassifier]="knnClassifier" [datasetDescription]="datasetDescription"></app-prediction>
-        </section>
-    </div>
-    <section *ngIf="datasetDescription" id="section-testdata">
+    <section *ngIf="datasetDescription" id="section-KNN">
+        <h2>2. k nächste Nachbarn</h2>
+        <app-knn-builder [datasetDescription]="datasetDescription" (knnClassifier)="onReceiveKnnClassifier($event)"></app-knn-builder>
+    </section>
+    <section *ngIf="knnClassifier" id="section-data-input">
+        <h2>3. Vorhersage</h2>
+        <app-prediction *ngIf="knnClassifier" [knnClassifier]="knnClassifier" [datasetDescription]="datasetDescription"></app-prediction>
+    </section>
+    <section *ngIf="knnClassifier" id="section-testdata">
         <h2>4. Testdaten</h2>
         <p><button class="evaluate-testdata-button" (click)="computeAccuracy()">Testdaten auswerten</button></p>
         <div id="knnProgress">
