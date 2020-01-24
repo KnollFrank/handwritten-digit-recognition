@@ -4,6 +4,7 @@ import { AccuracyCalculatorService } from './accuracy-calculator.service';
 
 declare var getIndependentValsFromRow: any;
 declare var getClassValFromRow: any;
+declare var zip: any;
 
 @Component({
   selector: 'app-root',
@@ -73,23 +74,24 @@ export class AppComponent implements OnInit {
       accuracy => {
         this.accuracy = accuracy;
         console.log(`Accuracy: ${Math.floor(accuracy)}%`);
-        rowsClassifier(
-          this.datasetDescription.splittedDataset.test.map(row => getIndependentValsFromRow(row, this.datasetDescription)),
-          kNearestNeighborssWithPredictions => {
-            const predictions = this.getPredictions(kNearestNeighborssWithPredictions);
-            this.digitTestDataset =
-              this.datasetDescription.splittedDataset.test
-                .slice(0, this.maxDigits2Display)
-                .map(
-                  (image, i) => ({
-                    width: this.datasetDescription.imageWidth,
-                    height: this.datasetDescription.imageHeight,
-                    figcaption: getClassValFromRow(image),
-                    image,
-                    classList: predictions[i] == getClassValFromRow(image) ? [] : ['wrongPrediction']
-                  }));
-          });
+        this.displayTestDataset(rowsClassifier);
       });
+  }
+
+  private displayTestDataset(rowsClassifier: (rows: any, receivePredictionsForRows: any) => void) {
+    rowsClassifier(this.datasetDescription.splittedDataset.test.map(row => getIndependentValsFromRow(row, this.datasetDescription)), kNearestNeighborssWithPredictions => {
+      const predictions = this.getPredictions(kNearestNeighborssWithPredictions);
+      this.digitTestDataset =
+        this.datasetDescription.splittedDataset.test
+          .slice(0, this.maxDigits2Display)
+          .map((image, i) => ({
+            width: this.datasetDescription.imageWidth,
+            height: this.datasetDescription.imageHeight,
+            figcaption: getClassValFromRow(image),
+            image,
+            classList: predictions[i] == getClassValFromRow(image) ? [] : ['wrongPrediction']
+          }));
+    });
   }
 
   private getPredictions(kNearestNeighborssWithPredictions) {
