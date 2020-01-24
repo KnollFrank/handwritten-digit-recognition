@@ -4,6 +4,7 @@
             <label for="csv-file">CSV-Datei:</label>
             <app-file-picker (onReceiveDatasetDescription)="setDatasetDescription($event)"></app-file-picker>
         </div>
+        <!--FK-FIXME: kernelWidthAndHeight wird bei der Vorhersage einer gezeichneten Ziffer noch nicht korrekt berücksichtigt -->
         <div id="kernelWidthAndHeight-inputFields">
             <label for="kernelWidthAndHeight">Ziffernbreite und -höhe verkleinern um den Faktor:</label>
             <!-- see https://stackblitz.com/edit/angular-7kzu8w?file=app%2Fapp.component.ts -->
