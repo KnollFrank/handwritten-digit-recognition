@@ -74,24 +74,25 @@ export class AppComponent implements OnInit {
       accuracy => {
         this.accuracy = accuracy;
         console.log(`Accuracy: ${Math.floor(accuracy)}%`);
-        this.displayTestDataset(rowsClassifier);
+        this.displayTestDataset(rowsClassifier, this.datasetDescription.splittedDataset.test.slice(0, this.maxDigits2Display));
       });
   }
 
-  private displayTestDataset(rowsClassifier: (rows: any, receivePredictionsForRows: any) => void) {
-    rowsClassifier(this.datasetDescription.splittedDataset.test.map(row => getIndependentValsFromRow(row, this.datasetDescription)), kNearestNeighborssWithPredictions => {
-      const predictions = this.getPredictions(kNearestNeighborssWithPredictions);
-      this.digitTestDataset =
-        this.datasetDescription.splittedDataset.test
-          .slice(0, this.maxDigits2Display)
-          .map((image, i) => ({
-            width: this.datasetDescription.imageWidth,
-            height: this.datasetDescription.imageHeight,
-            figcaption: getClassValFromRow(image),
-            image,
-            classList: predictions[i] == getClassValFromRow(image) ? [] : ['wrongPrediction']
-          }));
-    });
+  private displayTestDataset(rowsClassifier, dataset) {
+    rowsClassifier(
+      dataset.map(row => getIndependentValsFromRow(row, this.datasetDescription)),
+      kNearestNeighborssWithPredictions => {
+        const predictions = this.getPredictions(kNearestNeighborssWithPredictions);
+        this.digitTestDataset =
+          dataset
+            .map((image, i) => ({
+              width: this.datasetDescription.imageWidth,
+              height: this.datasetDescription.imageHeight,
+              figcaption: getClassValFromRow(image),
+              image,
+              classList: predictions[i] == getClassValFromRow(image) ? [] : ['wrongPrediction']
+            }));
+      });
   }
 
   private getPredictions(kNearestNeighborssWithPredictions) {
