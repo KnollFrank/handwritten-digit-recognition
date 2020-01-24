@@ -64,6 +64,7 @@ export class KnnBuilderComponent implements OnInit {
       if (chunks.length === 0) {
         receivePredictionsForRows([]);
       } else {
+        // Fk-TODO: paralleles Auswerten der Testdaten mit Workern wieder einführen.
         // createKnnProgressElements('knnProgress', knnWorkers.length);
         const chunksOfPredictions = [];
         chunks.forEach((chunk, i, chunks) => {
