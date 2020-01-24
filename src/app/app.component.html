@@ -5,7 +5,7 @@
         <app-dataset (onReceiveDatasetDescription)="onReceiveDatasetDescription($event)"></app-dataset>
         <section *ngIf="datasetDescription" id="section-traindata">
             <h3>1.1 Trainingsdaten</h3>
-            <p>Die ersten {{firstNDigits2Display}} von {{totalNumberOfDigits}} Trainingsdaten sind:</p>
+            <p>Die ersten {{firstNTrainDigits2Display}} von {{totalNumberOfTrainDigits}} Trainingsdaten sind:</p>
             <app-digits [digitDataset]="digitTrainDataset"></app-digits>
         </section>
     </section>

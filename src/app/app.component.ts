@@ -46,12 +46,12 @@ export class AppComponent implements OnInit {
     this.knnClassifier = knnClassifier;
   }
 
-  get totalNumberOfDigits() {
+  get totalNumberOfTrainDigits() {
     return this.datasetDescription.splittedDataset.train.length;
   }
 
-  get firstNDigits2Display() {
-    return Math.min(this.maxDigits2Display, this.totalNumberOfDigits);
+  get firstNTrainDigits2Display() {
+    return Math.min(this.maxDigits2Display, this.totalNumberOfTrainDigits);
   }
 
   get totalNumberOfTestDigits() {
