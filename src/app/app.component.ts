@@ -32,14 +32,17 @@ export class AppComponent implements OnInit {
     this.digitTrainDataset =
       this.datasetDescription.splittedDataset.train
         .slice(0, this.maxDigits2Display)
-        .map(
-          image => ({
-            width: this.datasetDescription.imageWidth,
-            height: this.datasetDescription.imageHeight,
-            figcaption: getClassValFromRow(image),
-            image,
-            classList: []
-          }));
+        .map(image => this.createImageDescription({ image: image, classList: [] }));
+  }
+
+  private createImageDescription({ image, classList }) {
+    return ({
+      width: this.datasetDescription.imageWidth,
+      height: this.datasetDescription.imageHeight,
+      figcaption: getClassValFromRow(image),
+      image,
+      classList
+    });
   }
 
   onReceiveKnnClassifier(knnClassifier) {
@@ -86,15 +89,12 @@ export class AppComponent implements OnInit {
 
   private getDigitTestDataset(testDataset, predictions) {
     return zip(testDataset, predictions)
-      .map(([image, prediction]) => this.getImageDescription(image, prediction));
+      .map(([image, prediction]) => this.getImageDescription({ image, prediction }));
   }
 
-  private getImageDescription(image, prediction) {
-    return ({
-      width: this.datasetDescription.imageWidth,
-      height: this.datasetDescription.imageHeight,
-      figcaption: getClassValFromRow(image),
-      image,
+  private getImageDescription({ image, prediction }) {
+    return this.createImageDescription({
+      image: image,
       classList: this.getClassListOfFigcaption(
         {
           predictedClassVal: prediction,
