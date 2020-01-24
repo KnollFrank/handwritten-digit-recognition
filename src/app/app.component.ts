@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CacheService } from './cache.service';
 import { AccuracyCalculatorService } from './accuracy-calculator.service';
 
+declare var getIndependentValsFromRow: any;
 declare var getClassValFromRow: any;
 
 @Component({
@@ -64,25 +65,35 @@ export class AppComponent implements OnInit {
   }
 
   computeAccuracy() {
+    const rowsClassifier = this.getRowsClassifier(this.knnClassifier);
     this.accuracyCalculatorService.computeAccuracy(
-      this.getRowsClassifier(this.knnClassifier),
+      rowsClassifier,
       this.datasetDescription,
       this.datasetDescription.splittedDataset.test,
       accuracy => {
         this.accuracy = accuracy;
         console.log(`Accuracy: ${Math.floor(accuracy)}%`);
-        this.digitTestDataset =
-          this.datasetDescription.splittedDataset.test
-            .slice(0, this.maxDigits2Display)
-            .map(
-              image => ({
-                width: this.datasetDescription.imageWidth,
-                height: this.datasetDescription.imageHeight,
-                figcaption: getClassValFromRow(image),
-                image,
-                classList: ['wrongPrediction']
-              }));
+        rowsClassifier(
+          this.datasetDescription.splittedDataset.test.map(row => getIndependentValsFromRow(row, this.datasetDescription)),
+          kNearestNeighborssWithPredictions => {
+            const predictions = this.getPredictions(kNearestNeighborssWithPredictions);
+            this.digitTestDataset =
+              this.datasetDescription.splittedDataset.test
+                .slice(0, this.maxDigits2Display)
+                .map(
+                  (image, i) => ({
+                    width: this.datasetDescription.imageWidth,
+                    height: this.datasetDescription.imageHeight,
+                    figcaption: getClassValFromRow(image),
+                    image,
+                    classList: predictions[i] == getClassValFromRow(image) ? [] : ['wrongPrediction']
+                  }));
+          });
       });
+  }
+
+  private getPredictions(kNearestNeighborssWithPredictions) {
+    return kNearestNeighborssWithPredictions.map(({ prediction }) => prediction);
   }
 
   private getRowsClassifier(classifier) {
