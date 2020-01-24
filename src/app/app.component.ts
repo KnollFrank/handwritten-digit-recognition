@@ -31,16 +31,16 @@ export class AppComponent implements OnInit {
     this.digitTrainDataset =
       this.datasetDescription.splittedDataset.train
         .slice(0, this.maxDigits2Display)
-        .map(image => this.createImageDescription({ image: image, classList: [] }));
+        .map(image => this.createImageDescription({ image: image, classListOfFigcaption: [] }));
   }
 
-  private createImageDescription({ image, classList }) {
+  private createImageDescription({ image, classListOfFigcaption }) {
     return ({
       width: this.datasetDescription.imageWidth,
       height: this.datasetDescription.imageHeight,
       figcaption: getClassValFromRow(image),
       image,
-      classList
+      classListOfFigcaption
     });
   }
 
@@ -96,7 +96,7 @@ export class AppComponent implements OnInit {
   private getImageDescription({ image, prediction }) {
     return this.createImageDescription({
       image: image,
-      classList: this.getClassListOfFigcaption(
+      classListOfFigcaption: this.getClassListOfFigcaption(
         {
           predictedClassVal: prediction,
           actualClassVal: getClassValFromRow(image)
