@@ -81,18 +81,20 @@ export class AppComponent implements OnInit {
   private displayTestDataset(rowsClassifier, dataset) {
     rowsClassifier(
       dataset.map(row => getIndependentValsFromRow(row, this.datasetDescription)),
-      kNearestNeighborssWithPredictions => {
-        const predictions = this.getPredictions(kNearestNeighborssWithPredictions);
-        this.digitTestDataset =
-          dataset
-            .map((image, i) => ({
-              width: this.datasetDescription.imageWidth,
-              height: this.datasetDescription.imageHeight,
-              figcaption: getClassValFromRow(image),
-              image,
-              classList: predictions[i] == getClassValFromRow(image) ? [] : ['wrongPrediction']
-            }));
-      });
+      kNearestNeighborssWithPredictions =>
+        this.digitTestDataset = this.getDigitTestDataset(dataset, this.getPredictions(kNearestNeighborssWithPredictions))
+    );
+  }
+
+  private getDigitTestDataset(dataset: any, predictions: any) {
+    return dataset
+      .map((image, i) => ({
+        width: this.datasetDescription.imageWidth,
+        height: this.datasetDescription.imageHeight,
+        figcaption: getClassValFromRow(image),
+        image,
+        classList: predictions[i] == getClassValFromRow(image) ? [] : ['wrongPrediction']
+      }));
   }
 
   private getPredictions(kNearestNeighborssWithPredictions) {
