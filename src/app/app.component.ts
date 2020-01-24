@@ -54,6 +54,14 @@ export class AppComponent implements OnInit {
     return Math.min(this.maxDigits2Display, this.totalNumberOfDigits);
   }
 
+  get totalNumberOfTestDigits() {
+    return this.datasetDescription.splittedDataset.test.length;
+  }
+
+  get firstNTestDigits2Display() {
+    return Math.min(this.maxDigits2Display, this.totalNumberOfTestDigits);
+  }
+
   computeAccuracy() {
     this.accuracyCalculatorService.computeAccuracy(
       this.getRowsClassifier(this.knnClassifier),

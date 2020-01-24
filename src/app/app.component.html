@@ -5,7 +5,7 @@
         <app-dataset (onReceiveDatasetDescription)="onReceiveDatasetDescription($event)"></app-dataset>
         <section *ngIf="datasetDescription" id="section-traindata">
             <h3>1.1 Trainingsdaten</h3>
-            <p>Die ersten <span class="maxDigits2Display">{{firstNDigits2Display}}</span> von <span class="totalNumberOfDigits">{{totalNumberOfDigits}}</span> Trainingsdaten sind:</p>
+            <p>Die ersten {{firstNDigits2Display}} von {{totalNumberOfDigits}} Trainingsdaten sind:</p>
             <app-digits [digitDataset]="digitTrainDataset"></app-digits>
         </section>
     </section>
@@ -39,7 +39,7 @@
         </div>
         <div id="testdata-panel">
             <section id="section-digits-test">
-                <p>Die ersten <span class="maxDigits2Display"></span> von <span class="totalNumberOfDigits"></span> Testdaten sind:</p>
+                <p>Die ersten {{firstNTestDigits2Display}} von {{totalNumberOfTestDigits}} Testdaten sind:</p>
                 <app-digits [digitDataset]="digitTestDataset"></app-digits>
             </section>
             <div id="container-testDataSet"></div>
