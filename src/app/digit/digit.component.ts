@@ -12,6 +12,7 @@ export class DigitComponent implements OnInit, AfterViewInit {
   @Input() height: number;
   @Input() figcaption: string;
   @Input() image;
+  @Input() classList;
 
   @ViewChild('canvas', { static: false }) public canvas: ElementRef<HTMLCanvasElement>;
 

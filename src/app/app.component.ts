@@ -37,7 +37,8 @@ export class AppComponent implements OnInit {
             width: this.datasetDescription.imageWidth,
             height: this.datasetDescription.imageHeight,
             figcaption: getClassValFromRow(image),
-            image
+            image,
+            classList: []
           }));
   }
 
@@ -78,7 +79,8 @@ export class AppComponent implements OnInit {
                 width: this.datasetDescription.imageWidth,
                 height: this.datasetDescription.imageHeight,
                 figcaption: getClassValFromRow(image),
-                image
+                image,
+                classList: ['wrongPrediction']
               }));
       });
   }
