@@ -112,7 +112,9 @@ export class AppComponent implements OnInit {
     return kNearestNeighborssWithPredictions.map(({ prediction }) => prediction);
   }
 
+  // FK-TODO: getRowsClassifier() umbenennen in getCachingRowsClassifier() + extract method
   private getRowsClassifier(classifier) {
+    // FK-TODO: bei jedem Aufruf der Methode getRowsClassifier() soll ein neuer, leerer Cache verwendet werden.
     return (rows, receivePredictionsForRows) => {
       const nonCachedRows = rows.filter(row => !this.cache.containsKey(row));
       console.log(`classifying nonCachedRows/rows: ${nonCachedRows.length}/${rows.length}`);
