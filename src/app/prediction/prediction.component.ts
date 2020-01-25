@@ -25,9 +25,8 @@ export class PredictionComponent implements OnInit, AfterViewInit {
   public digitCanvasBigResultOfPredictionRef: ElementRef<HTMLCanvasElement>;
   digitCanvasBigResultOfPrediction: HTMLCanvasElement;
 
-  // FK-TODO: imageWidth und imageHeight aus datasetDescription.imageWidth und datasetDescription.imageHeight beziehen
-  imageWidth = 28;
-  imageHeight = 28;
+  private imageWidth: number;
+  private imageHeight: number;
 
   digitDataset: any;
 
@@ -39,6 +38,8 @@ export class PredictionComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.digitClassifier = this.getDigitClassifier(this.knnClassifier);
+    this.imageWidth = this.datasetDescription.imageWidth;
+    this.imageHeight = this.datasetDescription.imageHeight;
   }
 
   ngAfterViewInit(): void {
