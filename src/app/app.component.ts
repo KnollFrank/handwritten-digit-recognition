@@ -66,7 +66,7 @@ export class AppComponent implements OnInit {
   }
 
   computeAccuracy() {
-    const rowsClassifier = this.getRowsClassifier(this.knnClassifier);
+    const rowsClassifier = this.getCachingRowsClassifier(this.knnClassifier);
     this.accuracyCalculatorService.computeAccuracy(
       rowsClassifier,
       this.datasetDescription,
@@ -113,8 +113,8 @@ export class AppComponent implements OnInit {
     return kNearestNeighborssWithPredictions.map(({ prediction }) => prediction);
   }
 
-  // FK-TODO: getRowsClassifier() umbenennen in getCachingRowsClassifier() + extract method
-  private getRowsClassifier(classifier) {
+  // FK-TODO: extract method
+  private getCachingRowsClassifier(classifier) {
     // FK-TODO: bei jedem Aufruf der Methode getRowsClassifier() soll ein neuer, leerer Cache verwendet werden.
     return (rows, receivePredictionsForRows) => {
       const nonCachedRows = rows.filter(row => !this.cache.containsKey(row));
