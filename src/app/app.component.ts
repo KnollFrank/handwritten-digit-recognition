@@ -33,6 +33,13 @@ export class AppComponent implements OnInit {
       this.datasetDescription.splittedDataset.train
         .slice(0, this.maxDigits2Display)
         .map(image => this.createImageDescription({ image: image, classListOfFigcaption: [] }));
+    this.reset();
+  }
+
+  private reset() {
+    this.knnClassifier = null;
+    this.accuracy = null;
+    this.digitTestDataset = null;
   }
 
   private createImageDescription({ image, classListOfFigcaption }) {
