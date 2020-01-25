@@ -11,26 +11,26 @@ export class ImageAlgosService {
 
   public getCenterOfMass(image) {
     let totalMass = 0;
-    let centerOfMass = { x: 0, y: 0 };
-    const origin = { x: -1, y: -1 };
+    let centerOfMass = new Point(0, 0);
+    const origin = new Point(-1, -1);
 
     for (const { point, color: mass } of this.iterateOverImage(image)) {
       totalMass += mass;
-      centerOfMass = this.addPoints(centerOfMass, this.mulPoint(mass, this.subPoints(point, origin)));
+      centerOfMass = centerOfMass.add(point.sub(origin).mul(mass));
     }
 
     if (totalMass === 0) {
       return null;
     }
 
-    centerOfMass = this.mulPoint(1 / totalMass, centerOfMass);
-    return this.subPoints(centerOfMass, this.subPoints({ x: 0, y: 0 }, origin)); // == addPoints(centerOfMass, origin);
+    centerOfMass = centerOfMass.mul(1 / totalMass);
+    return centerOfMass.sub(new Point(0, 0).sub(origin)); // == addPoints(centerOfMass, origin);
   }
 
   private *iterateOverImage(image) {
     for (let y = 0; y < image.height; y++) {
       for (let x = 0; x < image.width; x++) {
-        const point = { x, y }
+        const point = new Point(x, y);
         yield {
           point,
           color: this.imageService.getPixel({ image, point })
@@ -38,17 +38,26 @@ export class ImageAlgosService {
       }
     }
   }
+}
 
-  // FK-TODO: erzeuge eine eigene Point-Klasse mit Methoden für *, -, +
-  private addPoints(point1, point2) {
-    return { x: point1.x + point2.x, y: point1.y + point2.y };
+class Point {
+  x: number;
+  y: number;
+
+  constructor(x: number, y: number) {
+    this.x = x;
+    this.y = y;
   }
 
-  private mulPoint(scalar, { x, y }) {
-    return { x: scalar * x, y: scalar * y };
+  public add(p: Point) {
+    return new Point(this.x + p.x, this.y + p.y);
   }
 
-  private subPoints(point1, point2) {
-    return { x: point1.x - point2.x, y: point1.y - point2.y };
+  public mul(scalar: number) {
+    return new Point(scalar * this.x, scalar * this.y);
+  }
+
+  public sub(p: Point) {
+    return new Point(this.x - p.x, this.y - p.y);
   }
 }
