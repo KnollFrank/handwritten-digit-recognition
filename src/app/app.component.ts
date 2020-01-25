@@ -6,7 +6,6 @@ declare var getIndependentValsFromRow: any;
 declare var getClassValFromRow: any;
 declare var zip: any;
 
-// FK-TODO: Nach dem Neuladen eines Datensatzes beginnt das Spiel von vorn, also z.B. Bereiche ausblenden, gemalte Ziffer löschen, ...
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
