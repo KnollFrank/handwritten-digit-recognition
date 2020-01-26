@@ -8,6 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
 export class KnnProgressComponent implements OnInit {
 
   @Input() numProgessElements;
+  
   progress: { actualProgress: number; maxProgress: number; }[];
 
   constructor() { }

@@ -20,7 +20,7 @@
     <section *ngIf="knnClassifier" id="section-testdata">
         <h2>4. Testdaten</h2>
         <p><button class="evaluate-testdata-button" (click)="computeAccuracy()">Testdaten auswerten</button></p>
-        <div id="knnProgress">
+        <div *ngIf="!predictionsReceived" id="knnProgress">
             <h3>4.1 Fortschritt</h3>
             <app-knn-progress [numProgessElements]="numWorkers"></app-knn-progress>
         </div>
