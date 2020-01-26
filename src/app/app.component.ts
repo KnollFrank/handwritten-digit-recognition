@@ -83,16 +83,9 @@ export class AppComponent implements OnInit {
   }
 
   computeAccuracy() {
-    const rowsClassifier = this.getCachingRowsClassifier(this.knnClassifier);
-    // FK-TODO: extract method
-    const classifier = (rows, receivePredictionsForRows) =>
-      rowsClassifier(
-        rows,
-        receivePredictionsForRows,
-        (workerIndex, actualIndexZeroBased, endIndexZeroBasedExclusive) =>
-          this.knnProgressComponent.setProgress({ progressElementIndexZeroBased: workerIndex, actualIndexZeroBased, endIndexZeroBasedExclusive }));
+    const rowsClassifier = this.getCachingAndProgressDisplayingRowsClassifier();
     this.accuracyCalculatorService.computeAccuracy(
-      classifier,
+      rowsClassifier,
       this.datasetDescription,
       this.datasetDescription.splittedDataset.test,
       accuracy => {
@@ -103,6 +96,21 @@ export class AppComponent implements OnInit {
           testDataset: this.datasetDescription.splittedDataset.test.slice(0, this.maxDigits2Display)
         });
       });
+  }
+
+  private getCachingAndProgressDisplayingRowsClassifier() {
+    const cachingRowsRowsClassifier = this.getCachingRowsClassifier(this.knnClassifier);
+    return (rows, receivePredictionsForRows) =>
+      cachingRowsRowsClassifier(
+        rows,
+        receivePredictionsForRows,
+        (workerIndex, actualIndexZeroBased, endIndexZeroBasedExclusive) =>
+          this.knnProgressComponent.setProgress(
+            {
+              progressElementIndexZeroBased: workerIndex,
+              actualIndexZeroBased,
+              endIndexZeroBasedExclusive
+            }));
   }
 
   private displayTestDataset({ rowsClassifier, testDataset }) {
