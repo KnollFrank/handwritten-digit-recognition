@@ -114,7 +114,8 @@ export class KnnBuilderComponent implements OnInit {
         }
         case 'progress': {
           const { actualIndexZeroBased, endIndexZeroBasedExclusive } = value;
-          console.log(`progress: ${actualIndexZeroBased}/${endIndexZeroBasedExclusive}`);
+          console.log(`progress of ${knnWorkerIndex}: ${actualIndexZeroBased}/${endIndexZeroBasedExclusive}`);
+          // FK-TODO: displayKnnProgress
           // displayKnnProgress(knnWorkerIndex, actualIndexZeroBased, endIndexZeroBasedExclusive);
           break;
         }
