@@ -104,7 +104,7 @@ export class AppComponent implements OnInit {
       cachingRowsRowsClassifier(
         rows,
         receivePredictionsForRows,
-        (workerIndex, actualIndexZeroBased, endIndexZeroBasedExclusive) =>
+        ({ workerIndex, actualIndexZeroBased, endIndexZeroBasedExclusive }) =>
           this.knnProgressComponent.setProgress(
             {
               progressElementIndexZeroBased: workerIndex,
