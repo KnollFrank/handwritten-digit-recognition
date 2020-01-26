@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ItemsIntoChunksSplitterService } from '../items-into-chunks-splitter.service';
-import { knnWorkers } from '../knnWorkers.js';
+import { knnWorkers } from '../knn/knnWorkers.js';
 
 declare var getClassValFromRow: any;
 declare var getIndependentValsFromRow: any;
