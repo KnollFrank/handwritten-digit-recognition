@@ -31,7 +31,12 @@ export class AppComponent implements OnInit {
     this.digitTrainDataset =
       this.datasetDescription.splittedDataset.train
         .slice(0, this.maxDigits2Display)
-        .map(image => this.createImageDescription({ image: image, classListOfFigcaption: [] }));
+        .map(image => this.createImageDescription(
+          {
+            image: image,
+            figcaption: getClassValFromRow(image),
+            classListOfFigcaption: []
+          }));
     this.reset();
   }
 
@@ -41,11 +46,11 @@ export class AppComponent implements OnInit {
     this.digitTestDataset = null;
   }
 
-  private createImageDescription({ image, classListOfFigcaption }) {
+  private createImageDescription({ image, figcaption, classListOfFigcaption }) {
     return ({
       width: this.datasetDescription.imageWidth,
       height: this.datasetDescription.imageHeight,
-      figcaption: getClassValFromRow(image),
+      figcaption,
       image,
       classListOfFigcaption
     });
@@ -103,6 +108,7 @@ export class AppComponent implements OnInit {
   private getImageDescription({ image, prediction }) {
     return this.createImageDescription({
       image: image,
+      figcaption: prediction,
       classListOfFigcaption: this.getClassListOfFigcaption(
         {
           predictedClassVal: prediction,
