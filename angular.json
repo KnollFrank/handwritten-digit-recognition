@@ -39,7 +39,8 @@
                             "src/js/knn/knnWorker.js",
                             "src/js/knn/knnWorkerSync.js",
                             "src/js/knn/knnWorkers.js"
-                        ]
+                        ],
+                        "webWorkerTsConfig": "tsconfig.worker.json"
                     },
                     "configurations": {
                         "production": {
@@ -110,7 +111,8 @@
                         "tsConfig": [
                             "tsconfig.app.json",
                             "tsconfig.spec.json",
-                            "e2e/tsconfig.json"
+                            "e2e/tsconfig.json",
+                            "tsconfig.worker.json"
                         ],
                         "exclude": [
                             "**/node_modules/**"
