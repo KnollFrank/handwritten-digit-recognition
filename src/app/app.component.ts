@@ -151,7 +151,6 @@ export class AppComponent implements OnInit {
     // FK-TODO: bei jedem Aufruf der Methode getRowsClassifier() soll ein neuer, leerer Cache verwendet werden.
     return (rows, receivePredictionsForRows, receiveKnnProgress) => {
       const nonCachedRows = rows.filter(row => !this.cache.containsKey(row));
-      console.log(`classifying nonCachedRows/rows: ${nonCachedRows.length}/${rows.length}`);
       classifier(
         nonCachedRows,
         nonCachedPredictions => {
