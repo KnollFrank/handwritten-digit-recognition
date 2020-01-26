@@ -99,34 +99,6 @@ div.digit figcaption.wrongPrediction {
     display: none;
 }
 
-.table {
-    display: table;
-    border-collapse: separate;
-}
-
-.table-header {
-    display: table-header-group;
-    font-weight: bold;
-}
-
-.table-header .table-cell {
-    border-bottom: 1px solid #000;
-}
-
-.table-row {
-    display: table-row;
-}
-
-.table-cell {
-    display: table-cell;
-    padding: 5px;
-    border-left: 1px solid black;
-}
-
-.table-cell:first-child {
-    border-left: none;
-}
-
 #decisionTreeNetwork-enhanced-switcher {
     margin-bottom: 15px;
 }
