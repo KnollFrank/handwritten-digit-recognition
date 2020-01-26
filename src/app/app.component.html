@@ -22,7 +22,7 @@
         <p><button class="evaluate-testdata-button" (click)="computeAccuracy()">Testdaten auswerten</button></p>
         <div id="knnProgress">
             <h3>4.1 Fortschritt</h3>
-            <app-knn-progress [numWorkers]="numWorkers"></app-knn-progress>
+            <app-knn-progress [numProgessElements]="numWorkers"></app-knn-progress>
         </div>
         <div *ngIf="accuracy " id="accuracy-panel ">
             <p>
