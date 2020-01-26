@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
   digitTestDataset: any;
   accuracy: number;
   numWorkers: number;
-  predictionsReceived = false;
+  testdataEvaluated = false;
 
   @ViewChild(KnnProgressComponent, { static: false }) knnProgressComponent: KnnProgressComponent;
 
@@ -50,7 +50,7 @@ export class AppComponent implements OnInit {
   private reset() {
     this.knnClassifier = null;
     this.accuracy = null;
-    this.predictionsReceived = false;
+    this.testdataEvaluated = false;
     this.digitTestDataset = null;
   }
 
@@ -107,7 +107,7 @@ export class AppComponent implements OnInit {
         {
           rows,
           receivePredictionsForRows: predictions => {
-            this.predictionsReceived = true;
+            this.testdataEvaluated = true;
             receivePredictionsForRows(predictions);
           },
           receiveKnnProgress: ({ workerIndex, actualIndexZeroBased, endIndexZeroBasedExclusive }) =>
