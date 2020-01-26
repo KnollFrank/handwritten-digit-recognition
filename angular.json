@@ -35,10 +35,7 @@
                             "src/js/vis-4.21.0/dist/vis.js",
                             "src/js/jsHelper.js",
                             "src/js/decisionTree/datasetHelper.js",
-                            "src/js/knn/KNN.js",
-                            "src/js/knn/knnWorker.js",
-                            "src/js/knn/knnWorkerSync.js",
-                            "src/js/knn/knnWorkers.js"
+                            "src/js/knn/KNN.js"
                         ],
                         "webWorkerTsConfig": "tsconfig.worker.json"
                     },
