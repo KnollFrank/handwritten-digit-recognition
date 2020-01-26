@@ -11,6 +11,7 @@ import { DigitComponent } from './digit/digit.component';
 import { KnnBuilderComponent } from './knn-builder/knn-builder.component';
 import { PredictionComponent } from './prediction/prediction.component';
 import { FreeHandDrawingToolComponent } from './free-hand-drawing-tool/free-hand-drawing-tool.component';
+import { KnnProgressComponent } from './knn-progress/knn-progress.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { FreeHandDrawingToolComponent } from './free-hand-drawing-tool/free-hand
     DigitComponent,
     KnnBuilderComponent,
     PredictionComponent,
-    FreeHandDrawingToolComponent
+    FreeHandDrawingToolComponent,
+    KnnProgressComponent
   ],
   imports: [
     BrowserModule,

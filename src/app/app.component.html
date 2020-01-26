@@ -22,25 +22,20 @@
         <p><button class="evaluate-testdata-button" (click)="computeAccuracy()">Testdaten auswerten</button></p>
         <div id="knnProgress">
             <h3>4.1 Fortschritt</h3>
-            <div class="table">
-                <div class="table-header">
-                    <div class="table-cell">Worker</div>
-                    <div class="table-cell">Fortschritt</div>
-                </div>
-            </div>
+            <app-knn-progress [numWorkers]="numWorkers"></app-knn-progress>
         </div>
-        <div *ngIf="accuracy" id="accuracy-panel">
+        <div *ngIf="accuracy " id="accuracy-panel ">
             <p>
                 <!-- FK-TODO: Accuracy sichtbarer anzeigen -->
                 Accuracy: {{accuracy}}%
             </p>
         </div>
-        <div id="testdata-panel">
-            <section id="section-digits-test">
+        <div id="testdata-panel ">
+            <section id="section-digits-test ">
                 <p>Die ersten {{firstNTestDigits2Display}} von {{totalNumberOfTestDigits}} Testdaten sind:</p>
-                <app-digits [digitDataset]="digitTestDataset"></app-digits>
+                <app-digits [digitDataset]="digitTestDataset "></app-digits>
             </section>
-            <div id="container-testDataSet"></div>
+            <div id="container-testDataSet "></div>
         </div>
     </section>
 </main>

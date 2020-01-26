@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CacheService } from './cache.service';
 import { AccuracyCalculatorService } from './accuracy-calculator.service';
+import { KnnProgressComponent } from './knn-progress/knn-progress.component';
 
 declare var getIndependentValsFromRow: any;
 declare var getClassValFromRow: any;
@@ -12,6 +13,7 @@ declare var zip: any;
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+
   title = 'angular';
   datasetDescription: any;
   maxDigits2Display = 500;
@@ -19,11 +21,15 @@ export class AppComponent implements OnInit {
   digitTrainDataset: any;
   digitTestDataset: any;
   accuracy: number;
+  numWorkers: number;
+
+  @ViewChild(KnnProgressComponent, { static: false }) knnProgressComponent: KnnProgressComponent;
 
   constructor(private cache: CacheService, private accuracyCalculatorService: AccuracyCalculatorService) {
   }
 
   ngOnInit(): void {
+    this.numWorkers = window.navigator.hardwareConcurrency;
   }
 
   onReceiveDatasetDescription(datasetDescription) {
@@ -78,8 +84,15 @@ export class AppComponent implements OnInit {
 
   computeAccuracy() {
     const rowsClassifier = this.getCachingRowsClassifier(this.knnClassifier);
+    // FK-TODO: extract method
+    const classifier = (rows, receivePredictionsForRows) =>
+      rowsClassifier(
+        rows,
+        receivePredictionsForRows,
+        (workerIndex, actualIndexZeroBased, endIndexZeroBasedExclusive) =>
+          this.knnProgressComponent.setProgress({ workerIndexZeroBased: workerIndex, actualIndexZeroBased, endIndexZeroBasedExclusive }));
     this.accuracyCalculatorService.computeAccuracy(
-      rowsClassifier,
+      classifier,
       this.datasetDescription,
       this.datasetDescription.splittedDataset.test,
       accuracy => {
@@ -128,7 +141,7 @@ export class AppComponent implements OnInit {
   // FK-TODO: extract method
   private getCachingRowsClassifier(classifier) {
     // FK-TODO: bei jedem Aufruf der Methode getRowsClassifier() soll ein neuer, leerer Cache verwendet werden.
-    return (rows, receivePredictionsForRows) => {
+    return (rows, receivePredictionsForRows, receiveKnnProgress) => {
       const nonCachedRows = rows.filter(row => !this.cache.containsKey(row));
       console.log(`classifying nonCachedRows/rows: ${nonCachedRows.length}/${rows.length}`);
       classifier(
@@ -142,7 +155,8 @@ export class AppComponent implements OnInit {
             keys: rows
           });
           receivePredictionsForRows(predictions);
-        });
+        },
+        receiveKnnProgress);
     }
   }
 }

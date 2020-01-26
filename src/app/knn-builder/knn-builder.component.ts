@@ -56,7 +56,9 @@ export class KnnBuilderComponent implements OnInit {
   }
 
   private createKnnClassifier(knnWorkers) {
-    return (rows, receivePredictionsForRows) => {
+    // FK-TODO: Parameter als Object übergeben: { rows, receivePredictionsForRows, receiveKnnProgress = (workerIndex, actualIndexZeroBased, endIndexZeroBasedExclusive) => { } }
+    // FK-TODO: PArameter von receiveKnnProgress als Objekt übergeben: { workerIndex, actualIndexZeroBased, endIndexZeroBasedExclusive }
+    return (rows, receivePredictionsForRows, receiveKnnProgress = (workerIndex, actualIndexZeroBased, endIndexZeroBasedExclusive) => { }) => {
       const chunks = this.itemsIntoChunksSplitterService.splitItemsIntoChunks({
         numItems: rows.length,
         maxNumChunks: knnWorkers.length
@@ -75,7 +77,8 @@ export class KnnBuilderComponent implements OnInit {
               if (chunksOfPredictions.length === chunks.length) {
                 receivePredictionsForRows(this.combineChunksOfPredictions(chunksOfPredictions));
               }
-            });
+            },
+            receiveKnnProgress);
         });
       }
     };
@@ -102,7 +105,7 @@ export class KnnBuilderComponent implements OnInit {
     };
   }
 
-  private getKNearestNeighbors(knnWorker, knnWorkerIndex, X, receivePredictions) {
+  private getKNearestNeighbors(knnWorker, knnWorkerIndex, X, receivePredictions, receiveKnnProgress) {
     knnWorker.onmessage = event => {
       const { type, value } = event.data;
       switch (type) {
@@ -114,9 +117,7 @@ export class KnnBuilderComponent implements OnInit {
         }
         case 'progress': {
           const { actualIndexZeroBased, endIndexZeroBasedExclusive } = value;
-          console.log(`progress of ${knnWorkerIndex}: ${actualIndexZeroBased}/${endIndexZeroBasedExclusive}`);
-          // FK-TODO: displayKnnProgress
-          // displayKnnProgress(knnWorkerIndex, actualIndexZeroBased, endIndexZeroBasedExclusive);
+          receiveKnnProgress(knnWorkerIndex, actualIndexZeroBased, endIndexZeroBasedExclusive);
           break;
         }
       }
