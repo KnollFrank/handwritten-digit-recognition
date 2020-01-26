@@ -102,15 +102,17 @@ export class AppComponent implements OnInit {
     const cachingRowsRowsClassifier = this.getCachingRowsClassifier(this.knnClassifier);
     return (rows, receivePredictionsForRows) =>
       cachingRowsRowsClassifier(
-        rows,
-        receivePredictionsForRows,
-        ({ workerIndex, actualIndexZeroBased, endIndexZeroBasedExclusive }) =>
-          this.knnProgressComponent.setProgress(
-            {
-              progressElementIndexZeroBased: workerIndex,
-              actualIndexZeroBased,
-              endIndexZeroBasedExclusive
-            }));
+        {
+          rows,
+          receivePredictionsForRows,
+          receiveKnnProgress: ({ workerIndex, actualIndexZeroBased, endIndexZeroBasedExclusive }) =>
+            this.knnProgressComponent.setProgress(
+              {
+                progressElementIndexZeroBased: workerIndex,
+                actualIndexZeroBased,
+                endIndexZeroBasedExclusive
+              })
+        });
   }
 
   private displayTestDataset({ rowsClassifier, testDataset }) {
@@ -149,21 +151,23 @@ export class AppComponent implements OnInit {
   // FK-TODO: extract method
   private getCachingRowsClassifier(classifier) {
     // FK-TODO: bei jedem Aufruf der Methode getRowsClassifier() soll ein neuer, leerer Cache verwendet werden.
-    return (rows, receivePredictionsForRows, receiveKnnProgress) => {
+    return ({ rows, receivePredictionsForRows, receiveKnnProgress }) => {
       const nonCachedRows = rows.filter(row => !this.cache.containsKey(row));
       classifier(
-        nonCachedRows,
-        nonCachedPredictions => {
-          this.cache.cacheValuesForKeys({
-            keys: nonCachedRows,
-            values: nonCachedPredictions
-          });
-          const predictions = this.cache.getValuesForKeys({
-            keys: rows
-          });
-          receivePredictionsForRows(predictions);
-        },
-        receiveKnnProgress);
+        {
+          rows: nonCachedRows,
+          receivePredictionsForRows: nonCachedPredictions => {
+            this.cache.cacheValuesForKeys({
+              keys: nonCachedRows,
+              values: nonCachedPredictions
+            });
+            const predictions = this.cache.getValuesForKeys({
+              keys: rows
+            });
+            receivePredictionsForRows(predictions);
+          },
+          receiveKnnProgress
+        });
     }
   }
 }

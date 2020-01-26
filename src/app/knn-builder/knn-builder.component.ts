@@ -56,8 +56,7 @@ export class KnnBuilderComponent implements OnInit {
   }
 
   private createKnnClassifier(knnWorkers) {
-    // FK-TODO: Parameter als Object übergeben: { rows, receivePredictionsForRows, receiveKnnProgress = (workerIndex, actualIndexZeroBased, endIndexZeroBasedExclusive) => { } }
-    return (rows, receivePredictionsForRows, receiveKnnProgress = ({ workerIndex, actualIndexZeroBased, endIndexZeroBasedExclusive }) => { }) => {
+    return ({ rows, receivePredictionsForRows, receiveKnnProgress = ({ workerIndex, actualIndexZeroBased, endIndexZeroBasedExclusive }) => { } }) => {
       const chunks = this.itemsIntoChunksSplitterService.splitItemsIntoChunks({
         numItems: rows.length,
         maxNumChunks: knnWorkers.length
