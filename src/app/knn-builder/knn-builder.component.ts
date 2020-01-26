@@ -1,9 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ItemsIntoChunksSplitterService } from '../items-into-chunks-splitter.service';
+import { knnWorkers } from '../knnWorkers.js';
 
 declare var getClassValFromRow: any;
 declare var getIndependentValsFromRow: any;
-declare var knnWorkers: any;
 declare var getPredictionFromKNearestNeighbors: any;
 
 @Component({
@@ -64,8 +64,6 @@ export class KnnBuilderComponent implements OnInit {
       if (chunks.length === 0) {
         receivePredictionsForRows([]);
       } else {
-        // Fk-TODO: paralleles Auswerten der Testdaten mit Workern wieder einführen.
-        // createKnnProgressElements('knnProgress', knnWorkers.length);
         const chunksOfPredictions = [];
         chunks.forEach((chunk, i, chunks) => {
           this.getKNearestNeighbors(
@@ -116,6 +114,7 @@ export class KnnBuilderComponent implements OnInit {
         }
         case 'progress': {
           const { actualIndexZeroBased, endIndexZeroBasedExclusive } = value;
+          console.log(`progress: ${actualIndexZeroBased}/${endIndexZeroBasedExclusive}`);
           // displayKnnProgress(knnWorkerIndex, actualIndexZeroBased, endIndexZeroBasedExclusive);
           break;
         }
