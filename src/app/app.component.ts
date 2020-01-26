@@ -90,7 +90,7 @@ export class AppComponent implements OnInit {
         rows,
         receivePredictionsForRows,
         (workerIndex, actualIndexZeroBased, endIndexZeroBasedExclusive) =>
-          this.knnProgressComponent.setProgress({ workerIndexZeroBased: workerIndex, actualIndexZeroBased, endIndexZeroBasedExclusive }));
+          this.knnProgressComponent.setProgress({ progressElementIndexZeroBased: workerIndex, actualIndexZeroBased, endIndexZeroBasedExclusive }));
     this.accuracyCalculatorService.computeAccuracy(
       classifier,
       this.datasetDescription,

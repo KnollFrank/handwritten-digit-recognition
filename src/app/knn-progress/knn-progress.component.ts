@@ -19,9 +19,8 @@ export class KnnProgressComponent implements OnInit {
     }
   }
 
-  // FK-TODO: rename workerIndexZeroBased to progressElementIndexZeroBased
-  setProgress({ workerIndexZeroBased, actualIndexZeroBased, endIndexZeroBasedExclusive }) {
-    this.progress[workerIndexZeroBased].actualProgress = actualIndexZeroBased + 1;
-    this.progress[workerIndexZeroBased].maxProgress = endIndexZeroBasedExclusive;
+  setProgress({ progressElementIndexZeroBased: progressElementIndexZeroBased, actualIndexZeroBased, endIndexZeroBasedExclusive }) {
+    this.progress[progressElementIndexZeroBased].actualProgress = actualIndexZeroBased + 1;
+    this.progress[progressElementIndexZeroBased].maxProgress = endIndexZeroBasedExclusive;
   }
 }
