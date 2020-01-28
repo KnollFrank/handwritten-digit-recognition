@@ -30,6 +30,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // FK-TODO: DRY with knnWorkers.js
     this.numWorkers = window.navigator.hardwareConcurrency;
   }
 
