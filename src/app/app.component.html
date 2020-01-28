@@ -24,18 +24,18 @@
             <h3>4.1 Fortschritt</h3>
             <app-knn-progress [numProgessElements]="numWorkers"></app-knn-progress>
         </div>
-        <div *ngIf="accuracy " id="accuracy-panel ">
+        <div *ngIf="accuracy" id="accuracy-panel">
             <p>
                 <!-- FK-TODO: Accuracy sichtbarer anzeigen -->
                 Accuracy: {{accuracy}}%
             </p>
         </div>
-        <div id="testdata-panel ">
-            <section id="section-digits-test ">
+        <div id="testdata-panel">
+            <section id="section-digits-test">
                 <p>Die ersten {{firstNTestDigits2Display}} von {{totalNumberOfTestDigits}} Testdaten sind:</p>
-                <app-digits [digitDataset]="digitTestDataset "></app-digits>
+                <app-digits [digitDataset]="digitTestDataset"></app-digits>
             </section>
-            <div id="container-testDataSet "></div>
+            <div id="container-testDataSet"></div>
         </div>
     </section>
 </main>
