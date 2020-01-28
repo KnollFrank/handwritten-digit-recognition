@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { CacheService } from './cache.service';
 import { AccuracyCalculatorService } from './accuracy-calculator.service';
 import { KnnProgressComponent } from './knn-progress/knn-progress.component';
+import { environment } from 'src/environments/environment';
 
 declare var getIndependentValsFromRow: any;
 declare var getClassValFromRow: any;
@@ -30,8 +31,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // FK-TODO: DRY with knnWorkers.js
-    this.numWorkers = window.navigator.hardwareConcurrency;
+    this.numWorkers = environment.maxNumWorkers;
   }
 
   onReceiveDatasetDescription(datasetDescription) {
