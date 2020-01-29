@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ItemsIntoChunksSplitterService } from '../items-into-chunks-splitter.service';
 import { knnWorkers } from '../knn/knnWorkers.js';
+import { FormBuilder, Validators } from '@angular/forms';
 
 declare var getClassValFromRow: any;
 declare var getIndependentValsFromRow: any;
@@ -15,11 +16,13 @@ export class KnnBuilderComponent implements OnInit {
 
   @Input() datasetDescription;
 
-  k = 3;
+  knnForm = this.fb.group({
+    k: ['3', [Validators.required, Validators.min(1)]]
+  });
 
   @Output() knnClassifier = new EventEmitter();
 
-  constructor(private itemsIntoChunksSplitterService: ItemsIntoChunksSplitterService) { }
+  constructor(private itemsIntoChunksSplitterService: ItemsIntoChunksSplitterService, private fb: FormBuilder) { }
 
   ngOnInit() {
   }
@@ -28,13 +31,15 @@ export class KnnBuilderComponent implements OnInit {
     this.buildKnnClassifier(knnWorkers);
   }
 
+  get k() { return this.knnForm.get('k'); }
+
   private buildKnnClassifier(knnWorkers) {
     const fittedKnnWorkers = this.fitKnnWorkers(
       knnWorkers,
       {
         X: this.datasetDescription.splittedDataset.train.map(row => getIndependentValsFromRow(row, this.datasetDescription)),
         y: this.datasetDescription.splittedDataset.train.map(getClassValFromRow),
-        k: this.k
+        k: this.knnForm.value.k
       });
     this.knnClassifier.emit(this.createKnnClassifier(fittedKnnWorkers));
   }

@@ -1,18 +1,14 @@
-<form id="knnForm" (ngSubmit)="onSubmit()">
+<form id="knnForm" [formGroup]="knnForm" (ngSubmit)="onSubmit()">
     <div class="dataInputFields">
         <div>
             <label for="knn-k">k:</label>
-            <!-- FK-TODO: Validierung für k einbauen: integer k >= 1, siehe https://angular.io/guide/form-validation -->
-            <input required name="knn-k" id="knn-k" type="text" [(ngModel)]="k" #name="ngModel">
-            <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
-                <div *ngIf="name.errors.required">
-                    Name is required.
+            <input required min="1" formControlName="k" name="knn-k" id="knn-k" type="number">
+            <div *ngIf="k.invalid && (k.dirty || k.touched)" class="alert alert-danger">
+                <div *ngIf="k.errors.required">
+                    k is required.
                 </div>
-                <div *ngIf="name.errors.minlength">
-                    Name must be at least 4 characters long.
-                </div>
-                <div *ngIf="name.errors.forbiddenName">
-                    Name cannot be Bob.
+                <div *ngIf="k.errors.min">
+                    k must be >= 1.
                 </div>
             </div>
         </div>

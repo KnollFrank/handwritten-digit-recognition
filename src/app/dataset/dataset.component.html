@@ -1,4 +1,4 @@
-<form id="datasetForm" (ngSubmit)="onSubmit()">
+<form id="datasetForm" [formGroup]="datasetForm" (ngSubmit)="onSubmit()">
     <div class="dataInputFields">
         <div>
             <label for="csv-file">CSV-Datei:</label>
@@ -7,11 +7,11 @@
         <div id="kernelWidthAndHeight-inputFields">
             <label for="kernelWidthAndHeight">Ziffernbreite und -höhe verkleinern um den Faktor:</label>
             <!-- see https://stackblitz.com/edit/angular-7kzu8w?file=app%2Fapp.component.ts -->
-            <select type="number" name="kernelWidthAndHeight" [(ngModel)]="kernelWidthAndHeight" (ngModelChange)="toNumber()" id="kernelWidthAndHeight">
-              <option [ngValue]="1">1</option>
-              <option [ngValue]="2">2</option>
-              <option [ngValue]="4">4</option>
-              <option [ngValue]="7">7</option>
+            <select type="number" name="kernelWidthAndHeight" formControlName="kernelWidthAndHeight" id="kernelWidthAndHeight">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="4">4</option>
+              <option value="7">7</option>
           </select>
         </div>
     </div>

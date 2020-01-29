@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ImageService } from '../image.service';
+import { FormBuilder } from '@angular/forms';
 
 // FK-TODO: diese Funktionen in einem Service zur Verfügung stellen
 declare var getClassValFromRow: any;
@@ -14,17 +15,15 @@ export class DatasetComponent implements OnInit {
 
   @Output() onReceiveDatasetDescription = new EventEmitter();
 
-  kernelWidthAndHeight: number;
+  datasetForm = this.fb.group({
+    kernelWidthAndHeight: ['1']
+  });
+
   datasetDescription: any;
 
-  constructor(private imageService: ImageService) { }
+  constructor(private imageService: ImageService, private fb: FormBuilder) { }
 
   ngOnInit() {
-    this.kernelWidthAndHeight = 1;
-  }
-
-  toNumber() {
-    this.kernelWidthAndHeight = +this.kernelWidthAndHeight;
   }
 
   setDatasetDescription(datasetDescription) {
@@ -37,7 +36,7 @@ export class DatasetComponent implements OnInit {
 
   private getTransformedDatasetDescription() {
     return this.datasetDescription.isDigitDataset() ?
-      this.transform(this.datasetDescription, this.kernelWidthAndHeight) :
+      this.transform(this.datasetDescription, this.datasetForm.value.kernelWidthAndHeight) :
       this.datasetDescription;
   }
 
