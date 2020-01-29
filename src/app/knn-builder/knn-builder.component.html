@@ -3,7 +3,18 @@
         <div>
             <label for="knn-k">k:</label>
             <!-- FK-TODO: Validierung für k einbauen: integer k >= 1, siehe https://angular.io/guide/form-validation -->
-            <input name="knn-k" id="knn-k" type="text" [(ngModel)]="k">
+            <input required name="knn-k" id="knn-k" type="text" [(ngModel)]="k" #name="ngModel">
+            <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
+                <div *ngIf="name.errors.required">
+                    Name is required.
+                </div>
+                <div *ngIf="name.errors.minlength">
+                    Name must be at least 4 characters long.
+                </div>
+                <div *ngIf="name.errors.forbiddenName">
+                    Name cannot be Bob.
+                </div>
+            </div>
         </div>
     </div>
     <input type="submit" value="berechnen">
