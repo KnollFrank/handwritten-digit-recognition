@@ -28,14 +28,11 @@ export class PredictionComponent implements OnInit, AfterViewInit {
   private imageHeight: number;
 
   digitDataset: any;
-  src2DstFitter: Src2DstFitter;
-  src2DstFitterUsingBoundingBox: Src2DstFitterUsingBoundingBox;
+  src2DstFitter: any;
 
-  constructor(
-    private imageAlgosService: ImageAlgosService,
-    private canvasImageService: CanvasImageService) {
-    this.src2DstFitter = new Src2DstFitter(imageAlgosService, canvasImageService);
-    this.src2DstFitterUsingBoundingBox = new Src2DstFitterUsingBoundingBox(imageAlgosService, canvasImageService);
+  constructor(imageAlgosService: ImageAlgosService, private canvasImageService: CanvasImageService) {
+    // this.src2DstFitter = new Src2DstFitter(imageAlgosService, canvasImageService);
+    this.src2DstFitter = new Src2DstFitterUsingBoundingBox(imageAlgosService, canvasImageService);
   }
 
   ngOnInit() {
@@ -101,8 +98,7 @@ export class PredictionComponent implements OnInit, AfterViewInit {
   }
 
   private getPixels(digitImageData) {
-    this.src2DstFitterUsingBoundingBox.fitSrc2Dst({ srcImageData: digitImageData, dstCanvas: this.canvasSmall });
-    // this.src2DstFitter.fitSrc2Dst({ srcImageData: digitImageData, dstCanvas: this.canvasSmall });
+    this.src2DstFitter.fitSrc2Dst({ srcImageData: digitImageData, dstCanvas: this.canvasSmall });
     const ctxSmall = this.canvasSmall.getContext('2d');
     const imageData = ctxSmall.getImageData(0, 0, this.canvasSmall.width, this.canvasSmall.height);
     return this.canvasImageService.imageData2Pixels(imageData);
