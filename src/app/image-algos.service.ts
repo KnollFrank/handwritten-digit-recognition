@@ -43,6 +43,7 @@ export class ImageAlgosService {
     return { upperLeftCorner: newUpperLeftCorner, lowerRightCorner: newLowerRightCorner };
   }
 
+  // FK-TODO: introduce class BoundingBox with methods and use everywhere (also in other places, e.g. prediction.component.ts)
   public getBoundingBox(image) {
     let xMin = image.width;
     let xMax = 0;
