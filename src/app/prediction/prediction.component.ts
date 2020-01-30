@@ -134,7 +134,6 @@ export class PredictionComponent implements OnInit, AfterViewInit {
     return canvas;
   }
 
-
   private getCenter(imageData: any): Point {
     return new Point(imageData.width, imageData.height).mul(0.5);
   }
