@@ -22,6 +22,7 @@ export class ImageService {
         const getPixelWithinKernel =
           (kernelX, kernelY) => this.getPixel({
             image,
+            // FK-TODO: use Point class
             point: {
               x: x + kernelX,
               y: y + kernelY
@@ -29,6 +30,7 @@ export class ImageService {
           });
         this.putPixel({
           image: scaledImage,
+          // FK-TODO: use Point class
           point: {
             x: x / kernelWidthAndHeight,
             y: y / kernelWidthAndHeight

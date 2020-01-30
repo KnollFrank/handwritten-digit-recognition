@@ -31,10 +31,11 @@ export class CanvasImageService {
     ctx.putImageData(imageData, 0, 0);
   }
 
-  public *iterateOverImageData(imageData) {
+  private *iterateOverImageData(imageData) {
     for (let y = 0; y < imageData.height; y++) {
       for (let x = 0; x < imageData.width; x++) {
         const i = this.getArrayIndexOfPoint({ x, y }, imageData.width);
+        // FK-TODO: x, y in Point-Instanz zusammenfassen
         yield {
           x,
           y,
