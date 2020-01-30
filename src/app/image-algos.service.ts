@@ -34,14 +34,11 @@ export class ImageAlgosService {
   }
 
   // FK-TODO: refactor
-  private asQuadraticBoundingBox({ upperLeftCorner, lowerRightCorner }) {
-    const width = lowerRightCorner.x - upperLeftCorner.x;
-    const height = lowerRightCorner.y - upperLeftCorner.y;
-    const center = upperLeftCorner.add(new Point(width, height).mul(0.5));
-    const newWidthAndHeight = Math.max(width, height);
-    const newUpperLeftCorner = center.sub(new Point(newWidthAndHeight, newWidthAndHeight).mul(0.5));
-    const newLowerRightCorner = center.add(new Point(newWidthAndHeight, newWidthAndHeight).mul(0.5));
-    return { upperLeftCorner: newUpperLeftCorner, lowerRightCorner: newLowerRightCorner };
+  private asQuadraticBoundingBox(boundingBox: BoundingBox) {
+    const newWidthAndHeight = Math.max(boundingBox.width, boundingBox.height);
+    const newUpperLeftCorner = boundingBox.center.sub(new Point(newWidthAndHeight, newWidthAndHeight).mul(0.5));
+    const newLowerRightCorner = boundingBox.center.add(new Point(newWidthAndHeight, newWidthAndHeight).mul(0.5));
+    return BoundingBox.fromUpperLeftCornerAndLowerRightCorner(newUpperLeftCorner, newLowerRightCorner);
   }
 
   // FK-TODO: introduce class BoundingBox with methods and use everywhere (also in other places, e.g. prediction.component.ts)
