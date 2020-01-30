@@ -54,98 +54,98 @@ export class PredictionComponent implements OnInit, AfterViewInit {
       classifier({
         rows: [digit],
         receivePredictionsForRows: kNearestNeighborsWithPredictions => receivePredictionsForDigit(kNearestNeighborsWithPredictions[0])
-  });
-}
+      });
+  }
 
   private predictDrawnDigit(digitImageData) {
-  this.digitClassifier(
-    this.getPixels(digitImageData),
-    kNearestNeighborsWithPrediction => {
-      this.setPrediction(kNearestNeighborsWithPrediction.prediction);
-      this.digitDataset =
-        kNearestNeighborsWithPrediction.kNearestNeighbors.map(({ x, y }) =>
-          ({
-            width: this.imageWidth,
-            height: this.imageHeight,
-            figcaption: y,
-            image: x.concat(y)
-          }));
-    });
-}
+    this.digitClassifier(
+      this.getPixels(digitImageData),
+      kNearestNeighborsWithPrediction => {
+        this.setPrediction(kNearestNeighborsWithPrediction.prediction);
+        this.digitDataset =
+          kNearestNeighborsWithPrediction.kNearestNeighbors.map(({ x, y }) =>
+            ({
+              width: this.imageWidth,
+              height: this.imageHeight,
+              figcaption: y,
+              image: x.concat(y)
+            }));
+      });
+  }
 
   private setPrediction(predictedValue) {
-  this.canvasImageService.clearCanvas(this.digitCanvasBigResultOfPrediction);
-  this.printCenteredTextIntoCanvas(this.digitCanvasBigResultOfPrediction, predictedValue);
-}
+    this.canvasImageService.clearCanvas(this.digitCanvasBigResultOfPrediction);
+    this.printCenteredTextIntoCanvas(this.digitCanvasBigResultOfPrediction, predictedValue);
+  }
 
   private printCenteredTextIntoCanvas(canvas, text) {
-  const ctx = canvas.getContext('2d');
-  const fontSize = Math.min(canvas.width, canvas.height);
-  ctx.font = `${fontSize}px Verdana`;
-  ctx.textBaseline = 'middle';
-  ctx.textAlign = 'center';
-  ctx.fillText(text, canvas.width / 2, canvas.height / 2);
-}
+    const ctx = canvas.getContext('2d');
+    const fontSize = Math.min(canvas.width, canvas.height);
+    ctx.font = `${fontSize}px Verdana`;
+    ctx.textBaseline = 'middle';
+    ctx.textAlign = 'center';
+    ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+  }
 
   private prepareNewPrediction() {
-  this.clearCanvases();
-  this.digitDataset = [];
-  this.setPrediction('');
-}
+    this.clearCanvases();
+    this.digitDataset = [];
+    this.setPrediction('');
+  }
 
   private clearCanvases() {
-  this.freeHandDrawingTool.clearCanvas();
-  this.canvasImageService.clearCanvas(this.canvasSmall);
-}
+    this.freeHandDrawingTool.clearCanvas();
+    this.canvasImageService.clearCanvas(this.canvasSmall);
+  }
 
   private getPixels(digitImageData) {
-  this.fitSrc2Dst({ srcImageData: digitImageData, dstCanvas: this.canvasSmall });
-  const ctxSmall = this.canvasSmall.getContext('2d');
-  const imageData = ctxSmall.getImageData(0, 0, this.canvasSmall.width, this.canvasSmall.height);
-  return this.canvasImageService.imageData2Pixels(imageData);
-}
+    this.fitSrc2Dst({ srcImageData: digitImageData, dstCanvas: this.canvasSmall });
+    const ctxSmall = this.canvasSmall.getContext('2d');
+    const imageData = ctxSmall.getImageData(0, 0, this.canvasSmall.width, this.canvasSmall.height);
+    return this.canvasImageService.imageData2Pixels(imageData);
+  }
 
   private fitSrc2Dst({ srcImageData, dstCanvas }) {
-  const center = this.getCenterOfMassOfImageOrDefault({
-    imageData: srcImageData,
-    default: { x: srcImageData.width / 2, y: srcImageData.height / 2 }
-  });
+    const center = this.getCenterOfMassOfImageOrDefault({
+      imageData: srcImageData,
+      default: { x: srcImageData.width / 2, y: srcImageData.height / 2 }
+    });
 
-  const newCanvas = $('<canvas>')
-    .attr('width', srcImageData.width)
-    .attr('height', srcImageData.height)[0];
+    const newCanvas = $('<canvas>')
+      .attr('width', srcImageData.width)
+      .attr('height', srcImageData.height)[0];
 
-  newCanvas.getContext('2d').putImageData(
-    srcImageData, -(center.x - srcImageData.width / 2), -(center.y - srcImageData.height / 2));
+    newCanvas.getContext('2d').putImageData(
+      srcImageData, -(center.x - srcImageData.width / 2), -(center.y - srcImageData.height / 2));
 
-  // FK-TODO: refactor
-  const originalImageWidthAndHeight = 28;
-  const originalBoundingBoxWidthAndHeight = 20;
-  const kernelWidthAndHeight = originalImageWidthAndHeight / dstCanvas.width;
-  const boundingBoxWidthAndHeight = originalBoundingBoxWidthAndHeight / kernelWidthAndHeight;
-  this.drawScaledAndCenteredImageOntoCanvas({
-    canvas: dstCanvas,
-    image: newCanvas,
-    newImageWidthAndHeight: boundingBoxWidthAndHeight
-  });
-}
+    // FK-TODO: refactor
+    const originalImageWidthAndHeight = 28;
+    const originalBoundingBoxWidthAndHeight = 20;
+    const kernelWidthAndHeight = originalImageWidthAndHeight / dstCanvas.width;
+    const boundingBoxWidthAndHeight = originalBoundingBoxWidthAndHeight / kernelWidthAndHeight;
+    this.drawScaledAndCenteredImageOntoCanvas({
+      canvas: dstCanvas,
+      image: newCanvas,
+      newImageWidthAndHeight: boundingBoxWidthAndHeight
+    });
+  }
 
   private getCenterOfMassOfImageOrDefault({ imageData, default: defaultValue }) {
-  const centerOfMass = this.imageAlgosService.getCenterOfMass({
-    pixels: this.canvasImageService.imageData2Pixels(imageData),
-    width: imageData.width,
-    height: imageData.height
-  });
-  return centerOfMass || defaultValue;
-}
+    const centerOfMass = this.imageAlgosService.getCenterOfMass({
+      pixels: this.canvasImageService.imageData2Pixels(imageData),
+      width: imageData.width,
+      height: imageData.height
+    });
+    return centerOfMass || defaultValue;
+  }
 
   private drawScaledAndCenteredImageOntoCanvas({ canvas, image, newImageWidthAndHeight }) {
-  this.canvasImageService.clearCanvas(canvas);
-  canvas.getContext('2d').drawImage(
-    image,
-    (canvas.width - newImageWidthAndHeight) / 2,
-    (canvas.height - newImageWidthAndHeight) / 2,
-    newImageWidthAndHeight,
-    newImageWidthAndHeight);
-}
+    this.canvasImageService.clearCanvas(canvas);
+    canvas.getContext('2d').drawImage(
+      image,
+      (canvas.width - newImageWidthAndHeight) / 2,
+      (canvas.height - newImageWidthAndHeight) / 2,
+      newImageWidthAndHeight,
+      newImageWidthAndHeight);
+  }
 }
