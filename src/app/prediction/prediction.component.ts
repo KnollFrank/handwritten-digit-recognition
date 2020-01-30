@@ -100,6 +100,7 @@ export class PredictionComponent implements OnInit, AfterViewInit {
   }
 
   private getPixels(digitImageData) {
+    // this.fitSrc2DstUsingBoundingBox({ srcImageData: digitImageData, dstCanvas: this.canvasSmall });
     this.fitSrc2Dst({ srcImageData: digitImageData, dstCanvas: this.canvasSmall });
     const ctxSmall = this.canvasSmall.getContext('2d');
     const imageData = ctxSmall.getImageData(0, 0, this.canvasSmall.width, this.canvasSmall.height);
@@ -134,6 +135,41 @@ export class PredictionComponent implements OnInit, AfterViewInit {
     return canvas;
   }
 
+  private fitSrc2DstUsingBoundingBox({ srcImageData, dstCanvas }) {
+    // FK-TODO: refactor
+    const originalImageWidthAndHeight = 28;
+    const originalBoundingBoxWidthAndHeight = 20;
+    const kernelWidthAndHeight = originalImageWidthAndHeight / dstCanvas.width;
+    const boundingBoxWidthAndHeight = originalBoundingBoxWidthAndHeight / kernelWidthAndHeight;
+
+    const boundingBox =
+      this.imageAlgosService.getQuadraticBoundingBox(
+        this.createImage(srcImageData));
+
+    const canvas = this.createCanvas(srcImageData);
+    canvas.getContext('2d').putImageData(srcImageData, 0, 0);
+    this.drawScaledAndCenteredImageOntoCanvasBB({
+      image: canvas,
+      boundingBox,
+      canvas: dstCanvas,
+      newImageWidthAndHeight: boundingBoxWidthAndHeight
+    });
+  }
+
+  private drawScaledAndCenteredImageOntoCanvasBB({ image, boundingBox, canvas, newImageWidthAndHeight }) {
+    this.canvasImageService.clearCanvas(canvas);
+    const { upperLeftCorner, lowerRightCorner } = boundingBox;
+    const sx = upperLeftCorner.x;
+    const sy = upperLeftCorner.y;
+    const sWidth = lowerRightCorner.x - upperLeftCorner.x;
+    const sHeight = lowerRightCorner.y - upperLeftCorner.y;
+    const dWidth = newImageWidthAndHeight;
+    const dHeight = newImageWidthAndHeight;
+    const dx = (canvas.width - dWidth) / 2;
+    const dy = (canvas.height - dHeight) / 2;
+    canvas.getContext('2d').drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
+  }
+
   private getCenter(imageData: any): Point {
     return new Point(imageData.width, imageData.height).mul(0.5);
   }
@@ -150,11 +186,7 @@ export class PredictionComponent implements OnInit, AfterViewInit {
   }
 
   private getCenterOfMassOfImageOrDefault({ imageData, default: defaultValue }) {
-    const centerOfMass = this.imageAlgosService.getCenterOfMass({
-      pixels: this.canvasImageService.imageData2Pixels(imageData),
-      width: imageData.width,
-      height: imageData.height
-    });
+    const centerOfMass = this.imageAlgosService.getCenterOfMass(this.createImage(imageData));
     return centerOfMass || defaultValue;
   }
 
@@ -166,5 +198,13 @@ export class PredictionComponent implements OnInit, AfterViewInit {
       (canvas.height - newImageWidthAndHeight) / 2,
       newImageWidthAndHeight,
       newImageWidthAndHeight);
+  }
+
+  private createImage(imageData: any): any {
+    return {
+      pixels: this.canvasImageService.imageData2Pixels(imageData),
+      width: imageData.width,
+      height: imageData.height
+    };
   }
 }
