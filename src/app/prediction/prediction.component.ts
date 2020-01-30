@@ -107,15 +107,13 @@ export class PredictionComponent implements OnInit, AfterViewInit {
   }
 
   private fitSrc2Dst({ srcImageData, dstCanvas }) {
-    const srcCanvas = this.createCanvasWithCenteredImageData(srcImageData);
-
     // FK-TODO: refactor
     const originalImageWidthAndHeight = 28;
     const originalBoundingBoxWidthAndHeight = 20;
     const kernelWidthAndHeight = originalImageWidthAndHeight / dstCanvas.width;
     const boundingBoxWidthAndHeight = originalBoundingBoxWidthAndHeight / kernelWidthAndHeight;
     this.drawScaledAndCenteredImageOntoCanvas({
-      image: srcCanvas,
+      image: this.createCanvasWithCenteredImageData(srcImageData),
       canvas: dstCanvas,
       newImageWidthAndHeight: boundingBoxWidthAndHeight
     });
