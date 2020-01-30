@@ -36,18 +36,31 @@ export class Src2DstFitterUsingBoundingBox {
         return this.imageAlgosService.getQuadraticBoundingBox(this.canvasImageService.createImage(srcImageData));
     }
 
-    private drawBoundingBoxedImageOntoCanvas({ image, boundingBox, canvas, newImageWidthAndHeight }) {
+    private drawBoundingBoxedImageOntoCanvas({ image, boundingBox: sourceBoundingBox, canvas, newImageWidthAndHeight }) {
         this.canvasImageService.clearCanvas(canvas);
-        const boundingBoxNew = BoundingBox.fromUpperLeftCornerAndWidthAndHeight(new Point((canvas.width - newImageWidthAndHeight) / 2, (canvas.height - newImageWidthAndHeight) / 2), newImageWidthAndHeight, newImageWidthAndHeight);
+        this.drawImageOntoCanvas(
+            { image, sourceBoundingBox },
+            {
+                canvas,
+                destinationBoundingBox:
+                    BoundingBox.fromUpperLeftCornerAndWidthAndHeight(
+                        new Point(
+                            (canvas.width - newImageWidthAndHeight) / 2,
+                            (canvas.height - newImageWidthAndHeight) / 2),
+                        newImageWidthAndHeight, newImageWidthAndHeight)
+            });
+    }
+
+    private drawImageOntoCanvas({ image, sourceBoundingBox }, { canvas, destinationBoundingBox }) {
         canvas.getContext('2d').drawImage(
             image,
-            boundingBox.upperLeftCorner.x,
-            boundingBox.upperLeftCorner.y,
-            boundingBox.width,
-            boundingBox.height,
-            boundingBoxNew.upperLeftCorner.x,
-            boundingBoxNew.upperLeftCorner.y,
-            boundingBoxNew.width,
-            boundingBoxNew.height);
+            sourceBoundingBox.upperLeftCorner.x,
+            sourceBoundingBox.upperLeftCorner.y,
+            sourceBoundingBox.width,
+            sourceBoundingBox.height,
+            destinationBoundingBox.upperLeftCorner.x,
+            destinationBoundingBox.upperLeftCorner.y,
+            destinationBoundingBox.width,
+            destinationBoundingBox.height);
     }
 }
