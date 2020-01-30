@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanvasImageService } from './canvas-image.service';
+import { Point } from './point';
 
 @Injectable({
   providedIn: 'root'
@@ -22,19 +23,11 @@ export class ImageService {
         const getPixelWithinKernel =
           (kernelX, kernelY) => this.getPixel({
             image,
-            // FK-TODO: use Point class
-            point: {
-              x: x + kernelX,
-              y: y + kernelY
-            }
+            point: new Point(x + kernelX, y + kernelY)
           });
         this.putPixel({
           image: scaledImage,
-          // FK-TODO: use Point class
-          point: {
-            x: x / kernelWidthAndHeight,
-            y: y / kernelWidthAndHeight
-          },
+          point: new Point(x, y).mul(1 / kernelWidthAndHeight),
           pixel: this.getAveragePixelValueWithinKernel(kernelWidthAndHeight, getPixelWithinKernel)
         });
       }
