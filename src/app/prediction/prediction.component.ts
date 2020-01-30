@@ -123,7 +123,7 @@ export class PredictionComponent implements OnInit, AfterViewInit {
 
   private createCanvasWithCenteredImageData(imageData) {
     const canvas = this.createCanvas({ width: imageData.width, height: imageData.height });
-    this.drawCenteredImageIntoCanvas(
+    this.drawCenteredImageDataIntoCanvas(
       {
         centerOfImageData: this.getCenterOfMassOfImageOrDefault(
           {
@@ -141,7 +141,7 @@ export class PredictionComponent implements OnInit, AfterViewInit {
     return new Point(imageData.width, imageData.height).mul(0.5);
   }
 
-  private drawCenteredImageIntoCanvas({ centerOfImageData, imageData, canvas }) {
+  private drawCenteredImageDataIntoCanvas({ centerOfImageData, imageData, canvas }) {
     const topLeftPoint = this.getCenter(imageData).sub(centerOfImageData);
     canvas.getContext('2d').putImageData(imageData, topLeftPoint.x, topLeftPoint.y);
   }
