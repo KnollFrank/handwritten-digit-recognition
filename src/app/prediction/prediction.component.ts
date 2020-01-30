@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { ImageAlgosService } from '../image-algos.service';
 import { CanvasImageService } from '../canvas-image.service';
+import { Point } from '../point';
 
 declare var $: any;
 
@@ -106,7 +107,7 @@ export class PredictionComponent implements OnInit, AfterViewInit {
   }
 
   private fitSrc2Dst({ srcImageData, dstCanvas }) {
-    const center = this.getCenterOfMassOfImageOrDefault({
+    const centerOfMass = this.getCenterOfMassOfImageOrDefault({
       imageData: srcImageData,
       default: { x: srcImageData.width / 2, y: srcImageData.height / 2 }
     });
@@ -115,8 +116,9 @@ export class PredictionComponent implements OnInit, AfterViewInit {
       .attr('width', srcImageData.width)
       .attr('height', srcImageData.height)[0];
 
-    newCanvas.getContext('2d').putImageData(
-      srcImageData, -(center.x - srcImageData.width / 2), -(center.y - srcImageData.height / 2));
+    const imageCenter = new Point(srcImageData.width, srcImageData.height).mul(0.5);
+    const topLeftPoint = imageCenter.sub(centerOfMass);
+    newCanvas.getContext('2d').putImageData(srcImageData, topLeftPoint.x, topLeftPoint.y);
 
     // FK-TODO: refactor
     const originalImageWidthAndHeight = 28;
