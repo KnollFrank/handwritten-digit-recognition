@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, Output, EventEmitter } from '@angular/core';
 import { CanvasImageService } from '../canvas-image.service';
+import { Point } from '../point';
 
 @Component({
   selector: 'app-free-hand-drawing-tool',
@@ -15,8 +16,8 @@ export class FreeHandDrawingToolComponent implements OnInit, AfterViewInit {
 
   private ctx: CanvasRenderingContext2D;
 
-  private lastMouse = { x: 0, y: 0 };
-  private mouse = { x: 0, y: 0 };
+  private lastMouse = new Point(0, 0);
+  private mouse = new Point(0, 0);
   private isMousedown = false;
 
   constructor(private canvasImageService: CanvasImageService) { }
@@ -60,16 +61,17 @@ export class FreeHandDrawingToolComponent implements OnInit, AfterViewInit {
     this.freeHandDrawnImageData.emit(imageData);
   }
 
-  // taken from https://stackoverflow.com/questions/17130395/real-mouse-position-in-canvas
+  // adapted from https://stackoverflow.com/questions/17130395/real-mouse-position-in-canvas
   private getMousePos(evt) {
     const rect = this.canvas.getBoundingClientRect(); // abs. size of element
     const scaleX = this.canvas.width / rect.width; // relationship bitmap vs. element for X
     const scaleY = this.canvas.height / rect.height; // relationship bitmap vs. element for Y
 
-    return {
-      x: (evt.clientX - rect.left) * scaleX, // scale mouse coordinates after they have
-      y: (evt.clientY - rect.top) * scaleY // been adjusted to be relative to element
-    };
+    // scale mouse coordinates after they have been adjusted to be relative to element
+    return new Point(
+      (evt.clientX - rect.left) * scaleX,
+      (evt.clientY - rect.top) * scaleY
+    );
   }
 
   public clearCanvas() {
