@@ -1,11 +1,19 @@
 import { Injectable } from '@angular/core';
 
+declare var $: any;
+
 @Injectable({
   providedIn: 'root'
 })
 export class CanvasImageService {
 
   constructor() { }
+
+  public createCanvas({ width, height }) {
+    return $('<canvas>')
+      .attr('width', width)
+      .attr('height', height)[0];
+  }
 
   public clearCanvas(canvas) {
     canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);

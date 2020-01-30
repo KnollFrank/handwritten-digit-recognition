@@ -3,8 +3,6 @@ import { ImageAlgosService } from '../image-algos.service';
 import { CanvasImageService } from '../canvas-image.service';
 import { Point } from '../point';
 
-declare var $: any;
-
 @Component({
   selector: 'app-prediction',
   templateUrl: './prediction.component.html',
@@ -100,8 +98,8 @@ export class PredictionComponent implements OnInit, AfterViewInit {
   }
 
   private getPixels(digitImageData) {
-    // this.fitSrc2DstUsingBoundingBox({ srcImageData: digitImageData, dstCanvas: this.canvasSmall });
-    this.fitSrc2Dst({ srcImageData: digitImageData, dstCanvas: this.canvasSmall });
+    this.fitSrc2DstUsingBoundingBox({ srcImageData: digitImageData, dstCanvas: this.canvasSmall });
+    // this.fitSrc2Dst({ srcImageData: digitImageData, dstCanvas: this.canvasSmall });
     const ctxSmall = this.canvasSmall.getContext('2d');
     const imageData = ctxSmall.getImageData(0, 0, this.canvasSmall.width, this.canvasSmall.height);
     return this.canvasImageService.imageData2Pixels(imageData);
@@ -121,7 +119,7 @@ export class PredictionComponent implements OnInit, AfterViewInit {
   }
 
   private createCanvasWithCenteredImageData(imageData) {
-    const canvas = this.createCanvas({ width: imageData.width, height: imageData.height });
+    const canvas = this.canvasImageService.createCanvas({ width: imageData.width, height: imageData.height });
     this.drawCenteredImageDataIntoCanvas(
       {
         centerOfImageData: this.getCenterOfMassOfImageOrDefault(
@@ -146,7 +144,7 @@ export class PredictionComponent implements OnInit, AfterViewInit {
       this.imageAlgosService.getQuadraticBoundingBox(
         this.createImage(srcImageData));
 
-    const canvas = this.createCanvas(srcImageData);
+    const canvas = this.canvasImageService.createCanvas(srcImageData);
     canvas.getContext('2d').putImageData(srcImageData, 0, 0);
     this.drawScaledAndCenteredImageOntoCanvasBB({
       image: canvas,
@@ -177,12 +175,6 @@ export class PredictionComponent implements OnInit, AfterViewInit {
   private drawCenteredImageDataIntoCanvas({ centerOfImageData, imageData, canvas }) {
     const topLeftPoint = this.getCenter(imageData).sub(centerOfImageData);
     canvas.getContext('2d').putImageData(imageData, topLeftPoint.x, topLeftPoint.y);
-  }
-
-  private createCanvas({ width, height }) {
-    return $('<canvas>')
-      .attr('width', width)
-      .attr('height', height)[0];
   }
 
   private getCenterOfMassOfImageOrDefault({ imageData, default: defaultValue }) {
