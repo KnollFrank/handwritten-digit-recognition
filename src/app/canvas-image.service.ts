@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Point } from './point';
 
 declare var $: any;
 
@@ -45,8 +46,7 @@ export class CanvasImageService {
         const i = this.getArrayIndexOfPoint({ x, y }, imageData.width);
         // FK-TODO: x, y in Point-Instanz zusammenfassen
         yield {
-          x,
-          y,
+          point: new Point(x, y),
           pixelIndex: i,
           color_index: {
             red: i * 4 + 0,
