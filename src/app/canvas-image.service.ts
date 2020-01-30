@@ -62,4 +62,12 @@ export class CanvasImageService {
   public getArrayIndexOfPoint(point, width) {
     return point.y * width + point.x;
   }
+
+  public createImage(imageData: any): any {
+    return {
+      pixels: this.imageData2Pixels(imageData),
+      width: imageData.width,
+      height: imageData.height
+    };
+  }
 }
