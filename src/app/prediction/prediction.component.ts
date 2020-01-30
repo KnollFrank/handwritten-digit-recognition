@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { ImageAlgosService } from '../image-algos.service';
 import { CanvasImageService } from '../canvas-image.service';
-import { Point } from '../point';
 import { Src2DstFitter } from './src2DstFitter';
 import { Src2DstFitterUsingBoundingBox } from './src2DstFitterUsingBoundingBox';
 
