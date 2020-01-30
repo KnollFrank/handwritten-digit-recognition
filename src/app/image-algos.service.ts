@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanvasImageService } from './canvas-image.service';
 import { ImageService } from './image.service';
 import { Point } from './point';
+import { BoundingBox } from './boundingBox';
 
 @Injectable({
   providedIn: 'root'
@@ -65,7 +66,7 @@ export class ImageAlgosService {
       }
     }
 
-    return { upperLeftCorner: new Point(xMin, yMin), lowerRightCorner: new Point(xMax, yMax) };
+    return BoundingBox.fromUpperLeftCornerAndLowerRightCorner(new Point(xMin, yMin), new Point(xMax, yMax));
   }
 
   private *iterateOverFilteredImage(image, filter) {
