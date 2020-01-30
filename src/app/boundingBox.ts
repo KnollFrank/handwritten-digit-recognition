@@ -21,6 +21,11 @@ export class BoundingBox {
         return new BoundingBox(upperLeftCorner, lowerRightCorner);
     }
 
+    public static fromUpperLeftCornerAndWidthAndHeight(upperLeftCorner: Point, width: number, height: number) {
+        const lowerRightCorner = upperLeftCorner.add(new Point(width, height));
+        return BoundingBox.fromUpperLeftCornerAndLowerRightCorner(upperLeftCorner, lowerRightCorner);
+    }
+
     public static fromCenterAndWidthAndHeight(center: Point, width: number, height: number) {
         const upperLeftCorner = center.sub(new Point(width, height).mul(0.5));
         const lowerRightCorner = center.add(new Point(width, height).mul(0.5));

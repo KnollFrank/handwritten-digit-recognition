@@ -1,5 +1,7 @@
 import { ImageAlgosService } from '../image-algos.service';
 import { CanvasImageService } from '../canvas-image.service';
+import { BoundingBox } from '../boundingBox';
+import { Point } from '../point';
 
 export class Src2DstFitterUsingBoundingBox {
 
@@ -36,15 +38,16 @@ export class Src2DstFitterUsingBoundingBox {
 
     private drawBoundingBoxedImageOntoCanvas({ image, boundingBox, canvas, newImageWidthAndHeight }) {
         this.canvasImageService.clearCanvas(canvas);
-        const { upperLeftCorner, lowerRightCorner } = boundingBox;
-        const sx = upperLeftCorner.x;
-        const sy = upperLeftCorner.y;
-        const sWidth = lowerRightCorner.x - upperLeftCorner.x;
-        const sHeight = lowerRightCorner.y - upperLeftCorner.y;
-        const dWidth = newImageWidthAndHeight;
-        const dHeight = newImageWidthAndHeight;
-        const dx = (canvas.width - dWidth) / 2;
-        const dy = (canvas.height - dHeight) / 2;
-        canvas.getContext('2d').drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
+        const boundingBoxNew = BoundingBox.fromUpperLeftCornerAndWidthAndHeight(new Point((canvas.width - newImageWidthAndHeight) / 2, (canvas.height - newImageWidthAndHeight) / 2), newImageWidthAndHeight, newImageWidthAndHeight);
+        canvas.getContext('2d').drawImage(
+            image,
+            boundingBox.upperLeftCorner.x,
+            boundingBox.upperLeftCorner.y,
+            boundingBox.width,
+            boundingBox.height,
+            boundingBoxNew.upperLeftCorner.x,
+            boundingBoxNew.upperLeftCorner.y,
+            boundingBoxNew.width,
+            boundingBoxNew.height);
     }
 }
