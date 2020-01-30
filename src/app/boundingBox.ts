@@ -20,4 +20,10 @@ export class BoundingBox {
     public static fromUpperLeftCornerAndLowerRightCorner(upperLeftCorner: Point, lowerRightCorner: Point) {
         return new BoundingBox(upperLeftCorner, lowerRightCorner);
     }
+
+    public static fromCenterAndWidthAndHeight(center: Point, width: number, height: number) {
+        const upperLeftCorner = center.sub(new Point(width, height).mul(0.5));
+        const lowerRightCorner = center.add(new Point(width, height).mul(0.5));
+        return BoundingBox.fromUpperLeftCornerAndLowerRightCorner(upperLeftCorner, lowerRightCorner);
+    }
 }

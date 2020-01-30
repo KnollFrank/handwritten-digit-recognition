@@ -33,16 +33,13 @@ export class ImageAlgosService {
     return this.asQuadraticBoundingBox(this.getBoundingBox(image));
   }
 
-  // FK-TODO: refactor
-  private asQuadraticBoundingBox(boundingBox: BoundingBox) {
-    const newWidthAndHeight = Math.max(boundingBox.width, boundingBox.height);
-    const newUpperLeftCorner = boundingBox.center.sub(new Point(newWidthAndHeight, newWidthAndHeight).mul(0.5));
-    const newLowerRightCorner = boundingBox.center.add(new Point(newWidthAndHeight, newWidthAndHeight).mul(0.5));
-    return BoundingBox.fromUpperLeftCornerAndLowerRightCorner(newUpperLeftCorner, newLowerRightCorner);
+  private asQuadraticBoundingBox(boundingBox: BoundingBox): BoundingBox {
+    const widthAndHeight = Math.max(boundingBox.width, boundingBox.height);
+    return BoundingBox.fromCenterAndWidthAndHeight(boundingBox.center, widthAndHeight, widthAndHeight);
   }
 
   // FK-TODO: introduce class BoundingBox with methods and use everywhere (also in other places, e.g. prediction.component.ts)
-  public getBoundingBox(image) {
+  public getBoundingBox(image): BoundingBox {
     let xMin = image.width;
     let xMax = 0;
     let yMin = image.height;
