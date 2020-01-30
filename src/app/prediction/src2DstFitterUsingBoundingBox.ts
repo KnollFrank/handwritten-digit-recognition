@@ -44,10 +44,11 @@ export class Src2DstFitterUsingBoundingBox {
                 canvas,
                 destinationBoundingBox:
                     BoundingBox.fromUpperLeftCornerAndWidthAndHeight(
-                        new Point(
-                            (canvas.width - newImageWidthAndHeight) / 2,
-                            (canvas.height - newImageWidthAndHeight) / 2),
-                        newImageWidthAndHeight, newImageWidthAndHeight)
+                        new Point(canvas.width, canvas.height)
+                            .sub(new Point(newImageWidthAndHeight, newImageWidthAndHeight))
+                            .mul(0.5),
+                        newImageWidthAndHeight,
+                        newImageWidthAndHeight)
             });
     }
 
