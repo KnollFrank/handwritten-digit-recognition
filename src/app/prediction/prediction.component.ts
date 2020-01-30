@@ -107,18 +107,7 @@ export class PredictionComponent implements OnInit, AfterViewInit {
   }
 
   private fitSrc2Dst({ srcImageData, dstCanvas }) {
-    const centerOfMass = this.getCenterOfMassOfImageOrDefault({
-      imageData: srcImageData,
-      default: { x: srcImageData.width / 2, y: srcImageData.height / 2 }
-    });
-
-    const newCanvas = $('<canvas>')
-      .attr('width', srcImageData.width)
-      .attr('height', srcImageData.height)[0];
-
-    const imageCenter = new Point(srcImageData.width, srcImageData.height).mul(0.5);
-    const topLeftPoint = imageCenter.sub(centerOfMass);
-    newCanvas.getContext('2d').putImageData(srcImageData, topLeftPoint.x, topLeftPoint.y);
+    const newCanvas = this.createCanvasWithCenteredImageData(srcImageData);
 
     // FK-TODO: refactor
     const originalImageWidthAndHeight = 28;
@@ -130,6 +119,37 @@ export class PredictionComponent implements OnInit, AfterViewInit {
       image: newCanvas,
       newImageWidthAndHeight: boundingBoxWidthAndHeight
     });
+  }
+
+  private createCanvasWithCenteredImageData(imageData) {
+    const canvas = this.createCanvas({ width: imageData.width, height: imageData.height });
+    this.drawCenteredImageIntoCanvas(
+      {
+        centerOfImageData: this.getCenterOfMassOfImageOrDefault(
+          {
+            imageData,
+            default: this.getCenter(imageData)
+          }),
+        imageData,
+        canvas
+      });
+    return canvas;
+  }
+
+
+  private getCenter(imageData: any): Point {
+    return new Point(imageData.width, imageData.height).mul(0.5);
+  }
+
+  private drawCenteredImageIntoCanvas({ centerOfImageData, imageData, canvas }) {
+    const topLeftPoint = this.getCenter(imageData).sub(centerOfImageData);
+    canvas.getContext('2d').putImageData(imageData, topLeftPoint.x, topLeftPoint.y);
+  }
+
+  private createCanvas({ width, height }) {
+    return $('<canvas>')
+      .attr('width', width)
+      .attr('height', height)[0];
   }
 
   private getCenterOfMassOfImageOrDefault({ imageData, default: defaultValue }) {
