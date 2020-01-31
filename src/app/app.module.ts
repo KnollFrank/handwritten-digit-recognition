@@ -12,6 +12,7 @@ import { KnnBuilderComponent } from './knn-builder/knn-builder.component';
 import { PredictionComponent } from './prediction/prediction.component';
 import { FreeHandDrawingToolComponent } from './free-hand-drawing-tool/free-hand-drawing-tool.component';
 import { KnnProgressComponent } from './knn-progress/knn-progress.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { KnnProgressComponent } from './knn-progress/knn-progress.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
