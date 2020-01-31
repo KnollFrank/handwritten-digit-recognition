@@ -174,6 +174,6 @@ export class AppComponent implements OnInit {
           },
           receiveKnnProgress
         });
-    }
+    };
   }
 }
