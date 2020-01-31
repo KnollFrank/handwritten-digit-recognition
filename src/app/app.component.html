@@ -12,7 +12,7 @@
     </section>
     <section *ngIf="datasetDescription" id="section-KNN">
         <h2>2. k nächste Nachbarn</h2>
-        <app-knn-builder [datasetDescription]="datasetDescription" (knnClassifier)="onReceiveKnnClassifier($event)"></app-knn-builder>
+        <app-knn-builder #knnBuilder [datasetDescription]="datasetDescription" (knnClassifier)="onReceiveKnnClassifier($event)"></app-knn-builder>
     </section>
     <section *ngIf="knnClassifier" id="section-data-input">
         <h2>3. Vorhersage</h2>

@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Cache } from './cache';
 import { AccuracyCalculatorService } from './accuracy-calculator.service';
 import { KnnProgressComponent } from './knn-progress/knn-progress.component';
 import { environment } from 'src/environments/environment';
+import { KnnBuilderComponent } from './knn-builder/knn-builder.component';
 
 declare var getIndependentValsFromRow: any;
 declare var getClassValFromRow: any;
@@ -26,6 +26,8 @@ export class AppComponent implements OnInit {
   testdataEvaluated = false;
 
   @ViewChild(KnnProgressComponent, { static: false }) knnProgressComponent: KnnProgressComponent;
+
+  @ViewChild(KnnBuilderComponent, { static: false }) knnBuilder: KnnBuilderComponent;
 
   constructor(private accuracyCalculatorService: AccuracyCalculatorService) {
   }
@@ -102,7 +104,7 @@ export class AppComponent implements OnInit {
   }
 
   private getCachingAndProgressDisplayingRowsClassifier() {
-    const cachingRowsClassifier = this.getCachingRowsClassifier(this.knnClassifier);
+    const cachingRowsClassifier = this.knnBuilder.getCachingRowsClassifier(this.knnClassifier);
     return (rows, receivePredictionsForRows) =>
       cachingRowsClassifier(
         {
@@ -152,28 +154,5 @@ export class AppComponent implements OnInit {
 
   private getPredictions(kNearestNeighborssWithPredictions) {
     return kNearestNeighborssWithPredictions.map(({ prediction }) => prediction);
-  }
-
-  // FK-TODO: extract method
-  private getCachingRowsClassifier(classifier) {
-    const cache = new Cache();
-    return ({ rows, receivePredictionsForRows, receiveKnnProgress }) => {
-      const nonCachedRows = rows.filter(row => !cache.containsKey(row));
-      classifier(
-        {
-          rows: nonCachedRows,
-          receivePredictionsForRows: nonCachedPredictions => {
-            cache.cacheValuesForKeys({
-              keys: nonCachedRows,
-              values: nonCachedPredictions
-            });
-            const predictions = cache.getValuesForKeys({
-              keys: rows
-            });
-            receivePredictionsForRows(predictions);
-          },
-          receiveKnnProgress
-        });
-    };
   }
 }

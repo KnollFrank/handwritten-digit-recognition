@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ItemsIntoChunksSplitterService } from '../items-into-chunks-splitter.service';
 import { knnWorkers } from '../knn/knnWorkers.js';
 import { FormBuilder, Validators } from '@angular/forms';
+import { Cache } from '../cache';
 
 declare var getClassValFromRow: any;
 declare var getIndependentValsFromRow: any;
@@ -155,5 +156,27 @@ export class KnnBuilderComponent implements OnInit {
     for (let i = zeroBasedStartIndexOfChunk; i < zeroBasedEndIndexExclusiveOfChunk; i++) {
       predictions[i] = chunkOfPredictions.kNearestNeighborssWithPredictions[i - zeroBasedStartIndexOfChunk];
     }
+  }
+
+  public getCachingRowsClassifier(classifier) {
+    const cache = new Cache();
+    return ({ rows, receivePredictionsForRows, receiveKnnProgress }) => {
+      const nonCachedRows = rows.filter(row => !cache.containsKey(row));
+      classifier(
+        {
+          rows: nonCachedRows,
+          receivePredictionsForRows: nonCachedPredictions => {
+            cache.cacheValuesForKeys({
+              keys: nonCachedRows,
+              values: nonCachedPredictions
+            });
+            const predictions = cache.getValuesForKeys({
+              keys: rows
+            });
+            receivePredictionsForRows(predictions);
+          },
+          receiveKnnProgress
+        });
+    };
   }
 }
