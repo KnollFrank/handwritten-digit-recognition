@@ -2,15 +2,8 @@ import { Injectable } from '@angular/core';
 
 declare var zip: any;
 
-@Injectable({
-  providedIn: 'root'
-})
-export class CacheService {
-  cache: {};
-
-  constructor() {
-    this.cache = {};
-  }
+export class Cache {
+  cache = {};
 
   get(key, computeValue) {
     // FK-TODO: Vergleich geht glaube ich über eine Stringkonvertierung des keys, was nicht gut ist. Anders prüfen mit compareFlatArrays().

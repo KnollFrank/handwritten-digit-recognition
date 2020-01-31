@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { CacheService } from './cache.service';
+import { Cache } from './cache';
 import { AccuracyCalculatorService } from './accuracy-calculator.service';
 import { KnnProgressComponent } from './knn-progress/knn-progress.component';
 import { environment } from 'src/environments/environment';
@@ -27,7 +27,7 @@ export class AppComponent implements OnInit {
 
   @ViewChild(KnnProgressComponent, { static: false }) knnProgressComponent: KnnProgressComponent;
 
-  constructor(private cache: CacheService, private accuracyCalculatorService: AccuracyCalculatorService) {
+  constructor(private accuracyCalculatorService: AccuracyCalculatorService) {
   }
 
   ngOnInit(): void {
@@ -156,18 +156,18 @@ export class AppComponent implements OnInit {
 
   // FK-TODO: extract method
   private getCachingRowsClassifier(classifier) {
-    // FK-TODO: bei jedem Aufruf der Methode getRowsClassifier() soll ein neuer, leerer Cache verwendet werden.
+    const cache = new Cache();
     return ({ rows, receivePredictionsForRows, receiveKnnProgress }) => {
-      const nonCachedRows = rows.filter(row => !this.cache.containsKey(row));
+      const nonCachedRows = rows.filter(row => !cache.containsKey(row));
       classifier(
         {
           rows: nonCachedRows,
           receivePredictionsForRows: nonCachedPredictions => {
-            this.cache.cacheValuesForKeys({
+            cache.cacheValuesForKeys({
               keys: nonCachedRows,
               values: nonCachedPredictions
             });
-            const predictions = this.cache.getValuesForKeys({
+            const predictions = cache.getValuesForKeys({
               keys: rows
             });
             receivePredictionsForRows(predictions);
