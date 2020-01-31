@@ -6,16 +6,15 @@ export class Src2DstFitter {
 
     constructor(
         private imageAlgosService: ImageAlgosService,
-        private canvasImageService: CanvasImageService) {
+        private canvasImageService: CanvasImageService,
+        private kernelWidthAndHeight) {
 
     }
 
     public fitSrc2Dst({ srcImageData, dstCanvas }) {
         // FK-TODO: refactor
-        const originalImageWidthAndHeight = 28;
         const originalBoundingBoxWidthAndHeight = 20;
-        const kernelWidthAndHeight = originalImageWidthAndHeight / dstCanvas.width;
-        const boundingBoxWidthAndHeight = originalBoundingBoxWidthAndHeight / kernelWidthAndHeight;
+        const boundingBoxWidthAndHeight = originalBoundingBoxWidthAndHeight / this.kernelWidthAndHeight;
         this.drawScaledAndCenteredImageOntoCanvas({
             image: this.createCanvasWithCenteredImageData(srcImageData),
             canvas: dstCanvas,

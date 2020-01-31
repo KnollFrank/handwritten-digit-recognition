@@ -42,7 +42,7 @@ export class DatasetComponent implements OnInit {
 
   private transform(datasetDescription, kernelWidthAndHeight) {
     const getScaledImageForRow = row => {
-      const strings2Numbers = strings => strings.map(string => Number(string));
+      const strings2Numbers = strs => strs.map(str => Number(str));
 
       return this.imageService.getScaledImage({
         image: {
@@ -55,7 +55,7 @@ export class DatasetComponent implements OnInit {
     };
 
     const transform = row => getScaledImageForRow(row).pixels.concat(getClassValFromRow(row));
-    const someTransformedImage = getScaledImageForRow(datasetDescription.splittedDataset.train[0])
+    const someTransformedImage = getScaledImageForRow(datasetDescription.splittedDataset.train[0]);
 
     const transformedDatasetDescription = {
       fileName: datasetDescription.fileName,
@@ -71,6 +71,7 @@ export class DatasetComponent implements OnInit {
         test: datasetDescription.splittedDataset.test.map(transform)
       },
       isDigitDataset: datasetDescription.isDigitDataset,
+      kernelWidthAndHeight: Number(kernelWidthAndHeight),
       imageWidth: someTransformedImage.width,
       imageHeight: someTransformedImage.height
     };

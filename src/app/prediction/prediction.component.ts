@@ -12,6 +12,8 @@ import { Src2DstFitterUsingBoundingBox } from './src2DstFitterUsingBoundingBox';
 export class PredictionComponent implements OnInit, AfterViewInit {
 
   @Input() knnClassifier;
+  @Input() kernelWidthAndHeight;
+
   digitClassifier: (digit: any, receivePredictionsForDigit: any) => any;
 
   @Input() datasetDescription;
@@ -31,12 +33,13 @@ export class PredictionComponent implements OnInit, AfterViewInit {
   digitDataset: any;
   src2DstFitter: any;
 
-  constructor(imageAlgosService: ImageAlgosService, private canvasImageService: CanvasImageService) {
-    // this.src2DstFitter = new Src2DstFitter(imageAlgosService, canvasImageService);
-    this.src2DstFitter = new Src2DstFitterUsingBoundingBox(imageAlgosService, canvasImageService);
+  constructor(private imageAlgosService: ImageAlgosService, private canvasImageService: CanvasImageService) {
   }
 
   ngOnInit() {
+    // this.src2DstFitter = new Src2DstFitter(this.imageAlgosService, this.canvasImageService, this.kernelWidthAndHeight);
+    this.src2DstFitter = new Src2DstFitterUsingBoundingBox(this.imageAlgosService, this.canvasImageService, this.kernelWidthAndHeight);
+
     this.digitClassifier = this.getDigitClassifier(this.knnClassifier);
     this.imageWidth = this.datasetDescription.imageWidth;
     this.imageHeight = this.datasetDescription.imageHeight;

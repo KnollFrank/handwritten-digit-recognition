@@ -16,7 +16,7 @@
     </section>
     <section *ngIf="knnClassifier" id="section-data-input">
         <h2>3. Vorhersage</h2>
-        <app-prediction *ngIf="knnClassifier" [knnClassifier]="knnClassifier" [datasetDescription]="datasetDescription"></app-prediction>
+        <app-prediction *ngIf="knnClassifier" [kernelWidthAndHeight]="datasetDescription.kernelWidthAndHeight" [knnClassifier]="knnClassifier" [datasetDescription]="datasetDescription"></app-prediction>
     </section>
     <section *ngIf="knnClassifier" id="section-testdata">
         <h2>4. Testdaten</h2>
