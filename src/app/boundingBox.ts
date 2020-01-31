@@ -1,4 +1,5 @@
 import { Point } from './point'
+import { Dimension } from './dimension';
 
 export class BoundingBox {
 
@@ -21,14 +22,15 @@ export class BoundingBox {
         return new BoundingBox(upperLeftCorner, lowerRightCorner);
     }
 
-    public static fromUpperLeftCornerAndWidthAndHeight(upperLeftCorner: Point, width: number, height: number) {
-        const lowerRightCorner = upperLeftCorner.add(new Point(width, height));
+    public static fromUpperLeftCornerAndDimension(upperLeftCorner: Point, dimension: Dimension) {
+        const lowerRightCorner = upperLeftCorner.add(new Point(dimension.width, dimension.height));
         return BoundingBox.fromUpperLeftCornerAndLowerRightCorner(upperLeftCorner, lowerRightCorner);
     }
 
-    public static fromCenterAndWidthAndHeight(center: Point, width: number, height: number) {
-        const upperLeftCorner = center.sub(new Point(width, height).mul(0.5));
-        const lowerRightCorner = center.add(new Point(width, height).mul(0.5));
+    public static fromCenterAndDimension(center: Point, dimension: Dimension) {
+        const halfDimensionAsPoint = new Point(dimension.width, dimension.height).mul(0.5);
+        const upperLeftCorner = center.sub(halfDimensionAsPoint);
+        const lowerRightCorner = center.add(halfDimensionAsPoint);
         return BoundingBox.fromUpperLeftCornerAndLowerRightCorner(upperLeftCorner, lowerRightCorner);
     }
 }

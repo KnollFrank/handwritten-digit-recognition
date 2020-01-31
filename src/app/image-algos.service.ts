@@ -3,6 +3,7 @@ import { CanvasImageService } from './canvas-image.service';
 import { ImageService } from './image.service';
 import { Point } from './point';
 import { BoundingBox } from './boundingBox';
+import { Dimension } from './dimension';
 
 @Injectable({
   providedIn: 'root'
@@ -35,10 +36,9 @@ export class ImageAlgosService {
 
   private asQuadraticBoundingBox(boundingBox: BoundingBox): BoundingBox {
     const widthAndHeight = Math.max(boundingBox.width, boundingBox.height);
-    return BoundingBox.fromCenterAndWidthAndHeight(boundingBox.center, widthAndHeight, widthAndHeight);
+    return BoundingBox.fromCenterAndDimension(boundingBox.center, new Dimension(widthAndHeight, widthAndHeight));
   }
 
-  // FK-TODO: introduce class BoundingBox with methods and use everywhere (also in other places, e.g. prediction.component.ts)
   public getBoundingBox(image): BoundingBox {
     let xMin = image.width;
     let xMax = 0;

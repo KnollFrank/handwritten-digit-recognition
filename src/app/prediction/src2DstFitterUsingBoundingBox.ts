@@ -2,6 +2,7 @@ import { ImageAlgosService } from '../image-algos.service';
 import { CanvasImageService } from '../canvas-image.service';
 import { BoundingBox } from '../boundingBox';
 import { Point } from '../point';
+import { Dimension } from '../dimension';
 
 export class Src2DstFitterUsingBoundingBox {
 
@@ -43,12 +44,11 @@ export class Src2DstFitterUsingBoundingBox {
             {
                 canvas,
                 destinationBoundingBox:
-                    BoundingBox.fromUpperLeftCornerAndWidthAndHeight(
+                    BoundingBox.fromUpperLeftCornerAndDimension(
                         new Point(canvas.width, canvas.height)
                             .sub(new Point(newImageWidthAndHeight, newImageWidthAndHeight))
                             .mul(0.5),
-                        newImageWidthAndHeight,
-                        newImageWidthAndHeight)
+                        new Dimension(newImageWidthAndHeight, newImageWidthAndHeight))
             });
     }
 
