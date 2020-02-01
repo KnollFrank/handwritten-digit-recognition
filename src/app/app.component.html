@@ -2,11 +2,10 @@
     <h1></h1>
     <mat-horizontal-stepper #stepper>
         <mat-step>
-            <ng-template matStepLabel>Datensatz</ng-template>
+            <ng-template matStepLabel>Trainingsdaten auswählen</ng-template>
             <section>
                 <app-dataset (onReceiveDatasetDescription)="onReceiveDatasetDescription($event)"></app-dataset>
                 <section *ngIf="datasetDescription" id="section-traindata">
-                    <h3>1.1 Trainingsdaten</h3>
                     <app-digits [boxed]="true" [paginated]="true" [digitDataset]="digitTrainDataset"></app-digits>
                 </section>
             </section>
@@ -15,7 +14,7 @@
             </div>
         </mat-step>
         <mat-step>
-            <ng-template matStepLabel>k nächste Nachbarn</ng-template>
+            <ng-template matStepLabel>k nächste Nachbarn berechnen</ng-template>
             <section *ngIf="datasetDescription" id="section-KNN">
                 <app-knn-builder #knnBuilder [datasetDescription]="datasetDescription" (knnClassifier)="onReceiveKnnClassifier($event)"></app-knn-builder>
             </section>
@@ -25,17 +24,10 @@
             </div>
         </mat-step>
         <mat-step>
-            <ng-template matStepLabel>Vorhersage</ng-template>
+            <ng-template matStepLabel>Testdaten auswerten</ng-template>
             <section *ngIf="knnClassifier" id="section-data-input">
                 <app-prediction *ngIf="knnClassifier" [kernelWidthAndHeight]="datasetDescription.kernelWidthAndHeight" [knnClassifier]="knnClassifier" [datasetDescription]="datasetDescription"></app-prediction>
             </section>
-            <div>
-                <button mat-button matStepperPrevious>Back</button>
-                <button mat-button matStepperNext>Next</button>
-            </div>
-        </mat-step>
-        <mat-step>
-            <ng-template matStepLabel>Testdaten</ng-template>
             <section *ngIf="knnClassifier" id="section-testdata">
                 <p><button class="evaluate-testdata-button" (click)="computeAccuracy()">Testdaten auswerten</button></p>
                 <div *ngIf="!testdataEvaluated" id="knnProgress">
