@@ -2,3 +2,11 @@
     display: flex;
     flex-wrap: wrap;
 }
+
+mat-form-field {
+    margin-right: 12px;
+}
+
+::ng-deep mat-paginator .mat-paginator-container {
+    justify-content: flex-start;
+}
