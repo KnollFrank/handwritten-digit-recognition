@@ -33,7 +33,7 @@
                 </mat-tab>
                 <mat-tab label="Testdaten auswerten">
                     <section *ngIf="knnClassifier" id="section-testdata">
-                        <p><button class="evaluate-testdata-button" (click)="computeAccuracy()">Testdaten auswerten</button></p>
+                        <p><button mat-button class="evaluate-testdata-button" (click)="computeAccuracy()">Testdaten auswerten</button></p>
                         <div *ngIf="!testdataEvaluated" id="knnProgress">
                             <h3>Fortschritt</h3>
                             <app-knn-progress [numProgessElements]="numWorkers"></app-knn-progress>
