@@ -10,3 +10,7 @@ mat-form-field {
 ::ng-deep mat-paginator .mat-paginator-container {
     justify-content: flex-start;
 }
+
+#container-digits {
+    border: 1px solid grey;
+}
