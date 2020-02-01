@@ -4,13 +4,19 @@
         <mat-step>
             <ng-template matStepLabel>Trainingsdaten auswählen</ng-template>
             <section>
-                <app-dataset (onReceiveDatasetDescription)="onReceiveDatasetDescription($event)"></app-dataset>
-                <section *ngIf="datasetDescription" id="section-traindata">
-                    <app-digits [boxed]="true" [paginated]="true" [digitDataset]="digitTrainDataset"></app-digits>
-                </section>
+                <app-dataset (onReceiveDatasetDescription)="onReceiveDatasetDescription($event)">
+                    <button mat-button matStepperNext>laden</button>
+                </app-dataset>
+            </section>
+        </mat-step>
+        <mat-step>
+            <ng-template matStepLabel>Trainingsdaten anschauen</ng-template>
+            <section *ngIf="datasetDescription" id="section-traindata">
+                <app-digits [boxed]="true" [paginated]="true" [digitDataset]="digitTrainDataset"></app-digits>
             </section>
             <div>
-                <button mat-button matStepperNext>Next</button>
+                <button mat-button matStepperPrevious>zurück</button>
+                <button mat-button matStepperNext>weiter</button>
             </div>
         </mat-step>
         <mat-step>
@@ -18,7 +24,7 @@
             <section *ngIf="datasetDescription" id="section-KNN">
                 <app-knn-builder #knnBuilder [datasetDescription]="datasetDescription" (knnClassifier)="onReceiveKnnClassifier($event)">
                     <button mat-button matStepperPrevious>zurück</button>
-                    <button mat-button matStepperNext>berechnen und weiter</button>
+                    <button mat-button matStepperNext>berechnen</button>
                 </app-knn-builder>
             </section>
         </mat-step>
@@ -53,8 +59,8 @@
                 </mat-tab>
             </mat-tab-group>
             <div>
-                <button mat-button matStepperPrevious>Back</button>
-                <button mat-button (click)="stepper.reset()">Reset</button>
+                <button mat-button matStepperPrevious>zurück</button>
+                <button mat-button (click)="stepper.reset()">von vorne</button>
             </div>
         </mat-step>
     </mat-horizontal-stepper>
