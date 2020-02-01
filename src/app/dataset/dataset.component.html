@@ -5,15 +5,16 @@
             <app-file-picker (onReceiveDatasetDescription)="setDatasetDescription($event)"></app-file-picker>
         </div>
         <div id="kernelWidthAndHeight-inputFields">
-            <label for="kernelWidthAndHeight">Ziffernbreite und -höhe verkleinern um den Faktor:</label>
-            <!-- see https://stackblitz.com/edit/angular-7kzu8w?file=app%2Fapp.component.ts -->
-            <select type="number" name="kernelWidthAndHeight" formControlName="kernelWidthAndHeight" id="kernelWidthAndHeight">
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="4">4</option>
-              <option value="7">7</option>
-          </select>
+            <mat-form-field>
+                <mat-label>Verkleinerungsfaktor:</mat-label>
+                <mat-select type="number" name="kernelWidthAndHeight" formControlName="kernelWidthAndHeight" id="kernelWidthAndHeight">
+                    <mat-option value="1">1</mat-option>
+                    <mat-option value="2">2</mat-option>
+                    <mat-option value="4">4</mat-option>
+                    <mat-option value="7">7</mat-option>
+                </mat-select>
+            </mat-form-field>
         </div>
     </div>
-    <input type="submit" value="laden">
+    <button mat-button>Laden</button>
 </form>
