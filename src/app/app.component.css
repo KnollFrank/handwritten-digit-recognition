@@ -126,3 +126,7 @@ div.digit figcaption.wrongPrediction {
 #decisionTreeNetwork-enhanced-switcher {
     margin-bottom: 15px;
 }
+
+mat-card {
+    margin: 15px;
+}

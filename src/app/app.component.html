@@ -3,12 +3,26 @@
     <mat-horizontal-stepper #stepper>
         <mat-step>
             <ng-template matStepLabel>Trainingsdaten auswählen</ng-template>
-            <section>
-                <app-dataset (onReceiveDatasetDescription)="onReceiveDatasetDescription($event)"></app-dataset>
-            </section>
-            <section *ngIf="datasetDescription" id="section-traindata">
-                <app-digits [boxed]="true" [paginated]="true" [digitDataset]="digitTrainDataset"></app-digits>
-            </section>
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title></mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <section>
+                        <app-dataset (onReceiveDatasetDescription)="onReceiveDatasetDescription($event)"></app-dataset>
+                    </section>
+                </mat-card-content>
+            </mat-card>
+            <mat-card *ngIf="datasetDescription">
+                <mat-card-header>
+                    <mat-card-title></mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <section id="section-traindata">
+                        <app-digits [boxed]="true" [paginated]="true" [digitDataset]="digitTrainDataset"></app-digits>
+                    </section>
+                </mat-card-content>
+            </mat-card>
             <div>
                 <button mat-button matStepperPrevious>zurück</button>
                 <button mat-button matStepperNext>weiter</button>
