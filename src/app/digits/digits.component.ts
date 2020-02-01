@@ -28,10 +28,6 @@ export class DigitsComponent implements OnInit {
 
   pageEvent: PageEvent;
 
-  get length() {
-    return this.digitDataset ? this.digitDataset.length : 0;
-  }
-
   constructor() { }
 
   ngOnInit() {
