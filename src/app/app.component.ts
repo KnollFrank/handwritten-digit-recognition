@@ -17,7 +17,6 @@ export class AppComponent implements OnInit {
 
   title = 'angular';
   datasetDescription: any;
-  maxDigits2Display = 500;
   knnClassifier: any;
   digitTrainDataset: any;
   digitTestDataset: any;
@@ -40,7 +39,6 @@ export class AppComponent implements OnInit {
     this.datasetDescription = datasetDescription;
     this.digitTrainDataset =
       this.datasetDescription.splittedDataset.train
-        .slice(0, this.maxDigits2Display)
         .map(image => this.createImageDescription(
           {
             image: image,
@@ -71,22 +69,6 @@ export class AppComponent implements OnInit {
     this.knnClassifier = knnClassifier;
   }
 
-  get totalNumberOfTrainDigits() {
-    return this.datasetDescription.splittedDataset.train.length;
-  }
-
-  get firstNTrainDigits2Display() {
-    return Math.min(this.maxDigits2Display, this.totalNumberOfTrainDigits);
-  }
-
-  get totalNumberOfTestDigits() {
-    return this.datasetDescription.splittedDataset.test.length;
-  }
-
-  get firstNTestDigits2Display() {
-    return Math.min(this.maxDigits2Display, this.totalNumberOfTestDigits);
-  }
-
   computeAccuracy() {
     const rowsClassifier = this.getCachingAndProgressDisplayingRowsClassifier();
     this.accuracyCalculatorService.computeAccuracy(
@@ -98,7 +80,7 @@ export class AppComponent implements OnInit {
         console.log(`Accuracy: ${Math.floor(accuracy)}%`);
         this.displayTestDataset({
           rowsClassifier,
-          testDataset: this.datasetDescription.splittedDataset.test.slice(0, this.maxDigits2Display)
+          testDataset: this.datasetDescription.splittedDataset.test
         });
       });
   }

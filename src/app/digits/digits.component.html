@@ -1,6 +1,6 @@
 <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="handlePageEvent($event)">
 </mat-paginator>
-<div id="container-digits-train">
+<div id="container-digits">
     <app-digit *ngFor="let digit of pagedDigitDataset" [width]="digit.width" [height]="digit.height" [figcaption]="digit.figcaption" [image]="digit.image" [classListOfFigcaption]="digit.classListOfFigcaption">
     </app-digit>
 </div>
