@@ -16,12 +16,11 @@
         <mat-step>
             <ng-template matStepLabel>k nächste Nachbarn berechnen</ng-template>
             <section *ngIf="datasetDescription" id="section-KNN">
-                <app-knn-builder #knnBuilder [datasetDescription]="datasetDescription" (knnClassifier)="onReceiveKnnClassifier($event)"></app-knn-builder>
+                <app-knn-builder #knnBuilder [datasetDescription]="datasetDescription" (knnClassifier)="onReceiveKnnClassifier($event)">
+                    <button mat-button matStepperPrevious>zurück</button>
+                    <button mat-button matStepperNext>berechnen und weiter</button>
+                </app-knn-builder>
             </section>
-            <div>
-                <button mat-button matStepperPrevious>Back</button>
-                <button mat-button matStepperNext>Next</button>
-            </div>
         </mat-step>
         <mat-step>
             <ng-template matStepLabel>Testdaten auswerten</ng-template>
