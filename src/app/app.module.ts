@@ -19,6 +19,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatInputModule } from '@angular/material/input';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatButtonModule } from '@angular/material/button';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { MatButtonModule } from '@angular/material/button';
     MatPaginatorModule,
     MatInputModule,
     MatStepperModule,
-    MatButtonModule
+    MatButtonModule,
+    MatTabsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
