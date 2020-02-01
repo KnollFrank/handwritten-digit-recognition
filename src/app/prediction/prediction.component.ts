@@ -90,7 +90,7 @@ export class PredictionComponent implements OnInit, AfterViewInit {
     ctx.fillText(text, canvas.width / 2, canvas.height / 2);
   }
 
-  private prepareNewPrediction() {
+  public prepareNewPrediction() {
     this.clearCanvases();
     this.digitDataset = [];
     this.setPrediction('');
