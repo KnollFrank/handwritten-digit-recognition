@@ -1,4 +1,4 @@
-<mat-paginator *ngIf="paginated" [length]="digitDataset?.length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="handlePageEvent($event)">
+<mat-paginator *ngIf="paginated" [showFirstLastButtons]="true" [length]="digitDataset?.length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="handlePageEvent($event)">
 </mat-paginator>
 <div id="container-digits" [class.boxed]="boxed">
     <app-digit *ngFor="let digit of pagedDigitDataset" [width]="digit.width" [height]="digit.height" [figcaption]="digit.figcaption" [image]="digit.image" [classListOfFigcaption]="digit.classListOfFigcaption">
