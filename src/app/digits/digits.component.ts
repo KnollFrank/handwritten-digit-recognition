@@ -21,16 +21,12 @@ export class DigitsComponent implements OnInit {
   }
 
   pagedDigitDataset;
+
   pageSizeOptions: number[] = [80, 160, 240];
+  pageSize = this.pageSizeOptions[0];
+  pageIndex = 0;
+
   pageEvent: PageEvent;
-
-  get pageSize() {
-    return this.pageEvent ? this.pageEvent.pageSize : this.pageSizeOptions[0];
-  }
-
-  get pageIndex() {
-    return this.pageEvent ? this.pageEvent.pageIndex : 0;
-  }
 
   get length() {
     return this.digitDataset ? this.digitDataset.length : 0;
@@ -39,17 +35,18 @@ export class DigitsComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.updatePagedDigitDataset();
   }
 
   handlePageEvent(pageEvent) {
     this.pageEvent = pageEvent;
+    this.pageSize = this.pageEvent.pageSize;
+    this.pageIndex = this.pageEvent.pageIndex;
     this.updatePagedDigitDataset();
   }
 
   private updatePagedDigitDataset() {
     const start = this.pageIndex * this.pageSize;
-    const end = (this.pageIndex + 1) * this.pageSize;
+    const end = start + this.pageSize;
     this.pagedDigitDataset = this.digitDataset ? this.digitDataset.slice(start, end) : [];
   }
 }
