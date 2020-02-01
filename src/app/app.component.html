@@ -5,12 +5,8 @@
             <ng-template matStepLabel>Trainingsdaten auswählen</ng-template>
             <section>
                 <app-dataset (onReceiveDatasetDescription)="onReceiveDatasetDescription($event)">
-                    <button mat-button matStepperNext>laden</button>
                 </app-dataset>
             </section>
-        </mat-step>
-        <mat-step>
-            <ng-template matStepLabel>Trainingsdaten anschauen</ng-template>
             <section *ngIf="datasetDescription" id="section-traindata">
                 <app-digits [boxed]="true" [paginated]="true" [digitDataset]="digitTrainDataset"></app-digits>
             </section>
