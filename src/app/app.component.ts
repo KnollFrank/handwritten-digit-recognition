@@ -70,6 +70,7 @@ export class AppComponent implements OnInit {
   }
 
   computeAccuracy() {
+    this.testdataEvaluated = false;
     const rowsClassifier = this.getCachingAndProgressDisplayingRowsClassifier();
     this.accuracyCalculatorService.computeAccuracy(
       rowsClassifier,
