@@ -13,6 +13,11 @@ import { PredictionComponent } from './prediction/prediction.component';
 import { FreeHandDrawingToolComponent } from './free-hand-drawing-tool/free-hand-drawing-tool.component';
 import { KnnProgressComponent } from './knn-progress/knn-progress.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatPaginatorExampleComponent } from './mat-paginator-example/mat-paginator-example.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -24,13 +29,18 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     KnnBuilderComponent,
     PredictionComponent,
     FreeHandDrawingToolComponent,
-    KnnProgressComponent
+    KnnProgressComponent,
+    MatPaginatorExampleComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatSliderModule,
+    MatFormFieldModule,
+    MatPaginatorModule,
+    MatInputModule
   ],
   providers: [],
   bootstrap: [AppComponent]
