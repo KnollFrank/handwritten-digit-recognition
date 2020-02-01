@@ -17,7 +17,6 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatInputModule } from '@angular/material/input';
-import { StepperExampleComponent } from './stepper-example/stepper-example.component';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatButtonModule } from '@angular/material/button';
 
@@ -31,8 +30,7 @@ import { MatButtonModule } from '@angular/material/button';
     KnnBuilderComponent,
     PredictionComponent,
     FreeHandDrawingToolComponent,
-    KnnProgressComponent,
-    StepperExampleComponent
+    KnnProgressComponent
   ],
   imports: [
     BrowserModule,
