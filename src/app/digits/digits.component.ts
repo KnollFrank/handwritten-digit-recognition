@@ -10,9 +10,16 @@ export class DigitsComponent implements OnInit {
 
   private _digitDataset;
 
+  @Input() paginated: boolean;
+
+  @Input() boxed: boolean;
+
   @Input()
   set digitDataset(digitDataset) {
     this._digitDataset = digitDataset;
+    if (!this.paginated && this._digitDataset) {
+      this.pageSize = this._digitDataset.length;
+    }
     this.updatePagedDigitDataset();
   }
 

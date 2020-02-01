@@ -1,6 +1,9 @@
 #container-digits {
     display: flex;
     flex-wrap: wrap;
+}
+
+.boxed {
     border: 1px solid grey;
 }
 

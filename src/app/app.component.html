@@ -6,7 +6,7 @@
         <app-dataset (onReceiveDatasetDescription)="onReceiveDatasetDescription($event)"></app-dataset>
         <section *ngIf="datasetDescription" id="section-traindata">
             <h3>1.1 Trainingsdaten</h3>
-            <app-digits [digitDataset]="digitTrainDataset"></app-digits>
+            <app-digits [boxed]="true" [paginated]="true" [digitDataset]="digitTrainDataset"></app-digits>
         </section>
     </section>
     <section *ngIf="datasetDescription" id="section-KNN">
@@ -32,7 +32,7 @@
         </div>
         <div id="testdata-panel">
             <section id="section-digits-test">
-                <app-digits [digitDataset]="digitTestDataset"></app-digits>
+                <app-digits [boxed]="true" [paginated]="true" [digitDataset]="digitTestDataset"></app-digits>
             </section>
             <div id="container-testDataSet"></div>
         </div>

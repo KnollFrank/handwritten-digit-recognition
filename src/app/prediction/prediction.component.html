@@ -8,7 +8,7 @@
         <p class='prediction-results'>
             Deine Ziffer sieht diesen Ziffern aus den Trainingsdaten am ähnlichsten:
         </p>
-        <app-digits [digitDataset]="digitDataset"></app-digits>
+        <app-digits [boxed]="false" [paginated]="false" [digitDataset]="digitDataset"></app-digits>
     </section>
     <div id="prediction-container" class="column-3">
         <p>Die Mehrheit dieser Ziffern ist eine:</p>
