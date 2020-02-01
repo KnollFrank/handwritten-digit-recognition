@@ -3,10 +3,10 @@ import { ItemsIntoChunksSplitterService } from '../items-into-chunks-splitter.se
 import { knnWorkers } from '../knn/knnWorkers.js';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Cache } from '../cache';
+import {getPredictionFromKNearestNeighbors} from '../knn/KNN';
 
 declare var getClassValFromRow: any;
 declare var getIndependentValsFromRow: any;
-declare var getPredictionFromKNearestNeighbors: any;
 
 @Component({
   selector: 'app-knn-builder',

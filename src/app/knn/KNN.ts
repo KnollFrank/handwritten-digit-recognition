@@ -43,7 +43,7 @@ function getSquaredEuclideanDistance(pointA, pointB) {
     return sum(zip(pointA, pointB).map(([coordA, coordB]) => (coordA - coordB) ** 2));
 }
 
-function getPredictionFromKNearestNeighbors(kNearestNeighbors) {
+export function getPredictionFromKNearestNeighbors(kNearestNeighbors) {
     const k_nearest_y2x = kNearestNeighbors.map(({ y }) => y);
     return getElementWithHighestOccurence(k_nearest_y2x);
 }
