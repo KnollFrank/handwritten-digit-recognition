@@ -60,7 +60,7 @@ export class PredictionComponent implements OnInit, AfterViewInit {
       });
   }
 
-  private predictDrawnDigit(digitImageData) {
+  public predictDrawnDigit(digitImageData) {
     this.digitClassifier(
       this.getPixels(digitImageData),
       kNearestNeighborsWithPrediction => {
