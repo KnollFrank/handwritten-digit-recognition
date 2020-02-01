@@ -8,9 +8,19 @@ import { PageEvent } from '@angular/material/paginator';
 })
 export class DigitsComponent implements OnInit {
 
-  @Input() digitDataset;
+  private _digitDataset;
 
-  pagedDigitDataset = [];
+  @Input()
+  set digitDataset(digitDataset) {
+    this._digitDataset = digitDataset;
+    this.updatePagedDigitDataset();
+  }
+
+  get digitDataset() {
+    return this._digitDataset;
+  }
+
+  pagedDigitDataset;
   pageSizeOptions: number[] = [80, 160, 240];
   pageEvent: PageEvent;
 
