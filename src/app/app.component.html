@@ -1,5 +1,5 @@
 <main class="center">
-    <h1>Handgeschriebene Ziffern erkennen</h1>
+    <h1>Handgeschriebene Ziffern erkennen oder auch nicht</h1>
     <mat-horizontal-stepper #stepper>
         <mat-step>
             <ng-template matStepLabel>Trainingsdaten auswählen</ng-template>
@@ -69,7 +69,7 @@
             </mat-tab-group>
             <div>
                 <button mat-button matStepperPrevious>zurück</button>
-                <button mat-button (click)="stepper.reset()">von vorne</button>
+                <button mat-button (click)="stepper.reset()">noch mal von vorne</button>
             </div>
         </mat-step>
     </mat-horizontal-stepper>
