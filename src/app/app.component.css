@@ -17,7 +17,8 @@ body {
     font: 10pt sans;
 }
 
-h1 {
+h1,
+h2 {
     text-align: center;
 }
 
