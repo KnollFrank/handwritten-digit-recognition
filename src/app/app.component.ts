@@ -3,10 +3,8 @@ import { AccuracyCalculatorService } from './accuracy-calculator.service';
 import { KnnProgressComponent } from './knn-progress/knn-progress.component';
 import { environment } from 'src/environments/environment';
 import { KnnBuilderComponent } from './knn-builder/knn-builder.component';
-
-declare var getIndependentValsFromRow: any;
-declare var getClassValFromRow: any;
-declare var zip: any;
+import { getClassValFromRow, getIndependentValsFromRow } from './dataset/datasetHelper';
+import { zip } from './knn/jsHelper';
 
 @Component({
   selector: 'app-root',

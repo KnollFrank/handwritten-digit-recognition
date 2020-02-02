@@ -30,8 +30,7 @@
                         "scripts": [
                             "src/js/jquery-3.4.1.js",
                             "src/js/jquery.dataTables.js",
-                            "src/js/papaparse.min.js",
-                            "src/js/decisionTree/datasetHelper.js"
+                            "src/js/papaparse.min.js"
                         ],
                         "webWorkerTsConfig": "tsconfig.worker.json"
                     },

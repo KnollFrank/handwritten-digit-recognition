@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-
-declare var getIndependentValsFromRow: any;
-declare var getClassValFromRow: any;
+import { getClassValFromRow, getIndependentValsFromRow } from './dataset/datasetHelper';
 
 @Injectable({
   providedIn: 'root'

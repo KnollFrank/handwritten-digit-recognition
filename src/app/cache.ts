@@ -1,6 +1,4 @@
-import { Injectable } from '@angular/core';
-
-declare var zip: any;
+import { zip } from './knn/jsHelper';
 
 export class Cache {
   cache = {};

@@ -1,10 +1,8 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ImageService } from '../image.service';
 import { FormBuilder } from '@angular/forms';
+import { getClassValFromRow, getIndependentValsFromRow } from './datasetHelper';
 
-// FK-TODO: diese Funktionen in einem Service zur Verfügung stellen
-declare var getClassValFromRow: any;
-declare var getIndependentValsFromRow: any;
 
 @Component({
   selector: 'app-dataset',
