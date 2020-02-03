@@ -27,15 +27,11 @@ export class DatasetComponent implements OnInit {
     new DatasetDescriptionReader().readDatasetDescription(
       datasetDescription =>
         this.scaledDatasetDescription.emit(
-          this.getScaledDatasetDescription(datasetDescription))
+          this.getScaledDatasetDescription(datasetDescription, this.datasetForm.value.kernelWidthAndHeight))
     );
   }
 
-  private getScaledDatasetDescription(datasetDescription) {
-    return this.scale(datasetDescription, this.datasetForm.value.kernelWidthAndHeight);
-  }
-
-  private scale(datasetDescription, kernelWidthAndHeight) {
+  private getScaledDatasetDescription(datasetDescription, kernelWidthAndHeight) {
     const getScaledImageForRow = row => {
       const strings2Numbers = strs => strs.map(str => Number(str));
 
