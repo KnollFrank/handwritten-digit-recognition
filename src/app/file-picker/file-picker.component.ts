@@ -31,7 +31,6 @@ export class FilePickerComponent implements OnInit {
     const attributeNames = dataset[0];
     // remove header (= column names) of dataset
     dataset.splice(0, 1);
-    const isFileDigitDataset = fileName => fileName.toLowerCase().startsWith('mnist');
     const datasetDescription = {
       fileName,
       attributeNames: {
@@ -40,17 +39,9 @@ export class FilePickerComponent implements OnInit {
         all: attributeNames
       },
       splittedDataset: this.train_test_split(dataset, 0.8),
-      isDigitDataset() {
-        return isFileDigitDataset(this.fileName);
-      },
-      imageWidth: undefined,
-      imageHeight: undefined
+      imageWidth: 28,
+      imageHeight: 28
     };
-
-    if (datasetDescription.isDigitDataset()) {
-      datasetDescription.imageWidth = 28;
-      datasetDescription.imageHeight = 28;
-    }
 
     return datasetDescription;
   }

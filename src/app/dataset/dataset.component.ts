@@ -33,9 +33,7 @@ export class DatasetComponent implements OnInit {
   }
 
   private getTransformedDatasetDescription() {
-    return this.datasetDescription.isDigitDataset() ?
-      this.transform(this.datasetDescription, this.datasetForm.value.kernelWidthAndHeight) :
-      this.datasetDescription;
+    return this.transform(this.datasetDescription, this.datasetForm.value.kernelWidthAndHeight);
   }
 
   private transform(datasetDescription, kernelWidthAndHeight) {
@@ -68,7 +66,6 @@ export class DatasetComponent implements OnInit {
         train: datasetDescription.splittedDataset.train.map(transform),
         test: datasetDescription.splittedDataset.test.map(transform)
       },
-      isDigitDataset: datasetDescription.isDigitDataset,
       kernelWidthAndHeight: Number(kernelWidthAndHeight),
       imageWidth: someTransformedImage.width,
       imageHeight: someTransformedImage.height
