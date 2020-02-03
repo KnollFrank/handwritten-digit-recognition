@@ -54,7 +54,6 @@ export class DatasetComponent implements OnInit {
     const someScaledImage = getScaledImageForRow(datasetDescription.splittedDataset.train[0]);
 
     const scaledDatasetDescription = {
-      fileName: datasetDescription.fileName,
       attributeNames: {
         X: this.createRowColLabels(someScaledImage.height, someScaledImage.width),
         y: datasetDescription.attributeNames.y,

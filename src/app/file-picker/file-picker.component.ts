@@ -21,18 +21,17 @@ export class FilePickerComponent implements OnInit {
       download: true,
       header: false,
       complete: results => {
-        const datasetDescription = this.getDatasetDescription(dataFile.name, results.data);
+        const datasetDescription = this.getDatasetDescription(results.data);
         this.datasetDescription.emit(datasetDescription);
       }
     });
   }
 
-  private getDatasetDescription(fileName, dataset) {
+  private getDatasetDescription(dataset) {
     const attributeNames = dataset[0];
     // remove header (= column names) of dataset
     dataset.splice(0, 1);
     const datasetDescription = {
-      fileName,
       attributeNames: {
         X: attributeNames.slice(0, -1),
         y: attributeNames[attributeNames.length - 1],
