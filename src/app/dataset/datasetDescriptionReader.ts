@@ -4,7 +4,7 @@ export class DatasetDescriptionReader {
 
   public readDatasetDescription(receiveDatasetDescription) {
     this.readCSVFiles(
-      './assets/mnist_train_60000.csv',
+      './assets/mnist_train_5000.csv',
       './assets/mnist_test_10000.csv',
       (trainDataset, testDataset) => {
         const datasetDescription = this.getDatasetDescription(trainDataset, testDataset);
