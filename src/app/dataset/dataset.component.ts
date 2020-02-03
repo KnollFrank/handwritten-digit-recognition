@@ -18,22 +18,21 @@ export class DatasetComponent implements OnInit {
     kernelWidthAndHeight: ['1']
   });
 
-  datasetDescription: any;
-
   constructor(private imageService: ImageService, private fb: FormBuilder) { }
 
   ngOnInit() {
-    new DatasetDescriptionReader().readDatasetDescription(
-      datasetDescription => this.datasetDescription = datasetDescription
-    );
   }
 
   onSubmit() {
-    this.scaledDatasetDescription.emit(this.getScaledDatasetDescription());
+    new DatasetDescriptionReader().readDatasetDescription(
+      datasetDescription =>
+        this.scaledDatasetDescription.emit(
+          this.getScaledDatasetDescription(datasetDescription))
+    );
   }
 
-  private getScaledDatasetDescription() {
-    return this.scale(this.datasetDescription, this.datasetForm.value.kernelWidthAndHeight);
+  private getScaledDatasetDescription(datasetDescription) {
+    return this.scale(datasetDescription, this.datasetForm.value.kernelWidthAndHeight);
   }
 
   private scale(datasetDescription, kernelWidthAndHeight) {
