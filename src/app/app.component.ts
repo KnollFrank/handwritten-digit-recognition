@@ -33,7 +33,7 @@ export class AppComponent implements OnInit {
     this.numWorkers = environment.maxNumWorkers;
   }
 
-  onReceiveDatasetDescription(datasetDescription) {
+  setDatasetDescription(datasetDescription) {
     this.datasetDescription = datasetDescription;
     this.digitTrainDataset =
       this.datasetDescription.splittedDataset.train

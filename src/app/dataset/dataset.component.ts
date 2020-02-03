@@ -11,7 +11,7 @@ import { getClassValFromRow, getIndependentValsFromRow } from './datasetHelper';
 })
 export class DatasetComponent implements OnInit {
 
-  @Output() onReceiveDatasetDescription = new EventEmitter();
+  @Output() scaledDatasetDescription = new EventEmitter();
 
   datasetForm = this.fb.group({
     kernelWidthAndHeight: ['1']
@@ -29,14 +29,14 @@ export class DatasetComponent implements OnInit {
   }
 
   onSubmit() {
-    this.onReceiveDatasetDescription.emit(this.getTransformedDatasetDescription());
+    this.scaledDatasetDescription.emit(this.getScaledDatasetDescription());
   }
 
-  private getTransformedDatasetDescription() {
-    return this.transform(this.datasetDescription, this.datasetForm.value.kernelWidthAndHeight);
+  private getScaledDatasetDescription() {
+    return this.scale(this.datasetDescription, this.datasetForm.value.kernelWidthAndHeight);
   }
 
-  private transform(datasetDescription, kernelWidthAndHeight) {
+  private scale(datasetDescription, kernelWidthAndHeight) {
     const getScaledImageForRow = row => {
       const strings2Numbers = strs => strs.map(str => Number(str));
 
@@ -50,28 +50,28 @@ export class DatasetComponent implements OnInit {
       });
     };
 
-    const transform = row => getScaledImageForRow(row).pixels.concat(getClassValFromRow(row));
-    const someTransformedImage = getScaledImageForRow(datasetDescription.splittedDataset.train[0]);
+    const scale = row => getScaledImageForRow(row).pixels.concat(getClassValFromRow(row));
+    const someScaledImage = getScaledImageForRow(datasetDescription.splittedDataset.train[0]);
 
-    const transformedDatasetDescription = {
+    const scaledDatasetDescription = {
       fileName: datasetDescription.fileName,
       attributeNames: {
-        X: this.createRowColLabels(someTransformedImage.height, someTransformedImage.width),
+        X: this.createRowColLabels(someScaledImage.height, someScaledImage.width),
         y: datasetDescription.attributeNames.y,
         get all() {
           return this.X.concat(this.y);
         }
       },
       splittedDataset: {
-        train: datasetDescription.splittedDataset.train.map(transform),
-        test: datasetDescription.splittedDataset.test.map(transform)
+        train: datasetDescription.splittedDataset.train.map(scale),
+        test: datasetDescription.splittedDataset.test.map(scale)
       },
       kernelWidthAndHeight: Number(kernelWidthAndHeight),
-      imageWidth: someTransformedImage.width,
-      imageHeight: someTransformedImage.height
+      imageWidth: someScaledImage.width,
+      imageHeight: someScaledImage.height
     };
 
-    return transformedDatasetDescription;
+    return scaledDatasetDescription;
   }
 
   private createRowColLabels(numRows, numCols) {
