@@ -9,7 +9,7 @@ declare var Papa: any;
 })
 export class FilePickerComponent implements OnInit {
 
-  @Output() onReceiveDatasetDescription = new EventEmitter();
+  @Output() datasetDescription = new EventEmitter();
 
   constructor() { }
 
@@ -22,7 +22,7 @@ export class FilePickerComponent implements OnInit {
       header: false,
       complete: results => {
         const datasetDescription = this.getDatasetDescription(dataFile.name, results.data);
-        this.onReceiveDatasetDescription.emit(datasetDescription);
+        this.datasetDescription.emit(datasetDescription);
       }
     });
   }
