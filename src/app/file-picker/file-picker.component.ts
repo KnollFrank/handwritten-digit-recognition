@@ -46,8 +46,8 @@ export class FilePickerComponent implements OnInit {
     return datasetDescription;
   }
 
-  private train_test_split(dataset, train_proportion) {
-    const end = train_proportion * dataset.length;
+  private train_test_split(dataset, trainProportion) {
+    const end = trainProportion * dataset.length;
     return {
       train: dataset.slice(0, end),
       test: dataset.slice(end)
