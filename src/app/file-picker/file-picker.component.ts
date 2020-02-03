@@ -43,9 +43,9 @@ export class FilePickerComponent implements OnInit {
   }
 
   private getDatasetDescription(trainDataset, testDataset) {
-    const attributeNames = trainDataset[0];
-    this.removeHeader(trainDataset);
-    this.removeHeader(testDataset);
+    const attributeNames = this.getHeaderFrom(trainDataset);
+    this.removeHeaderFrom(trainDataset);
+    this.removeHeaderFrom(testDataset);
     const datasetDescription = {
       attributeNames: {
         X: attributeNames.slice(0, -1),
@@ -60,8 +60,14 @@ export class FilePickerComponent implements OnInit {
     return datasetDescription;
   }
 
-    // remove header (= column names) of dataset
-    private removeHeader(dataset: any) {
-    dataset.splice(0, 1);
+  private headerIndex = 0;
+
+  private getHeaderFrom(dataset: any) {
+    return dataset[this.headerIndex];
+  }
+
+  // remove header (= column names) from dataset
+  private removeHeaderFrom(dataset: any) {
+    dataset.splice(this.headerIndex, 1);
   }
 }
