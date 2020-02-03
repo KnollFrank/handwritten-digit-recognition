@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ImageService } from '../image.service';
 import { FormBuilder } from '@angular/forms';
 import { getClassValFromRow, getIndependentValsFromRow } from './datasetHelper';
+import { DatasetDescriptionReader } from './datasetDescriptionReader';
 
 
 @Component({
@@ -22,10 +23,9 @@ export class DatasetComponent implements OnInit {
   constructor(private imageService: ImageService, private fb: FormBuilder) { }
 
   ngOnInit() {
-  }
-
-  setDatasetDescription(datasetDescription) {
-    this.datasetDescription = datasetDescription;
+    new DatasetDescriptionReader().readDatasetDescription(
+      datasetDescription => this.datasetDescription = datasetDescription
+    );
   }
 
   onSubmit() {

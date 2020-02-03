@@ -1,9 +1,5 @@
 <form id="datasetForm" [formGroup]="datasetForm" (ngSubmit)="onSubmit()">
     <div class="dataInputFields">
-        <div>
-            <label for="csv-file">CSV-Datei:</label>
-            <app-file-picker (datasetDescription)="setDatasetDescription($event)"></app-file-picker>
-        </div>
         <div id="kernelWidthAndHeight-inputFields">
             <mat-form-field>
                 <mat-label>Verkleinerungsfaktor:</mat-label>
