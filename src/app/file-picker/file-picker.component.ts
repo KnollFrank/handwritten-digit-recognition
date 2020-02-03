@@ -16,15 +16,23 @@ export class FilePickerComponent implements OnInit {
   ngOnInit() {
   }
 
-  public readAndSubmitCSVFile(dataFile) {
-    Papa.parse(dataFile, {
-      download: true,
-      header: false,
-      complete: results => {
-        const datasetDescription = this.getDatasetDescription(results.data);
+  public readAndSubmitCSVFile(csvFile) {
+    this.readCSVFile(
+      csvFile,
+      fileContents => {
+        const datasetDescription = this.getDatasetDescription(fileContents);
         this.datasetDescription.emit(datasetDescription);
-      }
-    });
+      });
+  }
+
+  private readCSVFile(csvFile, onReceiveFileContents) {
+    Papa.parse(
+      csvFile,
+      {
+        download: true,
+        header: false,
+        complete: results => onReceiveFileContents(results.data)
+      });
   }
 
   private getDatasetDescription(dataset) {
