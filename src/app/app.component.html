@@ -3,7 +3,7 @@
     <h2>oder auch nicht</h2>
     <mat-horizontal-stepper #stepper>
         <mat-step>
-            <ng-template matStepLabel>Trainingsdaten auswählen</ng-template>
+            <ng-template matStepLabel>Trainingsdaten laden</ng-template>
             <mat-card>
                 <mat-card-header>
                     <mat-card-title></mat-card-title>
@@ -39,39 +39,40 @@
             </section>
         </mat-step>
         <mat-step>
-            <ng-template matStepLabel>Testdaten auswerten</ng-template>
-            <mat-tab-group>
-                <mat-tab label="handgeschriebene Ziffern auswerten">
-                    <section *ngIf="knnClassifier" id="section-data-input">
-                        <app-prediction *ngIf="knnClassifier" [kernelWidthAndHeight]="datasetDescription.kernelWidthAndHeight" [knnClassifier]="knnClassifier" [datasetDescription]="datasetDescription"></app-prediction>
-                    </section>
-                </mat-tab>
-                <mat-tab label="Testdaten auswerten">
-                    <section *ngIf="knnClassifier" id="section-testdata">
-                        <p><button mat-button class="evaluate-testdata-button" (click)="computeAccuracy()">Testdaten auswerten</button></p>
-                        <div *ngIf="!testdataEvaluated" id="knnProgress">
-                            <h3>Fortschritt</h3>
-                            <app-knn-progress [numProgessElements]="numWorkers"></app-knn-progress>
-                        </div>
-                        <div *ngIf="accuracy" id="accuracy-panel">
-                            <p>
-                                <!-- FK-TODO: Accuracy sichtbarer anzeigen -->
-                                Accuracy: {{accuracy | number:'0.0-1'}}%
-                            </p>
-                        </div>
-                        <div id="testdata-panel">
-                            <section id="section-digits-test">
-                                <app-digits [boxed]="true" [paginated]="true" [digitDataset]="digitTestDataset"></app-digits>
-                            </section>
-                            <div id="container-testDataSet"></div>
-                        </div>
-                    </section>
-                </mat-tab>
-            </mat-tab-group>
+            <ng-template matStepLabel>handgeschriebene Ziffern auswerten</ng-template>
+            <section *ngIf="knnClassifier" id="section-data-input">
+                <app-prediction *ngIf="knnClassifier" [kernelWidthAndHeight]="datasetDescription.kernelWidthAndHeight" [knnClassifier]="knnClassifier" [datasetDescription]="datasetDescription"></app-prediction>
+            </section>
             <div>
                 <button mat-button matStepperPrevious>zurück</button>
-                <button mat-button (click)="stepper.reset()">noch mal von vorne</button>
+                <button mat-button matStepperNext>weiter</button>
             </div>
+        </mat-step>
+        <mat-step>
+            <ng-template matStepLabel>Testdaten auswerten</ng-template>
+            <section *ngIf="knnClassifier" id="section-testdata">
+                <p><button mat-button class="evaluate-testdata-button" (click)="computeAccuracy()">Testdaten auswerten</button></p>
+                <div *ngIf="!testdataEvaluated" id="knnProgress">
+                    <h3>Fortschritt</h3>
+                    <app-knn-progress [numProgessElements]="numWorkers"></app-knn-progress>
+                </div>
+                <div *ngIf="accuracy" id="accuracy-panel">
+                    <p>
+                        <!-- FK-TODO: Accuracy sichtbarer anzeigen -->
+                        Accuracy: {{accuracy | number:'0.0-1'}}%
+                    </p>
+                </div>
+                <div id="testdata-panel">
+                    <section id="section-digits-test">
+                        <app-digits [boxed]="true" [paginated]="true" [digitDataset]="digitTestDataset"></app-digits>
+                    </section>
+                    <div id="container-testDataSet"></div>
+                </div>
+                <div>
+                    <button mat-button matStepperPrevious>zurück</button>
+                    <button mat-button (click)="stepper.reset()">noch mal von vorne</button>
+                </div>
+            </section>
         </mat-step>
     </mat-horizontal-stepper>
 </main>
