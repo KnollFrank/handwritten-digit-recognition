@@ -16,12 +16,7 @@ export class FilePickerComponent implements OnInit {
   ngOnInit() {
   }
 
-  fileChangeListener($event: any): void {
-    const dataFile = $event.srcElement.files[0];
-    this.readAndSubmitCSVFile(dataFile);
-  }
-
-  private readAndSubmitCSVFile(dataFile) {
+  public readAndSubmitCSVFile(dataFile) {
     Papa.parse(dataFile, {
       download: true,
       header: false,
