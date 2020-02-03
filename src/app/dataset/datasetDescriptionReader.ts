@@ -4,8 +4,8 @@ export class DatasetDescriptionReader {
 
   public readDatasetDescription(receiveDatasetDescription) {
     this.readCSVFiles(
-      '../../assets/mnist_train_500.csv',
-      '../../assets/mnist_test_5000.csv',
+      './assets/mnist_train_500.csv',
+      './assets/mnist_test_5000.csv',
       (trainDataset, testDataset) => {
         const datasetDescription = this.getDatasetDescription(trainDataset, testDataset);
         receiveDatasetDescription(datasetDescription);
@@ -24,7 +24,8 @@ export class DatasetDescriptionReader {
       {
         download: true,
         header: false,
-        complete: results => onReceiveFileContents(results.data)
+        complete: results => onReceiveFileContents(results.data),
+        error: error => console.log('readCSVFile error:', error)
       });
   }
 
