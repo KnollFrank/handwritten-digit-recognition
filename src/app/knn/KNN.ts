@@ -27,9 +27,9 @@ export class KNN {
 
         distancesX2x.sort(({ distance: distance1 }, { distance: distance2 }) => distance1 - distance2);
 
-        const k_nearest_neighbors = distancesX2x.slice(0, this.k);
+        const kNearestNeighbors = distancesX2x.slice(0, this.k);
 
-        return k_nearest_neighbors.map(
+        return kNearestNeighbors.map(
             ({ index, distance }) =>
                 ({
                     x: this.X[index],
