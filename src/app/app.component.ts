@@ -76,7 +76,7 @@ export class AppComponent implements OnInit {
       this.datasetDescription.splittedDataset.test,
       accuracy => {
         this.accuracy = accuracy;
-        console.log(`Accuracy: ${Math.floor(accuracy)}%`);
+        console.log(`Genauigkeit: ${Math.floor(accuracy)}%`);
         this.displayTestDataset({
           rowsClassifier,
           testDataset: this.datasetDescription.splittedDataset.test
