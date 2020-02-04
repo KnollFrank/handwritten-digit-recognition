@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
   digitTestDataset: any;
   accuracy: number;
   numWorkers: number;
-  testdataEvaluated = false;
+  evaluatingTestdata = false;
 
   @ViewChild(KnnProgressComponent, { static: false }) knnProgressComponent: KnnProgressComponent;
 
@@ -46,10 +46,17 @@ export class AppComponent implements OnInit {
     this.reset();
   }
 
+  public startFromScratch(stepper) {
+    stepper.reset();
+    this.datasetDescription = null;
+    this.digitTrainDataset = null;
+    this.reset();
+  }
+
   private reset() {
     this.knnClassifier = null;
     this.accuracy = null;
-    this.testdataEvaluated = false;
+    this.evaluatingTestdata = false;
     this.digitTestDataset = null;
   }
 
@@ -68,13 +75,14 @@ export class AppComponent implements OnInit {
   }
 
   computeAccuracy() {
-    this.testdataEvaluated = false;
+    this.evaluatingTestdata = true;
     const rowsClassifier = this.getCachingAndProgressDisplayingRowsClassifier();
     this.accuracyCalculatorService.computeAccuracy({
       rowsClassifier,
       datasetDescription: this.datasetDescription,
       dataset: this.datasetDescription.splittedDataset.test,
       receiveAccuracy: accuracy => {
+        this.evaluatingTestdata = false;
         this.accuracy = accuracy;
         console.log(`Genauigkeit: ${Math.floor(accuracy)}%`);
         this.displayTestDataset({
@@ -91,10 +99,7 @@ export class AppComponent implements OnInit {
       cachingRowsClassifier(
         {
           rows,
-          receivePredictionsForRows: predictions => {
-            this.testdataEvaluated = true;
-            receivePredictionsForRows(predictions);
-          },
+          receivePredictionsForRows,
           receiveKnnProgress: ({ workerIndex, actualIndexZeroBased, endIndexZeroBasedExclusive }) =>
             this.knnProgressComponent.setProgress(
               {

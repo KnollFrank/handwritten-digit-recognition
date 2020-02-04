@@ -16,7 +16,7 @@
             </mat-card>
             <mat-card *ngIf="datasetDescription">
                 <mat-card-header>
-                    <mat-card-title></mat-card-title>
+                    <mat-card-title>Trainingsdaten:</mat-card-title>
                 </mat-card-header>
                 <mat-card-content>
                     <section id="section-traindata">
@@ -53,9 +53,8 @@
         <mat-step>
             <ng-template matStepLabel>Testdaten auswerten</ng-template>
             <section *ngIf="knnClassifier" id="section-testdata">
-                <p><button mat-button class="evaluate-testdata-button" (click)="computeAccuracy()">Testdaten
-                        auswerten</button></p>
-                <div *ngIf="!testdataEvaluated" id="knnProgress">
+                <p><button mat-button class="evaluate-testdata-button" (click)="computeAccuracy()">Testdaten auswerten</button></p>
+                <div *ngIf="evaluatingTestdata" id="knnProgress">
                     <h3>Fortschritt</h3>
                     <app-knn-progress [numProgessElements]="numWorkers"></app-knn-progress>
                 </div>
@@ -64,15 +63,21 @@
                         {{accuracy | number:'0.0-1'}}% der Ziffern aus den Testdaten wurden korrekt erkannt.
                     </p>
                 </div>
-                <div id="testdata-panel">
-                    <section id="section-digits-test">
-                        <app-digits [boxed]="true" [paginated]="true" [digitDataset]="digitTestDataset"></app-digits>
-                    </section>
-                    <div id="container-testDataSet"></div>
-                </div>
+                <mat-card *ngIf="digitTestDataset">
+                    <mat-card-header>
+                        <mat-card-title>Testdaten:</mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <section id="section-digits-test">
+                            <app-digits [boxed]="true" [paginated]="true" [digitDataset]="digitTestDataset">
+                            </app-digits>
+                        </section>
+                        <div id="container-testDataSet"></div>
+                    </mat-card-content>
+                </mat-card>
                 <div>
                     <button mat-button matStepperPrevious>zurück</button>
-                    <button mat-button (click)="stepper.reset()">noch mal von vorne</button>
+                    <button mat-button (click)="startFromScratch(stepper)">nochmal von vorne</button>
                 </div>
             </section>
         </mat-step>
