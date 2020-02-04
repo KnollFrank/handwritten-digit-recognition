@@ -61,7 +61,13 @@ export class KnnBuilderComponent implements OnInit {
   }
 
   private createKnnClassifier(knnWorkers) {
-    return ({ rows, receivePredictionsForRows, receiveKnnProgress = ({ workerIndex, actualIndexZeroBased, endIndexZeroBasedExclusive }) => { } }) => {
+    return (
+      {
+        rows,
+        receivePredictionsForRows,
+        receiveKnnProgress = ({ workerIndex, actualIndexZeroBased, endIndexZeroBasedExclusive }) => { }
+      }
+    ) => {
       const chunks = this.itemsIntoChunksSplitterService.splitItemsIntoChunks({
         numItems: rows.length,
         maxNumChunks: knnWorkers.length
@@ -71,17 +77,18 @@ export class KnnBuilderComponent implements OnInit {
       } else {
         const chunksOfPredictions = [];
         chunks.forEach((chunk, i, chunks) => {
-          this.getKNearestNeighbors(
-            knnWorkers[i],
-            i,
-            this.getSlice(rows, chunk),
-            kNearestNeighborssWithPredictions => {
+          this.getKNearestNeighbors({
+            knnWorker: knnWorkers[i],
+            knnWorkerIndex: i,
+            X: this.getSlice(rows, chunk),
+            receivePredictions: kNearestNeighborssWithPredictions => {
               chunksOfPredictions.push({ chunk, kNearestNeighborssWithPredictions });
               if (chunksOfPredictions.length === chunks.length) {
                 receivePredictionsForRows(this.combineChunksOfPredictions(chunksOfPredictions));
               }
             },
-            receiveKnnProgress);
+            receiveKnnProgress
+          });
         });
       }
     };
@@ -108,7 +115,7 @@ export class KnnBuilderComponent implements OnInit {
     };
   }
 
-  private getKNearestNeighbors(knnWorker, knnWorkerIndex, X, receivePredictions, receiveKnnProgress) {
+  private getKNearestNeighbors({ knnWorker, knnWorkerIndex, X, receivePredictions, receiveKnnProgress }) {
     knnWorker.onmessage = event => {
       const { type, value } = event.data;
       switch (type) {
