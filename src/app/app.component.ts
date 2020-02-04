@@ -39,7 +39,7 @@ export class AppComponent implements OnInit {
       this.datasetDescription.splittedDataset.train
         .map(image => this.createImageDescription(
           {
-            image: image,
+            image,
             figcaption: getClassValFromRow(image),
             classListOfFigcaption: []
           }));
