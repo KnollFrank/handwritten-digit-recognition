@@ -8,7 +8,7 @@ export class AccuracyCalculatorService {
 
   constructor() { }
 
-  public computeAccuracy(rowsClassifier, datasetDescription, dataset, receiveAccuracy) {
+  public computeAccuracy({rowsClassifier, datasetDescription, dataset, receiveAccuracy}) {
     rowsClassifier(
       dataset.map(row => getIndependentValsFromRow(row, datasetDescription)),
       kNearestNeighborssWithPredictions =>

@@ -70,18 +70,19 @@ export class AppComponent implements OnInit {
   computeAccuracy() {
     this.testdataEvaluated = false;
     const rowsClassifier = this.getCachingAndProgressDisplayingRowsClassifier();
-    this.accuracyCalculatorService.computeAccuracy(
+    this.accuracyCalculatorService.computeAccuracy({
       rowsClassifier,
-      this.datasetDescription,
-      this.datasetDescription.splittedDataset.test,
-      accuracy => {
+      datasetDescription: this.datasetDescription,
+      dataset: this.datasetDescription.splittedDataset.test,
+      receiveAccuracy: accuracy => {
         this.accuracy = accuracy;
         console.log(`Genauigkeit: ${Math.floor(accuracy)}%`);
         this.displayTestDataset({
           rowsClassifier,
           testDataset: this.datasetDescription.splittedDataset.test
         });
-      });
+      }
+    });
   }
 
   private getCachingAndProgressDisplayingRowsClassifier() {
