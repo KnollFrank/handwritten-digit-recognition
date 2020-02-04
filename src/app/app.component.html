@@ -32,7 +32,8 @@
         <mat-step>
             <ng-template matStepLabel>k nächste Nachbarn berechnen</ng-template>
             <section *ngIf="datasetDescription" id="section-KNN">
-                <app-knn-builder #knnBuilder [datasetDescription]="datasetDescription" (knnClassifier)="onReceiveKnnClassifier($event)">
+                <app-knn-builder #knnBuilder [datasetDescription]="datasetDescription"
+                    (knnClassifier)="onReceiveKnnClassifier($event)">
                     <button mat-button matStepperPrevious>zurück</button>
                     <button mat-button matStepperNext>berechnen</button>
                 </app-knn-builder>
@@ -41,7 +42,8 @@
         <mat-step>
             <ng-template matStepLabel>handgeschriebene Ziffern erkennen</ng-template>
             <section *ngIf="knnClassifier" id="section-data-input">
-                <app-prediction *ngIf="knnClassifier" [kernelWidthAndHeight]="datasetDescription.kernelWidthAndHeight" [knnClassifier]="knnClassifier" [datasetDescription]="datasetDescription"></app-prediction>
+                <app-prediction *ngIf="knnClassifier" [kernelWidthAndHeight]="datasetDescription.kernelWidthAndHeight"
+                    [knnClassifier]="knnClassifier" [datasetDescription]="datasetDescription"></app-prediction>
             </section>
             <div>
                 <button mat-button matStepperPrevious>zurück</button>
@@ -51,15 +53,15 @@
         <mat-step>
             <ng-template matStepLabel>Testdaten auswerten</ng-template>
             <section *ngIf="knnClassifier" id="section-testdata">
-                <p><button mat-button class="evaluate-testdata-button" (click)="computeAccuracy()">Testdaten auswerten</button></p>
+                <p><button mat-button class="evaluate-testdata-button" (click)="computeAccuracy()">Testdaten
+                        auswerten</button></p>
                 <div *ngIf="!testdataEvaluated" id="knnProgress">
                     <h3>Fortschritt</h3>
                     <app-knn-progress [numProgessElements]="numWorkers"></app-knn-progress>
                 </div>
                 <div *ngIf="accuracy" id="accuracy-panel">
                     <p>
-                        <!-- FK-TODO: aktuelle (laufende) Accuracy während der Berechnung der Worker anzeigen -->
-                        Genauigkeit: {{accuracy | number:'0.0-1'}}%
+                        {{accuracy | number:'0.0-1'}}% der Ziffern aus den Testdaten wurden korrekt erkannt.
                     </p>
                 </div>
                 <div id="testdata-panel">
