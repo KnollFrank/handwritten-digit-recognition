@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import { ImageService } from '../image.service';
 import { FormBuilder } from '@angular/forms';
 import { getClassValFromRow, getIndependentValsFromRow } from './datasetHelper';
@@ -10,12 +10,17 @@ import { DatasetDescriptionReader } from './datasetDescriptionReader';
   templateUrl: './dataset.component.html',
   styleUrls: ['./dataset.component.css']
 })
-export class DatasetComponent implements OnInit {
+export class DatasetComponent implements OnInit, AfterViewInit {
+
+  min = 0;
+  max = 100;
 
   @Output() scaledDatasetDescription = new EventEmitter();
+  datasetDescription: any;
 
   datasetForm = this.fb.group({
-    kernelWidthAndHeight: ['1']
+    kernelWidthAndHeight: ['1'],
+    numDigits: [50]
   });
 
   constructor(private imageService: ImageService, private fb: FormBuilder) { }
@@ -23,12 +28,27 @@ export class DatasetComponent implements OnInit {
   ngOnInit() {
   }
 
-  onSubmit() {
+  ngAfterViewInit(): void {
     new DatasetDescriptionReader().readDatasetDescription(
-      datasetDescription =>
-        this.scaledDatasetDescription.emit(
-          this.getScaledDatasetDescription(datasetDescription, this.datasetForm.value.kernelWidthAndHeight))
-    );
+      datasetDescription => {
+        this.datasetDescription = datasetDescription;
+        this.max = datasetDescription.splittedDataset.train.length;
+      });
+  }
+
+  onSubmit() {
+    this.scaledDatasetDescription.emit(
+      this.getScaledDatasetDescription(
+        this.getSlicedDatasetDescription(
+          this.datasetDescription,
+          this.datasetForm.value.numDigits),
+        this.datasetForm.value.kernelWidthAndHeight));
+  }
+
+  private getSlicedDatasetDescription(datasetDescription, numDigits) {
+    datasetDescription.splittedDataset.train = datasetDescription.splittedDataset.train.slice(0, numDigits);
+    datasetDescription.splittedDataset.test = datasetDescription.splittedDataset.test.slice(0, numDigits);
+    return datasetDescription;
   }
 
   private getScaledDatasetDescription(datasetDescription, kernelWidthAndHeight) {

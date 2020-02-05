@@ -1,9 +1,20 @@
 <form id="datasetForm" [formGroup]="datasetForm" (ngSubmit)="onSubmit()">
     <div class="dataInputFields">
-        <div id="kernelWidthAndHeight-inputFields">
+        <div>
+            <mat-form-field>
+                <mat-label>Anzahl Zifern:</mat-label>
+                {{min}}
+                <mat-slider matInput thumbLabel [min]="min" [max]="max" formControlName="numDigits">
+                </mat-slider>
+                {{max}}
+                <input matInput hidden />
+            </mat-form-field>
+        </div>
+        <div>
             <mat-form-field>
                 <mat-label>Verkleinerungsfaktor:</mat-label>
-                <mat-select type="number" name="kernelWidthAndHeight" formControlName="kernelWidthAndHeight" id="kernelWidthAndHeight">
+                <mat-select type="number" name="kernelWidthAndHeight" formControlName="kernelWidthAndHeight"
+                    id="kernelWidthAndHeight">
                     <mat-option value="1">1</mat-option>
                     <mat-option value="2">2</mat-option>
                     <mat-option value="4">4</mat-option>
