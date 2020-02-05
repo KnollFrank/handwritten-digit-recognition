@@ -15,7 +15,7 @@ export class DatasetComponent implements OnInit, AfterViewInit {
   min = 0;
   max = 100;
 
-  @Output() scaledDatasetDescription = new EventEmitter();
+  @Output() transformedDatasetDescription = new EventEmitter();
   datasetDescription: any;
 
   datasetForm = this.fb.group({
@@ -37,12 +37,15 @@ export class DatasetComponent implements OnInit, AfterViewInit {
   }
 
   onSubmit() {
-    this.scaledDatasetDescription.emit(
-      this.getScaledDatasetDescription(
-        this.getSlicedDatasetDescription(
-          this.datasetDescription,
-          this.datasetForm.value.numDigits),
-        this.datasetForm.value.kernelWidthAndHeight));
+    this.transformedDatasetDescription.emit(this.getTransformedDatasetDescription());
+  }
+
+  private getTransformedDatasetDescription() {
+    return this.getScaledDatasetDescription(
+      this.getSlicedDatasetDescription(
+        this.datasetDescription,
+        this.datasetForm.value.numDigits),
+      this.datasetForm.value.kernelWidthAndHeight);
   }
 
   private getSlicedDatasetDescription(datasetDescription, numDigits) {
