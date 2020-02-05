@@ -21,7 +21,7 @@ export class DatasetComponent implements OnInit, AfterViewInit {
   datasetDescription: any;
 
   datasetForm = this.fb.group({
-    kernelWidthAndHeight: ['1'],
+    kernelWidthAndHeight: ['2'],
     numDigits: [5000]
   });
 
