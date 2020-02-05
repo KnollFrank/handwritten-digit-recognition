@@ -1,5 +1,6 @@
 <form id="datasetForm" [formGroup]="datasetForm" (ngSubmit)="onSubmit()">
     <div class="dataInputFields">
+        <mat-progress-bar *ngIf="!datasetDescription" mode="indeterminate"></mat-progress-bar>
         <div>
             <mat-form-field>
                 <mat-label>Anzahl Ziffern:</mat-label>
@@ -13,8 +14,7 @@
         <div>
             <mat-form-field>
                 <mat-label>Verkleinerungsfaktor:</mat-label>
-                <mat-select type="number" name="kernelWidthAndHeight" formControlName="kernelWidthAndHeight"
-                    id="kernelWidthAndHeight">
+                <mat-select type="number" name="kernelWidthAndHeight" formControlName="kernelWidthAndHeight" id="kernelWidthAndHeight">
                     <mat-option value="1">1</mat-option>
                     <mat-option value="2">2</mat-option>
                     <mat-option value="4">4</mat-option>
@@ -23,5 +23,5 @@
             </mat-form-field>
         </div>
     </div>
-    <button mat-button>Laden</button>
+    <button mat-button [disabled]="!datasetDescription">Laden</button>
 </form>
