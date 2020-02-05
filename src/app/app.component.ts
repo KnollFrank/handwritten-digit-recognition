@@ -29,7 +29,7 @@ export class AppComponent implements OnInit {
   }
 
   datasetForm = this.fb.group({
-    numDigits: [this.min]
+    numDigits: [1000]
   });
 
   @ViewChild(KnnProgressComponent, { static: false }) knnProgressComponent: KnnProgressComponent;

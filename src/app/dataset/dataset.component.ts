@@ -23,7 +23,7 @@ export class DatasetComponent implements OnInit, AfterViewInit {
 
   datasetForm = this.fb.group({
     kernelWidthAndHeight: ['1'],
-    numDigits: [this.min]
+    numDigits: [5000]
   });
 
   constructor(private imageService: ImageService, private fb: FormBuilder) { }
@@ -33,10 +33,7 @@ export class DatasetComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     new DatasetDescriptionReader().readDatasetDescription(
-      datasetDescription => {
-        this.datasetDescription = datasetDescription;
-        this.datasetForm.patchValue({ numDigits: this.max });
-      });
+      datasetDescription => this.datasetDescription = datasetDescription);
   }
 
   onSubmit() {
