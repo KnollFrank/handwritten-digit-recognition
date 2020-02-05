@@ -13,14 +13,16 @@ import { DatasetDescriptionReader } from './datasetDescriptionReader';
 export class DatasetComponent implements OnInit, AfterViewInit {
 
   min = 0;
-  max = 100;
+  get max() {
+    return this.datasetDescription ? this.datasetDescription.splittedDataset.train.length : 0;
+  }
 
   @Output() transformedDatasetDescription = new EventEmitter();
   datasetDescription: any;
 
   datasetForm = this.fb.group({
     kernelWidthAndHeight: ['1'],
-    numDigits: [50]
+    numDigits: [this.min]
   });
 
   constructor(private imageService: ImageService, private fb: FormBuilder) { }
@@ -32,7 +34,7 @@ export class DatasetComponent implements OnInit, AfterViewInit {
     new DatasetDescriptionReader().readDatasetDescription(
       datasetDescription => {
         this.datasetDescription = datasetDescription;
-        this.max = datasetDescription.splittedDataset.train.length;
+        this.datasetForm.patchValue({ numDigits: this.max });
       });
   }
 
@@ -49,9 +51,17 @@ export class DatasetComponent implements OnInit, AfterViewInit {
   }
 
   private getSlicedDatasetDescription(datasetDescription, numDigits) {
-    datasetDescription.splittedDataset.train = datasetDescription.splittedDataset.train.slice(0, numDigits);
-    datasetDescription.splittedDataset.test = datasetDescription.splittedDataset.test.slice(0, numDigits);
-    return datasetDescription;
+    return {
+      ...datasetDescription,
+      splittedDataset: this.getSlicedSplittedDataset(datasetDescription.splittedDataset, numDigits)
+    };
+  }
+
+  private getSlicedSplittedDataset({ train, test }, numDigits: number) {
+    return {
+      train: train.slice(0, numDigits),
+      test: test.slice(0, numDigits)
+    };
   }
 
   private getScaledDatasetDescription(datasetDescription, kernelWidthAndHeight) {
