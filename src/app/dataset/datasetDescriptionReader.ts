@@ -2,6 +2,8 @@ declare var Papa: any;
 
 export class DatasetDescriptionReader {
 
+  private headerIndex = 0;
+
   public readDatasetDescription(receiveDatasetDescription) {
     this.readCSVFiles(
       './assets/mnist_train_5000.csv',
@@ -46,8 +48,6 @@ export class DatasetDescriptionReader {
 
     return datasetDescription;
   }
-
-  private headerIndex = 0;
 
   private getHeaderFrom(dataset: any) {
     return dataset[this.headerIndex];
