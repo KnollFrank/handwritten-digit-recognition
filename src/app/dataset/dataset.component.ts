@@ -12,6 +12,7 @@ import { DatasetDescriptionReader } from './datasetDescriptionReader';
 })
 export class DatasetComponent implements OnInit, AfterViewInit {
 
+  // FK-TODO: DRY with handling of mat-slider in AppComponent
   min = 0;
   get max() {
     return this.datasetDescription ? this.datasetDescription.splittedDataset.train.length : 0;
@@ -44,23 +45,23 @@ export class DatasetComponent implements OnInit, AfterViewInit {
 
   private getTransformedDatasetDescription() {
     return this.getScaledDatasetDescription(
-      this.getSlicedDatasetDescription(
+      this.getTrainSlicedDatasetDescription(
         this.datasetDescription,
         this.datasetForm.value.numDigits),
       this.datasetForm.value.kernelWidthAndHeight);
   }
 
-  private getSlicedDatasetDescription(datasetDescription, numDigits) {
+  private getTrainSlicedDatasetDescription(datasetDescription, numDigits) {
     return {
       ...datasetDescription,
-      splittedDataset: this.getSlicedSplittedDataset(datasetDescription.splittedDataset, numDigits)
+      splittedDataset: this.getTrainSlicedSplittedDataset(datasetDescription.splittedDataset, numDigits)
     };
   }
 
-  private getSlicedSplittedDataset({ train, test }, numDigits: number) {
+  private getTrainSlicedSplittedDataset(splittedDataset, numDigits: number) {
     return {
-      train: train.slice(0, numDigits),
-      test: test.slice(0, numDigits)
+      ...splittedDataset,
+      train: splittedDataset.train.slice(0, numDigits)
     };
   }
 

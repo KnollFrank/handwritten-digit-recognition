@@ -53,17 +53,36 @@
         <mat-step>
             <ng-template matStepLabel>Testdaten auswerten</ng-template>
             <section *ngIf="knnClassifier" id="section-testdata">
-                <p><button mat-button class="evaluate-testdata-button" (click)="computeAccuracy()">Testdaten auswerten</button></p>
+                <mat-card>
+                    <mat-card-header>
+                        <mat-card-title></mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <form id="datasetForm" [formGroup]="datasetForm" (ngSubmit)="computeAccuracy()">
+                            <div>
+                                <mat-form-field>
+                                    <mat-label>Anzahl Ziffern:</mat-label>
+                                    {{min}}
+                                    <mat-slider matInput thumbLabel [min]="min" [max]="max" formControlName="numDigits">
+                                    </mat-slider>
+                                    {{max}}
+                                    <input matInput hidden />
+                                </mat-form-field>
+                            </div>
+                            <button mat-button>Testdaten auswerten</button>
+                        </form>
+                    </mat-card-content>
+                </mat-card>
                 <div *ngIf="evaluatingTestdata" id="knnProgress">
                     <h3>Fortschritt</h3>
                     <app-knn-progress [numProgessElements]="numWorkers"></app-knn-progress>
                 </div>
-                <div *ngIf="accuracy" id="accuracy-panel">
-                    <p>
-                        {{accuracy | number:'0.0-1'}}% der Ziffern aus den Testdaten wurden korrekt erkannt.
-                    </p>
-                </div>
                 <mat-card *ngIf="digitTestDataset">
+                    <div *ngIf="accuracy" id="accuracy-panel">
+                        <p>
+                            {{accuracy | number:'0.0-1'}}% der Ziffern aus den Testdaten wurden korrekt erkannt.
+                        </p>
+                    </div>
                     <mat-card-header>
                         <mat-card-title>Testdaten:</mat-card-title>
                     </mat-card-header>

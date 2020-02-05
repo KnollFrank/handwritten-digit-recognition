@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { KnnBuilderComponent } from './knn-builder/knn-builder.component';
 import { getClassValFromRow, getIndependentValsFromRow } from './dataset/datasetHelper';
 import { zip } from './knn/jsHelper';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -22,11 +23,20 @@ export class AppComponent implements OnInit {
   numWorkers: number;
   evaluatingTestdata = false;
 
+  min = 0;
+  get max() {
+    return this.datasetDescription ? this.datasetDescription.splittedDataset.test.length : 0;
+  }
+
+  datasetForm = this.fb.group({
+    numDigits: [this.min]
+  });
+
   @ViewChild(KnnProgressComponent, { static: false }) knnProgressComponent: KnnProgressComponent;
 
   @ViewChild(KnnBuilderComponent, { static: false }) knnBuilder: KnnBuilderComponent;
 
-  constructor(private accuracyCalculatorService: AccuracyCalculatorService) {
+  constructor(private accuracyCalculatorService: AccuracyCalculatorService, private fb: FormBuilder) {
   }
 
   ngOnInit(): void {
@@ -77,20 +87,37 @@ export class AppComponent implements OnInit {
   computeAccuracy() {
     this.evaluatingTestdata = true;
     const rowsClassifier = this.getCachingAndProgressDisplayingRowsClassifier();
+    const slicedDatasetDescription = this.getTestSlicedDatasetDescription(
+      this.datasetDescription,
+      this.datasetForm.value.numDigits);
     this.accuracyCalculatorService.computeAccuracy({
       rowsClassifier,
-      datasetDescription: this.datasetDescription,
-      dataset: this.datasetDescription.splittedDataset.test,
+      datasetDescription: slicedDatasetDescription,
+      dataset: slicedDatasetDescription.splittedDataset.test,
       receiveAccuracy: accuracy => {
         this.evaluatingTestdata = false;
         this.accuracy = accuracy;
         console.log(`Genauigkeit: ${Math.floor(accuracy)}%`);
         this.displayTestDataset({
           rowsClassifier,
-          testDataset: this.datasetDescription.splittedDataset.test
+          testDataset: slicedDatasetDescription.splittedDataset.test
         });
       }
     });
+  }
+
+  private getTestSlicedDatasetDescription(datasetDescription, numDigits) {
+    return {
+      ...datasetDescription,
+      splittedDataset: this.getTestSlicedSplittedDataset(datasetDescription.splittedDataset, numDigits)
+    };
+  }
+
+  private getTestSlicedSplittedDataset(splittedDataset, numDigits: number) {
+    return {
+      ...splittedDataset,
+      test: splittedDataset.test.slice(0, numDigits)
+    };
   }
 
   private getCachingAndProgressDisplayingRowsClassifier() {
