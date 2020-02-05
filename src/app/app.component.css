@@ -1,5 +1,4 @@
 @charset "UTF-8";
-
 /* FK-TODO: css-Dateien aufräumen: globale styles.css entleeren bis auf "* {box-sizing: ...}" */
 
 * {
@@ -17,8 +16,7 @@ body {
     font: 10pt sans;
 }
 
-h1,
-h4 {
+h1, h4 {
     text-align: center;
 }
 
@@ -38,8 +36,7 @@ h4 {
     border: 1px solid lightgray;
 }
 
-#decisionTreeForm,
-#progress {
+#decisionTreeForm, #progress {
     margin-bottom: 10px;
 }
 
@@ -52,8 +49,7 @@ h4 {
     display: table-row;
 }
 
-.dataInputFields>div>label,
-.dataInputFields>div>input {
+.dataInputFields>div>label, .dataInputFields>div>input {
     display: table-cell;
 }
 
@@ -70,12 +66,9 @@ h4 {
     background-color: red !important;
 }
 
-
 /* FK-TODO: daraus eine Klasse machen, z.B.: displays-digits */
 
-#container-k-nearest-digits,
-#container-digits-train,
-#container-digits-test {
+#container-k-nearest-digits, #container-digits-train, #container-digits-test {
     display: flex;
     flex-wrap: wrap;
 }
@@ -103,8 +96,7 @@ div.digit figcaption.wrongPrediction {
     display: none;
 }
 
-#digit-canvas-big,
-#digit-canvas-big-result-of-prediction {
+#digit-canvas-big, #digit-canvas-big-result-of-prediction {
     border: 15px solid rgba(204, 204, 204, 0.5);
     border-radius: 15px;
     transition: border-color .2s ease-in;
@@ -130,4 +122,8 @@ div.digit figcaption.wrongPrediction {
 
 mat-card {
     margin: 15px;
+}
+
+::ng-deep .mat-form-field-infix {
+    width: 190px !important;
 }
