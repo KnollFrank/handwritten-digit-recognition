@@ -12,7 +12,6 @@ import { DatasetDescriptionReader } from './datasetDescriptionReader';
 })
 export class DatasetComponent implements OnInit, AfterViewInit {
 
-  // FK-TODO: DRY with handling of mat-slider in AppComponent
   min = 0;
   get max() {
     return this.datasetDescription ? this.datasetDescription.splittedDataset.train.length : 0;
