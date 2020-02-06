@@ -58,6 +58,6 @@ ng build --prod --base-href=/handwritten-digit-recognition/
 angular-cli-ghpages -d dist/angular/ --no-silent
 
 diesen Befehl ausführen für regelmäßiges Deployen zu github pages:
-ng deploy --base-href=/handwritten-digit-recognition/
+ng deploy --base-href="/handwritten-digit-recognition/"
 
 https://knollfrank.github.io/handwritten-digit-recognition/
