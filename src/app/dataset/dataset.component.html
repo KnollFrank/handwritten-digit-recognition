@@ -3,9 +3,10 @@
         <mat-progress-bar *ngIf="!datasetDescription" mode="indeterminate"></mat-progress-bar>
         <div>
             <mat-form-field>
-                <mat-label>Anzahl Ziffern:</mat-label>
+                <mat-label>Anzahl Ziffern: {{datasetForm.value.numDigits}}</mat-label>
                 {{min}}
-                <mat-slider matInput thumbLabel [min]="min" [max]="max" formControlName="numDigits">
+                <mat-slider matInput thumbLabel [min]="min" [max]="max" [step]="1000" [displayWith]="formatLabel"
+                    tickInterval="1" formControlName="numDigits">
                 </mat-slider>
                 {{max}}
                 <input matInput hidden />
@@ -14,7 +15,8 @@
         <div>
             <mat-form-field>
                 <mat-label>Verkleinerungsfaktor:</mat-label>
-                <mat-select type="number" name="kernelWidthAndHeight" formControlName="kernelWidthAndHeight" id="kernelWidthAndHeight">
+                <mat-select type="number" name="kernelWidthAndHeight" formControlName="kernelWidthAndHeight"
+                    id="kernelWidthAndHeight">
                     <mat-option value="1">1</mat-option>
                     <mat-option value="2">2</mat-option>
                     <mat-option value="4">4</mat-option>

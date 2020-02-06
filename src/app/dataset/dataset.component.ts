@@ -107,4 +107,12 @@ export class DatasetComponent implements OnInit, AfterViewInit {
     }
     return rowColLabels;
   }
+
+  formatLabel(value: number) {
+    if (value >= 1000) {
+      return Math.round(value / 1000) + 'k';
+    }
+
+    return value;
+  }
 }

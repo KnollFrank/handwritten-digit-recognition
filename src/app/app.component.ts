@@ -152,7 +152,7 @@ export class AppComponent implements OnInit {
 
   private getImageDescription({ image, prediction }) {
     return this.createImageDescription({
-      image: image,
+      image,
       figcaption: prediction,
       classListOfFigcaption: this.getClassListOfFigcaption(
         {
@@ -168,5 +168,13 @@ export class AppComponent implements OnInit {
 
   private getPredictions(kNearestNeighborssWithPredictions) {
     return kNearestNeighborssWithPredictions.map(({ prediction }) => prediction);
+  }
+
+  formatLabel(value: number) {
+    if (value >= 1000) {
+      return Math.round(value / 1000) + 'k';
+    }
+
+    return value;
   }
 }
