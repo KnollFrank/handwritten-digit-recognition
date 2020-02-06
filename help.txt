@@ -1,0 +1,63 @@
+Abhängigkeiten:
+- https://www.papaparse.com/
+- https://www.kaggle.com/oddrationale/mnist-in-csv
+- https://pjreddie.com/projects/mnist-in-csv/
+- https://github.com/mljs/knn/tree/master/src
+- https://www.classes.cs.uchicago.edu/archive/2015/spring/12300-1/pa2.html
+- http://yann.lecun.com/exdb/mnist/
+
+Install:
+npm init
+npm install express
+npm install socket.io
+npm install formidable
+
+Um Dateiänderungen im laufenden Node.js-Betrieb aufzunehmen:
+npm install -g nodemon
+nodemon webserver.js
+
+node webserver.js
+
+Aufrufe:
+http://localhost:8080/?classifier=knn
+http://localhost:8080/?classifier=decision_tree
+
+Ergebnisse für MNIST:
+mnist_test_1000.csv, k = 3, kernelWidthAndHeight = 1: Accuracy: 84%
+mnist_test_1000.csv, k = 3, kernelWidthAndHeight = 2: Accuracy: 86%
+mnist_test_1000.csv, k = 3, kernelWidthAndHeight = 4: Accuracy: 84%
+mnist_test_1000.csv, k = 3, kernelWidthAndHeight = 7: Accuracy: 68%
+
+mnist_test_5000.csv, k = 3, kernelWidthAndHeight = 1: Accuracy: 92%
+mnist_test_5000.csv, k = 3, kernelWidthAndHeight = 2: Accuracy: 93% (geeignet für die Klassifizierung gemalter Ziffern)
+mnist_test_5000.csv, k = 3, kernelWidthAndHeight = 4: Accuracy: 91% 
+mnist_test_5000.csv, k = 3, kernelWidthAndHeight = 7: Accuracy: 73%
+
+mnist_test_10000.csv, k = 3, kernelWidthAndHeight = 7: Accuracy: 81%
+mnist_test_10000.csv, k = 3, kernelWidthAndHeight = 4: Accuracy: 94%
+mnist_test_10000.csv, k = 3, kernelWidthAndHeight = 2: Accuracy: 97%
+mnist_test_10000.csv, k = 3, kernelWidthAndHeight = 1: Accuracy: 96%
+
+mnist_train_60000.csv, k = 3, kernelWidthAndHeight = 1: Accuracy: 97.13%
+mnist_train_60000.csv, k = 3, kernelWidthAndHeight = 2: Accuracy: 97.48%
+mnist_train_60000.csv, k = 3, kernelWidthAndHeight = 4: Accuracy: 95.3%
+mnist_train_60000.csv, k = 3, kernelWidthAndHeight = 7: Accuracy: 82.35%
+
+
+https://blog.developershive.com/how-to-import-csv-file-in-angular-7-no-library-needed/
+frankknoll@frankknoll-XPS-13-9370:~/web/machine-learning-algorithms/angular$ ng generate web-worker app
+
+ng add @angular/material
+https://material.angular.io/
+https://material.angular.io/components/paginator/overview
+https://medium.com/faun/host-angular-app-for-free-8a443d324cda
+https://www.npmjs.com/package/angular-cli-ghpages
+
+ng add angular-cli-ghpages
+ng build --prod --base-href=/handwritten-digit-recognition/
+angular-cli-ghpages -d dist/angular/ --no-silent
+
+diesen Befehl ausführen für regelmäßiges Deployen zu github pages:
+ng deploy --base-href=/handwritten-digit-recognition/
+
+https://knollfrank.github.io/handwritten-digit-recognition/
