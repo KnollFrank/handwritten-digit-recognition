@@ -1,109 +1,108 @@
 <main class="center">
-    <h1>Handgeschriebene Ziffern erkennen</h1>
-    <h4>(oder auch nicht)</h4>
-    <mat-horizontal-stepper #stepper>
-        <mat-step>
-            <ng-template matStepLabel>Trainingsdaten laden</ng-template>
-            <mat-card>
-                <mat-card-header>
-                    <mat-card-title></mat-card-title>
-                </mat-card-header>
-                <mat-card-content>
-                    <section>
-                        <app-dataset (transformedDatasetDescription)="setDatasetDescription($event)"></app-dataset>
-                    </section>
-                </mat-card-content>
-            </mat-card>
-            <mat-card *ngIf="datasetDescription">
-                <mat-card-header>
-                    <mat-card-title>Trainingsdaten:</mat-card-title>
-                </mat-card-header>
-                <mat-card-content>
-                    <section id="section-traindata">
-                        <app-digits [boxed]="true" [paginated]="true" [digitDataset]="digitTrainDataset"></app-digits>
-                    </section>
-                </mat-card-content>
-            </mat-card>
-            <div>
-                <button mat-button matStepperPrevious>zurück</button>
-                <button mat-button matStepperNext>weiter</button>
-            </div>
-        </mat-step>
-        <mat-step>
-            <ng-template matStepLabel>k nächste Nachbarn berechnen</ng-template>
-            <section *ngIf="datasetDescription" id="section-KNN">
-                <app-knn-builder #knnBuilder [datasetDescription]="datasetDescription"
-                    (knnClassifier)="onReceiveKnnClassifier($event)">
-                    <button mat-button matStepperPrevious>zurück</button>
-                    <button mat-button matStepperNext>berechnen</button>
-                </app-knn-builder>
+  <h1>Handgeschriebene Ziffern erkennen</h1>
+  <h4>(oder auch nicht)</h4>
+  <mat-horizontal-stepper #stepper>
+    <mat-step>
+      <ng-template matStepLabel>Trainingsdaten laden</ng-template>
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title></mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <section>
+            <app-dataset (transformedDatasetDescription)="setDatasetDescription($event)"></app-dataset>
+          </section>
+        </mat-card-content>
+      </mat-card>
+      <mat-card *ngIf="datasetDescription">
+        <mat-card-header>
+          <mat-card-title>Trainingsdaten:</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <section id="section-traindata">
+            <app-digits [boxed]="true" [paginated]="true" [digitDataset]="digitTrainDataset"></app-digits>
+          </section>
+        </mat-card-content>
+      </mat-card>
+      <div>
+        <button mat-button matStepperNext>weiter</button>
+      </div>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>k nächste Nachbarn berechnen</ng-template>
+      <section *ngIf="datasetDescription" id="section-KNN">
+        <app-knn-builder #knnBuilder [datasetDescription]="datasetDescription"
+          (knnClassifier)="onReceiveKnnClassifier($event)">
+          <button mat-button matStepperPrevious>zurück</button>
+          <button mat-button matStepperNext>berechnen</button>
+        </app-knn-builder>
+      </section>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>handgeschriebene Ziffern erkennen</ng-template>
+      <section *ngIf="knnClassifier" id="section-data-input">
+        <app-prediction *ngIf="knnClassifier" [kernelWidthAndHeight]="datasetDescription.kernelWidthAndHeight"
+          [knnClassifier]="knnClassifier" [datasetDescription]="datasetDescription"></app-prediction>
+      </section>
+      <div>
+        <button mat-button matStepperPrevious>zurück</button>
+        <button mat-button matStepperNext>weiter</button>
+      </div>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Testdaten auswerten</ng-template>
+      <section *ngIf="knnClassifier" id="section-testdata">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title></mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <form id="datasetForm" [formGroup]="datasetForm" (ngSubmit)="computeAccuracy()">
+              <div>
+                <mat-form-field>
+                  <mat-label>Anzahl Ziffern: {{datasetForm.value.numDigits}}</mat-label>
+                  {{min}}
+                  <mat-slider matInput thumbLabel [min]="min" [max]="max" [step]="1000" [displayWith]="formatLabel"
+                    tickInterval="1" formControlName="numDigits">
+                  </mat-slider>
+                  {{max}}
+                  <input matInput hidden />
+                </mat-form-field>
+              </div>
+              <button mat-button>Testdaten auswerten</button>
+            </form>
+          </mat-card-content>
+        </mat-card>
+        <mat-card *ngIf="evaluatingTestdata">
+          <mat-card-header>
+            <mat-card-title>Fortschritt</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <app-knn-progress [numProgessElements]="numWorkers"></app-knn-progress>
+          </mat-card-content>
+        </mat-card>
+        <mat-card *ngIf="digitTestDataset">
+          <div *ngIf="accuracy" id="accuracy-panel">
+            <p>
+              {{accuracy | number:'0.0-1'}}% der Ziffern aus den Testdaten wurden korrekt erkannt.
+            </p>
+          </div>
+          <mat-card-header>
+            <mat-card-title>Testdaten:</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <section id="section-digits-test">
+              <app-digits [boxed]="true" [paginated]="true" [digitDataset]="digitTestDataset">
+              </app-digits>
             </section>
-        </mat-step>
-        <mat-step>
-            <ng-template matStepLabel>handgeschriebene Ziffern erkennen</ng-template>
-            <section *ngIf="knnClassifier" id="section-data-input">
-                <app-prediction *ngIf="knnClassifier" [kernelWidthAndHeight]="datasetDescription.kernelWidthAndHeight"
-                    [knnClassifier]="knnClassifier" [datasetDescription]="datasetDescription"></app-prediction>
-            </section>
-            <div>
-                <button mat-button matStepperPrevious>zurück</button>
-                <button mat-button matStepperNext>weiter</button>
-            </div>
-        </mat-step>
-        <mat-step>
-            <ng-template matStepLabel>Testdaten auswerten</ng-template>
-            <section *ngIf="knnClassifier" id="section-testdata">
-                <mat-card>
-                    <mat-card-header>
-                        <mat-card-title></mat-card-title>
-                    </mat-card-header>
-                    <mat-card-content>
-                        <form id="datasetForm" [formGroup]="datasetForm" (ngSubmit)="computeAccuracy()">
-                            <div>
-                                <mat-form-field>
-                                    <mat-label>Anzahl Ziffern: {{datasetForm.value.numDigits}}</mat-label>
-                                    {{min}}
-                                    <mat-slider matInput thumbLabel [min]="min" [max]="max" [step]="1000"
-                                        [displayWith]="formatLabel" tickInterval="1" formControlName="numDigits">
-                                    </mat-slider>
-                                    {{max}}
-                                    <input matInput hidden />
-                                </mat-form-field>
-                            </div>
-                            <button mat-button>Testdaten auswerten</button>
-                        </form>
-                    </mat-card-content>
-                </mat-card>
-                <mat-card *ngIf="evaluatingTestdata">
-                    <mat-card-header>
-                        <mat-card-title>Fortschritt</mat-card-title>
-                    </mat-card-header>
-                    <mat-card-content>
-                        <app-knn-progress [numProgessElements]="numWorkers"></app-knn-progress>
-                    </mat-card-content>
-                </mat-card>
-                <mat-card *ngIf="digitTestDataset">
-                    <div *ngIf="accuracy" id="accuracy-panel">
-                        <p>
-                            {{accuracy | number:'0.0-1'}}% der Ziffern aus den Testdaten wurden korrekt erkannt.
-                        </p>
-                    </div>
-                    <mat-card-header>
-                        <mat-card-title>Testdaten:</mat-card-title>
-                    </mat-card-header>
-                    <mat-card-content>
-                        <section id="section-digits-test">
-                            <app-digits [boxed]="true" [paginated]="true" [digitDataset]="digitTestDataset">
-                            </app-digits>
-                        </section>
-                        <div id="container-testDataSet"></div>
-                    </mat-card-content>
-                </mat-card>
-                <div>
-                    <button mat-button matStepperPrevious>zurück</button>
-                    <button mat-button (click)="startFromScratch(stepper)">nochmal von vorne</button>
-                </div>
-            </section>
-        </mat-step>
-    </mat-horizontal-stepper>
+            <div id="container-testDataSet"></div>
+          </mat-card-content>
+        </mat-card>
+        <div>
+          <button mat-button matStepperPrevious>zurück</button>
+          <button mat-button (click)="startFromScratch(stepper)">nochmal von vorne</button>
+        </div>
+      </section>
+    </mat-step>
+  </mat-horizontal-stepper>
 </main>
