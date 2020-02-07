@@ -46,6 +46,7 @@ mnist_train_50000.csv, k = 3, kernelWidthAndHeight = 1, mnist_test_1000.csv, Acc
 mnist_train_50000.csv, k = 3, kernelWidthAndHeight = 2, mnist_test_1000.csv, Accuracy: 96.7%
 mnist_train_50000.csv, k = 3, kernelWidthAndHeight = 2, mnist_test_10000.csv, Accuracy: 97.3%
 mnist_train_50000.csv, k = 3, kernelWidthAndHeight = 4, mnist_test_10000.csv, Accuracy: 95.2%
+mnist_train_50000.csv, k = 3, kernelWidthAndHeight = 7, mnist_test_10000.csv, Accuracy: 81.1%
 
 https://blog.developershive.com/how-to-import-csv-file-in-angular-7-no-library-needed/
 frankknoll@frankknoll-XPS-13-9370:~/web/machine-learning-algorithms/angular$ ng generate web-worker app
