@@ -110,12 +110,6 @@ div.digit figcaption.wrongPrediction {
     border-color: rgba(204, 204, 204, 1);
 }
 
-#digit-canvas-small {
-    border: 2px solid lightblue;
-    border-radius: 2px;
-    display: none;
-}
-
 #decisionTreeNetwork-enhanced-switcher {
     margin-bottom: 15px;
 }
